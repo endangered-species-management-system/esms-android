@@ -9,12 +9,12 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
-public class PlantRepository {
+public class NoteRepository {
 
   private final Context context;
   private final NoteDao noteDao;
 
-  public PlantRepository(Context context) {
+  public NoteRepository(Context context) {
     this.context = context;
     NotesDatabase database = NotesDatabase.getInstance();
     noteDao = database.getNoteDao();

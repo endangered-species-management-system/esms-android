@@ -79,9 +79,9 @@ public class Note {
   }
 
   public enum Category {
-    PEST,
-    WEATHER,
-    OTHER;
+    SPECIMEN,
+    LOCATION,
+    CONDITIONS;
 
     @TypeConverter
     public static Integer categoryToInteger(Category category) {

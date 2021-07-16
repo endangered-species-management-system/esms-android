@@ -16,9 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
-import androidx.navigation.Navigation;
-import edu.cnm.deepdive.fieldnotes.NavigationDirections.OpenNote;
 import edu.cnm.deepdive.fieldnotes.R;
 import edu.cnm.deepdive.fieldnotes.databinding.FragmentNoteBinding;
 import edu.cnm.deepdive.fieldnotes.model.entity.Note;
@@ -37,7 +34,6 @@ public class NoteFragment extends DialogFragment implements TextWatcher {
     super.onCreate(savedInstanceState);
     binding = FragmentNoteBinding.inflate(LayoutInflater.from(getContext()));
   }
-
 
 
   @NonNull
@@ -68,10 +64,10 @@ public class NoteFragment extends DialogFragment implements TextWatcher {
     super.onViewCreated(view, savedInstanceState);
     //noinspection ConstantConditions
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
-    if (getArguments() != null) {
-      NoteFragmentArgs args = NoteFragmentArgs.fromBundle(getArguments());
-      noteId = Long.getLong(String.valueOf(args.getNoteId()));
-    }
+//    if (getArguments() != null) {
+//      NoteFragmentArgs args = NoteFragmentArgs.fromBundle(getArguments());
+//      noteId = Long.getLong(String.valueOf(args.getNoteId()));
+//    }
   }
 
   private void checkSubmitConditions() {
@@ -83,7 +79,6 @@ public class NoteFragment extends DialogFragment implements TextWatcher {
     Note note = new Note();
     String newNote = binding.note.getText().toString().trim();
     note.setNote(newNote);
-    note.setId(noteId);
     note.setCategory(Category.SPECIMEN);
     viewModel.saveNote(note);
   }

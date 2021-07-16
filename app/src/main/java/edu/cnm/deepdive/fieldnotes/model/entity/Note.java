@@ -30,7 +30,6 @@ public class Note {
   @ColumnInfo(name = "plant_id", index = true)
   private long plantId;
 
-  @NonNull
   @ColumnInfo(index = true)
   private Category category;
 

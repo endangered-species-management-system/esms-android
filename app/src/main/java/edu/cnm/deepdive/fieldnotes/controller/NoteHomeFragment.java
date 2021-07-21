@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-import edu.cnm.deepdive.fieldnotes.NavigationDirections.OpenNote;
 import edu.cnm.deepdive.fieldnotes.R;
 import edu.cnm.deepdive.fieldnotes.databinding.FragmentNoteHomeBinding;
 

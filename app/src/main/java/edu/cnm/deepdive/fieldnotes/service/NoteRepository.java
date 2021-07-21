@@ -25,12 +25,7 @@ public class NoteRepository {
         (note.getId() > 0)
             ? noteDao
             .update(note)
-            .map(new Function<Integer, Note>() {
-              @Override
-              public Note apply(@NonNull Integer ignored) throws Exception {
-                return note;
-              }
-            })
+            .map((ignored) -> note)
             : noteDao
                 .insert(note)
           .map((id) -> {

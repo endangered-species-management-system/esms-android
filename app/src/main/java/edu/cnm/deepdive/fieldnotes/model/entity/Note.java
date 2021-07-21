@@ -28,11 +28,12 @@ public class Note {
   private Date created = new Date();
 
   @ColumnInfo(name = "plant_id", index = true)
-  private long plantId;
+  private Long plantId;
 
   @ColumnInfo(index = true)
   private Category category;
 
+  @NonNull
   private String note;
 
   public long getId() {
@@ -52,11 +53,11 @@ public class Note {
     this.created = created;
   }
 
-  public long getPlantId() {
+  public Long getPlantId() {
     return plantId;
   }
 
-  public void setPlantId(long plantId) {
+  public void setPlantId(Long plantId) {
     this.plantId = plantId;
   }
 

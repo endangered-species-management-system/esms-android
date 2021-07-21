@@ -32,13 +32,13 @@ public class NoteFragment extends DialogFragment implements TextWatcher {
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    binding = FragmentNoteBinding.inflate(LayoutInflater.from(getContext()));
   }
 
 
   @NonNull
   @Override
   public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+    binding = FragmentNoteBinding.inflate(LayoutInflater.from(getContext()));
     //noinspection ConstantConditions
     alertDialog = new AlertDialog.Builder(getContext())
         .setTitle(R.string.new_note)

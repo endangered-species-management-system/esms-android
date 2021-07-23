@@ -42,9 +42,9 @@ public interface NoteDao {
   @Delete
   Single<Integer> delete(Collection<Note> note);
 
-  @Query("SELECT * FROM Note WHERE plant_id = :plantId")
-  LiveData<List<Note>> selectByPlant(long plantId);
+  @Query("SELECT * FROM Note WHERE species_id = :speciesId")
+  LiveData<List<Note>> selectBySpecies(long speciesId);
 
-  @Query("SELECT * FROM Note WHERE plant_id = :plantId AND category = :category")
-  LiveData<List<Note>> selectByPlantAndCategory(long plantId, Category category);
+  @Query("SELECT * FROM Note WHERE species_id = :speciesId AND category = :category")
+  LiveData<List<Note>> selectBySpeciesAndCategory(long speciesId, Category category);
 }

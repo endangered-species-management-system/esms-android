@@ -9,9 +9,9 @@
   <action
     android:id="@+id/open_note"
     app:destination="@id/note_dialog">
-<!--    <argument-->
-<!--      android:name="note_id"-->
-<!--      app:argType="long"/>-->
+    <argument
+      android:name="note_id"
+      app:argType="long"/>
   </action>
 
   <fragment
@@ -25,8 +25,8 @@
     android:name="edu.cnm.deepdive.fieldnotes.controller.NoteFragment"
     android:label="fragment_note"
     tools:layout="@layout/fragment_note">
-<!--    <argument-->
-<!--      android:name="note_id"-->
-<!--      app:argType="long"/>-->
+    <argument
+      android:name="note_id"
+      app:argType="long"/>
   </dialog>
 </navigation>

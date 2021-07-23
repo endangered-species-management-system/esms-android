@@ -13,7 +13,7 @@ public class NotesApplication extends Application {
     Stetho.initializeWithDefaults(this);
     NotesDatabase.setContext(this);
     NotesDatabase.getInstance()
-        .getPlantDao()
+        .getSpeciesDao()
         .delete()
         .subscribeOn(Schedulers.io())
         .subscribe();

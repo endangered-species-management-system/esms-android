@@ -11,8 +11,8 @@ import java.util.Date;
 @Entity(
     foreignKeys = {
         @ForeignKey(
-            entity = Plant.class,
-            parentColumns = "plant_id", childColumns = "plant_id",
+            entity = Species.class,
+            parentColumns = "species_id", childColumns = "species_id",
             onDelete = ForeignKey.CASCADE
         )
     }
@@ -27,8 +27,8 @@ public class Note {
   @ColumnInfo(index = true)
   private Date created = new Date();
 
-  @ColumnInfo(name = "plant_id", index = true)
-  private Long plantId;
+  @ColumnInfo(name = "species_id", index = true)
+  private Long speciesId;
 
   @ColumnInfo(index = true)
   private Category category;
@@ -53,12 +53,12 @@ public class Note {
     this.created = created;
   }
 
-  public Long getPlantId() {
-    return plantId;
+  public Long getSpeciesId() {
+    return speciesId;
   }
 
-  public void setPlantId(Long plantId) {
-    this.plantId = plantId;
+  public void setSpeciesId(Long speciesId) {
+    this.speciesId = speciesId;
   }
 
   @NonNull
@@ -79,7 +79,7 @@ public class Note {
   }
 
   public enum Category {
-    SPECIMEN,
+    SEASON,
     LOCATION,
     CONDITIONS;
 

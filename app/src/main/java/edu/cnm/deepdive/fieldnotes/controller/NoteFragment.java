@@ -1,8 +1,6 @@
 package edu.cnm.deepdive.fieldnotes.controller;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,10 +61,10 @@ public class NoteFragment extends DialogFragment implements TextWatcher {
     super.onViewCreated(view, savedInstanceState);
     //noinspection ConstantConditions
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
-//    if (getArguments() != null) {
-//      NoteFragmentArgs args = NoteFragmentArgs.fromBundle(getArguments());
-//      noteId = Long.getLong(String.valueOf(args.getNoteId()));
-//    }
+    if (getArguments() != null) {
+      NoteFragmentArgs args = NoteFragmentArgs.fromBundle(getArguments());
+      noteId = Long.getLong(String.valueOf(args.getNoteId()));
+    }
   }
 
   private void checkSubmitConditions() {
@@ -79,7 +76,8 @@ public class NoteFragment extends DialogFragment implements TextWatcher {
     Note note = new Note();
     String newNote = binding.note.getText().toString().trim();
     note.setNote(newNote);
-    note.setCategory(Category.SPECIMEN);
+    note.setSpeciesId(noteId);
+    note.setCategory(Category.CONDITIONS);
     viewModel.saveNote(note);
   }
 

@@ -41,7 +41,7 @@ public interface SpeciesDao {
   @Delete
   Single<Integer> delete(Collection<Species> species);
 
-  @Query("SELECT * FROM Species ORDER BY created DESC")
+  @Query("SELECT * FROM Species ORDER BY created ASC")
   LiveData<List<Species>> selectAll();
 
 }

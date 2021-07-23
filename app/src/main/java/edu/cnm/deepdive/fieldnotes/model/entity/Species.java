@@ -5,6 +5,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import java.util.Date;
+import org.jetbrains.annotations.NotNull;
 
 @Entity
 public class Species {
@@ -34,7 +35,6 @@ public class Species {
   private String population;
   private String category;
 
-  @NonNull
   @ColumnInfo(index = true)
   private String mainCommonName;
 
@@ -226,5 +226,11 @@ public class Species {
 
   public void setDaysToMaturity(String daysToMaturity) {
     this.daysToMaturity = daysToMaturity;
+  }
+
+  @NonNull
+  @Override
+  public String toString() {
+    return (getMainCommonName().length() > 1) ? mainCommonName + " (" + scientificName+")" : scientificName;
   }
 }

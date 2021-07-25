@@ -1,7 +1,6 @@
 package edu.cnm.deepdive.fieldnotes.viewmodel;
 
 import android.app.Application;
-import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -18,6 +17,7 @@ public class MainViewModel extends AndroidViewModel {
   private final MutableLiveData<Note> note;
   private final MutableLiveData<Species> species;
   private final MutableLiveData<List<Species>> speciesList;
+  private final MutableLiveData<Long> speciesId;
   private final CompositeDisposable pending;
   private final MutableLiveData<Throwable> throwable;
 
@@ -29,6 +29,7 @@ public class MainViewModel extends AndroidViewModel {
     note = new MutableLiveData<>();
     species = new MutableLiveData<>();
     speciesList = new MutableLiveData<>();
+    speciesId = new MutableLiveData<>();
   }
 
   public LiveData<Note> getNote() {
@@ -41,6 +42,11 @@ public class MainViewModel extends AndroidViewModel {
 
   public LiveData<List<Species>> loadSpecies() {
     return repository.getSpeciesList();
+  }
+
+
+  public void setSpeciesId(long id) {
+    speciesId.setValue(id);
   }
 
   public void saveNote(Note note) {

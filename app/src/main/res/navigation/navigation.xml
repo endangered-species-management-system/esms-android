@@ -10,7 +10,7 @@
     android:id="@+id/open_note"
     app:destination="@id/note_dialog">
     <argument
-      android:name="note_id"
+      android:name="species_id"
       app:argType="long"/>
   </action>
 
@@ -26,7 +26,7 @@
     android:label="fragment_note"
     tools:layout="@layout/fragment_note">
     <argument
-      android:name="note_id"
+      android:name="species_id"
       app:argType="long"/>
   </dialog>
 </navigation>

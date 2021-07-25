@@ -1,15 +1,12 @@
 package edu.cnm.deepdive.fieldnotes.service;
 
 import android.content.Context;
-import androidx.core.graphics.drawable.IconCompat.IconType;
 import androidx.lifecycle.LiveData;
 import edu.cnm.deepdive.fieldnotes.model.dao.NoteDao;
 import edu.cnm.deepdive.fieldnotes.model.dao.SpeciesDao;
 import edu.cnm.deepdive.fieldnotes.model.entity.Note;
 import edu.cnm.deepdive.fieldnotes.model.entity.Species;
 import io.reactivex.Single;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import java.util.List;
 
@@ -24,6 +21,22 @@ public class NoteRepository {
     NotesDatabase database = NotesDatabase.getInstance();
     noteDao = database.getNoteDao();
     speciesDao = database.getSpeciesDao();
+  }
+
+  public Single<Species> save(Species species) {
+    return (
+        (species.getId() > 0)
+            ? speciesDao
+            .update(species)
+            .map((ignored) -> species)
+            : speciesDao
+                .insert(species)
+                .map((id) -> {
+                  species.setId(id);
+                  return species;
+                })
+    )
+        .subscribeOn(Schedulers.io());
   }
 
   public Single<Note> saveNote(Note note) {

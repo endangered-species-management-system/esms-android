@@ -24,13 +24,16 @@ public class NoteFragment extends DialogFragment implements TextWatcher {
   private MainViewModel viewModel;
   private FragmentNoteBinding binding;
   private AlertDialog alertDialog;
-  private Long noteId;
+  private Long speciesId;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    if(getArguments() != null) {
+      NoteFragmentArgs args = NoteFragmentArgs.fromBundle(getArguments());
+      speciesId = args.getSpeciesId();
+    }
   }
-
 
   @NonNull
   @Override
@@ -63,7 +66,7 @@ public class NoteFragment extends DialogFragment implements TextWatcher {
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
     if (getArguments() != null) {
       NoteFragmentArgs args = NoteFragmentArgs.fromBundle(getArguments());
-      noteId = Long.getLong(String.valueOf(args.getNoteId()));
+      speciesId = Long.getLong(String.valueOf(args.getSpeciesId()));
     }
   }
 
@@ -76,7 +79,7 @@ public class NoteFragment extends DialogFragment implements TextWatcher {
     Note note = new Note();
     String newNote = binding.note.getText().toString().trim();
     note.setNote(newNote);
-    note.setSpeciesId(noteId);
+    note.setSpeciesId(speciesId);
     note.setCategory(Category.CONDITIONS);
     viewModel.saveNote(note);
   }

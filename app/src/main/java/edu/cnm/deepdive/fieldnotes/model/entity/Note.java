@@ -31,7 +31,7 @@ public class Note {
   private Long speciesId;
 
   @ColumnInfo(index = true)
-  private Category category;
+  private NoteType type;
 
   @NonNull
   private String note;
@@ -61,13 +61,12 @@ public class Note {
     this.speciesId = speciesId;
   }
 
-  @NonNull
-  public Category getCategory() {
-    return category;
+  public NoteType getType() {
+    return type;
   }
 
-  public void setCategory(@NonNull Category category) {
-    this.category = category;
+  public void setNoteType(NoteType type) {
+    this.type = type;
   }
 
   public String getNote() {
@@ -78,19 +77,19 @@ public class Note {
     this.note = note;
   }
 
-  public enum Category {
+  public enum NoteType {
     SEASON,
     LOCATION,
     CONDITIONS;
 
     @TypeConverter
-    public static Integer categoryToInteger(Category category) {
-      return (category != null) ? category.ordinal() : null;
+    public static Integer noteTypeToInteger(NoteType type) {
+      return (type != null) ? type.ordinal() : null;
     }
 
     @TypeConverter
-    public static Category integerToCategory(Integer category) {
-      return (category != null) ? Category.values()[category] : null;
+    public static NoteType integerToNoteType(Integer type) {
+      return (type != null) ? NoteType.values()[type] : null;
     }
   }
 

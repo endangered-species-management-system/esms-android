@@ -16,8 +16,9 @@ import androidx.lifecycle.ViewModelProvider;
 import edu.cnm.deepdive.fieldnotes.R;
 import edu.cnm.deepdive.fieldnotes.databinding.FragmentNoteBinding;
 import edu.cnm.deepdive.fieldnotes.model.entity.Note;
-import edu.cnm.deepdive.fieldnotes.model.entity.Note.Category;
+import edu.cnm.deepdive.fieldnotes.model.entity.Note.NoteType;
 import edu.cnm.deepdive.fieldnotes.viewmodel.MainViewModel;
+import java.util.List;
 
 public class NoteFragment extends DialogFragment implements TextWatcher {
 
@@ -25,6 +26,7 @@ public class NoteFragment extends DialogFragment implements TextWatcher {
   private FragmentNoteBinding binding;
   private AlertDialog alertDialog;
   private Long speciesId;
+  private List<Note> notes;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +66,9 @@ public class NoteFragment extends DialogFragment implements TextWatcher {
     super.onViewCreated(view, savedInstanceState);
     //noinspection ConstantConditions
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
+    viewModel.getNote().observe(getViewLifecycleOwner(), (notes) -> {
+
+    });
   }
 
   private void checkSubmitConditions() {
@@ -76,7 +81,7 @@ public class NoteFragment extends DialogFragment implements TextWatcher {
     String newNote = binding.note.getText().toString().trim();
     note.setNote(newNote);
     note.setSpeciesId(speciesId);
-    note.setCategory(Category.CONDITIONS);
+    note.setNoteType(NoteType.CONDITIONS);
     viewModel.saveNote(note);
   }
 

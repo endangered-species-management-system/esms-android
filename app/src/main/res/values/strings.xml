@@ -5,4 +5,5 @@
   <string name="note_hint">Note Hint</string>
   <string name="new_note">New Note</string>
   <string name="note_fragment">Note Fragment</string>
+  <string name="note_type">Note Type</string>
 </resources>

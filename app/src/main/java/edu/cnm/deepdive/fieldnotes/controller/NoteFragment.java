@@ -64,10 +64,6 @@ public class NoteFragment extends DialogFragment implements TextWatcher {
     super.onViewCreated(view, savedInstanceState);
     //noinspection ConstantConditions
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
-    if (getArguments() != null) {
-      NoteFragmentArgs args = NoteFragmentArgs.fromBundle(getArguments());
-      speciesId = Long.getLong(String.valueOf(args.getSpeciesId()));
-    }
   }
 
   private void checkSubmitConditions() {

@@ -47,10 +47,10 @@ public class NoteRepository {
             .map((ignored) -> note)
             : noteDao
                 .insert(note)
-          .map((id) -> {
-            note.setId(id);
-            return note;
-          })
+                .map((id) -> {
+                  note.setId(id);
+                  return note;
+                })
     )
         .subscribeOn(Schedulers.io());
   }

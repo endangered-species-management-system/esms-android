@@ -27,9 +27,19 @@ public class NoteHomeFragment extends Fragment {
   private FragmentNoteHomeBinding binding;
   private List<Species> speciesList;
   private MainViewModel mainViewModel;
+  private long speciesId;
 
   public static NoteHomeFragment newInstance() {
     return new NoteHomeFragment();
+  }
+
+  @Override
+  public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    if (getArguments() != null) {
+      NoteFragmentArgs args = NoteFragmentArgs.fromBundle(getArguments());
+      speciesId = args.getSpeciesId();
+    }
   }
 
   @Override

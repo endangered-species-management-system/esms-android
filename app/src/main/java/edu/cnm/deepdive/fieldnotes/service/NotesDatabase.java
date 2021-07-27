@@ -33,7 +33,7 @@ import org.apache.commons.csv.CSVRecord;
     version = 1,
     exportSchema = true
 )
-@TypeConverters(value = {Converters.class, Note.Category.class})
+@TypeConverters(value = {Converters.class, Note.NoteType.class})
 public abstract class NotesDatabase extends RoomDatabase {
 
   private static final String DB_NAME = "notes_db";

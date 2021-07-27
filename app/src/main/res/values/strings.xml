@@ -6,4 +6,7 @@
   <string name="new_note">New Note</string>
   <string name="note_fragment">Note Fragment</string>
   <string name="note_type">Note Type</string>
+  <string name="radio_button_season_note">Season Note</string>
+  <string name="radio_button_location_note">Location Note</string>
+  <string name="radio_button_conditions_note">Conditions Note</string>
 </resources>

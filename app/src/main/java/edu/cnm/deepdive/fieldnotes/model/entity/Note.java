@@ -65,15 +65,16 @@ public class Note {
     return type;
   }
 
-  public void setNoteType(NoteType type) {
+  public void setType(NoteType type) {
     this.type = type;
   }
 
+  @NonNull
   public String getNote() {
     return note;
   }
 
-  public void setNote(String note) {
+  public void setNote(@NonNull String note) {
     this.note = note;
   }
 

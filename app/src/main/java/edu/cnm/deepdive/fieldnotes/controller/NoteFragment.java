@@ -81,7 +81,7 @@ public class NoteFragment extends DialogFragment implements TextWatcher {
     String newNote = binding.note.getText().toString().trim();
     note.setNote(newNote);
     note.setSpeciesId(speciesId);
-    note.setNoteType(NoteType.CONDITIONS);
+    note.setType(NoteType.CONDITIONS);
     viewModel.saveNote(note);
   }
 

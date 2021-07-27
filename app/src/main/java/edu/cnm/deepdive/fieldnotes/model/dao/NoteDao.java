@@ -7,7 +7,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 import edu.cnm.deepdive.fieldnotes.model.entity.Note;
-import edu.cnm.deepdive.fieldnotes.model.entity.Note.Category;
+import edu.cnm.deepdive.fieldnotes.model.entity.Note.NoteType;
 import io.reactivex.Single;
 import java.util.Collection;
 import java.util.List;
@@ -45,6 +45,7 @@ public interface NoteDao {
   @Query("SELECT * FROM Note WHERE species_id = :speciesId")
   LiveData<List<Note>> selectBySpecies(long speciesId);
 
-  @Query("SELECT * FROM Note WHERE species_id = :speciesId AND category = :category")
-  LiveData<List<Note>> selectBySpeciesAndCategory(long speciesId, Category category);
+  @Query("SELECT * FROM Note WHERE species_id = :speciesId AND type = :noteType")
+  LiveData<List<Note>> selectBySpeciesAndNoteType(long speciesId, NoteType noteType);
 }
+

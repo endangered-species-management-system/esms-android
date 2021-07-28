@@ -7,6 +7,7 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   tools:context=".controller.NoteFragment">
 
+
   <com.google.android.material.textfield.TextInputLayout
     android:id="@+id/note_layout"
     android:layout_width="0dp"
@@ -22,9 +23,9 @@
       android:id="@+id/note"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_margin="@dimen/full_dynamic_spacing"
+      android:layout_margin="@dimen/half_dynamic_spacing"
       android:inputType="textMultiLine"
-      android:minLines="3"
+      android:minLines="5"
       android:maxLines="30"
       android:hint="@string/note_hint"
       tools:text="@tools:sample/lorem/random"/>
@@ -37,44 +38,40 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     app:barrierMargin="@dimen/full_dynamic_spacing"
-    app:barrierDirection="bottom"
-    app:constraint_referenced_ids="lin_layout_radio_group"
+    app:barrierDirection="top"
+    app:constraint_referenced_ids="radio_group_id"
     app:layout_constraintTop_toBottomOf="@id/note_layout"/>
 
-  <LinearLayout
-    android:id="@+id/lin_layout_radio_group"
-    android:layout_width="fill_parent"
+  <RadioGroup
+    android:id="@+id/radio_group_id"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_margin="@dimen/half_dynamic_spacing"
+    android:gravity="center_vertical"
+    app:layout_constraintStart_toStartOf="@id/note_layout"
     app:layout_constraintTop_toBottomOf="@id/control_barrier">
 
-    <RadioGroup
+    <RadioButton
+      android:id="@+id/radio_button_season"
       android:layout_width="wrap_content"
-      android:layout_height="wrap_content">
+      android:layout_height="wrap_content"
+      android:text="@string/radio_button_season_note"
+      android:textSize="18sp"/>
 
-      <RadioButton
-        android:id="@+id/radio_button_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/radio_button_location_note"
-        android:textSize="16sp"
-        android:checked="true"/>
+    <RadioButton
+      android:id="@+id/radio_button_location"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/radio_button_location_note"
+      android:textSize="18sp"/>
 
-      <RadioButton
-        android:id="@+id/radio_button_season"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/radio_button_season_note"
-        android:gravity="center"
-        android:textSize="18sp"/>
+    <RadioButton
+      android:id="@+id/radio_button_conditions"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/radio_button_conditions_note"
+      android:textSize="18sp"/>
+  </RadioGroup>
 
-      <RadioButton
-        android:id="@+id/radio_button_conditions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/radio_button_conditions_note"
-        android:textSize="16sp"/>
-
-    </RadioGroup>
-  </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

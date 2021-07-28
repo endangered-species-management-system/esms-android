@@ -1,10 +1,13 @@
 package edu.cnm.deepdive.fieldnotes.controller;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.RadioButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -20,13 +23,14 @@ import edu.cnm.deepdive.fieldnotes.model.entity.Note.NoteType;
 import edu.cnm.deepdive.fieldnotes.viewmodel.MainViewModel;
 import java.util.List;
 
-public class NoteFragment extends DialogFragment implements TextWatcher {
+public class NoteFragment extends DialogFragment implements TextWatcher, OnClickListener {
 
   private MainViewModel viewModel;
   private FragmentNoteBinding binding;
   private AlertDialog alertDialog;
   private Long speciesId;
   private List<Note> notes;
+  private NoteType type;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,6 +62,7 @@ public class NoteFragment extends DialogFragment implements TextWatcher {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
+
     return binding.getRoot();
   }
 
@@ -67,8 +72,10 @@ public class NoteFragment extends DialogFragment implements TextWatcher {
     //noinspection ConstantConditions
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
     viewModel.getNote().observe(getViewLifecycleOwner(), (notes) -> {
-
     });
+    binding.radioButtonLocation.setOnClickListener(this);
+    binding.radioButtonSeason.setOnClickListener(this);
+    binding.radioButtonConditions.setOnClickListener(this);
   }
 
   private void checkSubmitConditions() {
@@ -81,10 +88,34 @@ public class NoteFragment extends DialogFragment implements TextWatcher {
     String newNote = binding.note.getText().toString().trim();
     note.setNote(newNote);
     note.setSpeciesId(speciesId);
-    note.setType(NoteType.CONDITIONS);
+    note.setType(type);
     viewModel.saveNote(note);
   }
 
+
+
+  @Override
+  public void onClick(View view) {
+
+      boolean checked = ((RadioButton) view).isChecked();
+      switch (view.getId()) {
+        case R.id.radio_button_location:
+          if(checked) {
+            type = NoteType.LOCATION;
+          }
+          break;
+        case R.id.radio_button_season:
+          if(checked) {
+            type = NoteType.SEASON;
+          }
+          break;
+        case R.id.radio_button_conditions:
+          if(checked) {
+            type = NoteType.CONDITIONS;
+          }
+          break;
+      }
+  }
 
   @Override
   public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -100,4 +131,5 @@ public class NoteFragment extends DialogFragment implements TextWatcher {
   public void afterTextChanged(Editable editable) {
     checkSubmitConditions();
   }
+
 }

@@ -94,4 +94,10 @@ public class Note {
     }
   }
 
+  public NoteType typeName() {
+    NoteType[] values = NoteType.values();
+    return values[getType().ordinal()];
+  }
+
+
 }

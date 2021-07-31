@@ -29,13 +29,12 @@ public class NoteFragment extends DialogFragment implements TextWatcher, OnClick
   private FragmentNoteBinding binding;
   private AlertDialog alertDialog;
   private Long speciesId;
-  private List<Note> notes;
   private NoteType type;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    if(getArguments() != null) {
+    if (getArguments() != null) {
       NoteFragmentArgs args = NoteFragmentArgs.fromBundle(getArguments());
       speciesId = args.getSpeciesId();
     }
@@ -49,7 +48,8 @@ public class NoteFragment extends DialogFragment implements TextWatcher, OnClick
     alertDialog = new AlertDialog.Builder(getContext())
         .setTitle(R.string.new_note)
         .setView(binding.getRoot())
-        .setNeutralButton(android.R.string.cancel, (dlg, which) -> {})
+        .setNeutralButton(android.R.string.cancel, (dlg, which) -> {
+        })
         .setPositiveButton(android.R.string.ok, (dlg, which) -> saveNote())
         .create();
     alertDialog.setOnShowListener((dlg) -> {
@@ -73,6 +73,10 @@ public class NoteFragment extends DialogFragment implements TextWatcher, OnClick
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
     viewModel.getNote().observe(getViewLifecycleOwner(), (notes) -> {
     });
+    setNoteType();
+  }
+
+  private void setNoteType() {
     binding.radioButtonLocation.setOnClickListener(this);
     binding.radioButtonSeason.setOnClickListener(this);
     binding.radioButtonConditions.setOnClickListener(this);
@@ -92,29 +96,26 @@ public class NoteFragment extends DialogFragment implements TextWatcher, OnClick
     viewModel.saveNote(note);
   }
 
-
-
   @Override
   public void onClick(View view) {
-
-      boolean checked = ((RadioButton) view).isChecked();
-      switch (view.getId()) {
-        case R.id.radio_button_location:
-          if(checked) {
-            type = NoteType.LOCATION;
-          }
-          break;
-        case R.id.radio_button_season:
-          if(checked) {
-            type = NoteType.SEASON;
-          }
-          break;
-        case R.id.radio_button_conditions:
-          if(checked) {
-            type = NoteType.CONDITIONS;
-          }
-          break;
-      }
+    boolean checked = ((RadioButton) view).isChecked();
+    switch (view.getId()) {
+      case R.id.radio_button_season:
+        if (checked) {
+          type = NoteType.SEASON;
+        }
+        break;
+      case R.id.radio_button_location:
+        if (checked) {
+          type = NoteType.LOCATION;
+        }
+        break;
+      case R.id.radio_button_conditions:
+        if (checked) {
+          type = NoteType.CONDITIONS;
+        }
+        break;
+    }
   }
 
   @Override
@@ -131,5 +132,4 @@ public class NoteFragment extends DialogFragment implements TextWatcher, OnClick
   public void afterTextChanged(Editable editable) {
     checkSubmitConditions();
   }
-
 }

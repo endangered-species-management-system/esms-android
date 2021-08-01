@@ -9,6 +9,7 @@ import androidx.room.Update;
 import edu.cnm.deepdive.fieldnotes.model.entity.Note;
 import edu.cnm.deepdive.fieldnotes.model.entity.Note.NoteType;
 import io.reactivex.Single;
+import java.net.NoRouteToHostException;
 import java.util.Collection;
 import java.util.List;
 
@@ -41,6 +42,9 @@ public interface NoteDao {
 
   @Delete
   Single<Integer> delete(Collection<Note> note);
+
+  @Query("SELECT * FROM Note ORDER BY created DESC LIMIT 10")
+  LiveData<List<Note>> selectRecentNotes();
 
   @Query("SELECT * FROM Note WHERE species_id = :speciesId")
   LiveData<List<Note>> selectBySpecies(long speciesId);

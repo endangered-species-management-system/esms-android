@@ -15,6 +15,7 @@ public class MainViewModel extends AndroidViewModel {
 
   private final NoteRepository repository;
   private final MutableLiveData<Note> note;
+  private final LiveData<List<Note>> notes;
   private final MutableLiveData<Species> species;
   private final MutableLiveData<List<Species>> speciesList;
   private final MutableLiveData<Long> speciesId;
@@ -27,6 +28,7 @@ public class MainViewModel extends AndroidViewModel {
     pending = new CompositeDisposable();
     throwable = new MutableLiveData<>();
     note = new MutableLiveData<>();
+    notes = repository.getRecentNotes();
     species = new MutableLiveData<>();
     speciesList = new MutableLiveData<>();
     speciesId = new MutableLiveData<>();
@@ -44,6 +46,10 @@ public class MainViewModel extends AndroidViewModel {
     return repository.getSpeciesList();
   }
 
+  public LiveData<List<Note>> getRecentNotes () {
+    return notes;
+  }
+
 
   public void setSpeciesId(long id) {
     speciesId.setValue(id);
@@ -53,7 +59,8 @@ public class MainViewModel extends AndroidViewModel {
     pending.add(
         repository.saveNote(note)
             .subscribe(
-                (n) -> {},
+                (n) -> {
+                },
                 throwable::postValue
             )
     );

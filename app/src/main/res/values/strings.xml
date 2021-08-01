@@ -9,4 +9,7 @@
   <string name="radio_button_season_note">Season Note</string>
   <string name="radio_button_location_note">Location Note</string>
   <string name="radio_button_conditions_note">Conditions Note</string>
+  <string name="recent_note">Recent Note</string>
+  <string name="button_to_dialog">Click on button causes a dialog for adding a note and a note type to pop up.</string>
+  <string name="note_type_hint">Note type</string>
 </resources>

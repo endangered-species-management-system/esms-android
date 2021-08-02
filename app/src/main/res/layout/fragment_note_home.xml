@@ -13,27 +13,36 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"/>
 
+  <androidx.constraintlayout.widget.Barrier
+    android:id="@+id/barrier"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:orientation="horizontal"
+    app:layout_constraintHorizontal_weight=".3"
+    app:barrierDirection="top"
+    android:layout_margin="@dimen/half_static_spacing"
+    android:padding="@dimen/half_static_spacing"
+    app:layout_constraintTop_toBottomOf="@id/species_spinner"/>
+
   <TextView
     android:id="@+id/notes_header"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"
-    android:textAlignment="center"
+    android:layout_margin="@dimen/half_static_spacing"
+    android:padding="@dimen/half_static_spacing"
+    android:textAlignment="viewStart"
     android:textSize="20sp"
+    android:text="@string/recent_notes"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"/>
+    app:layout_constraintTop_toBottomOf="@id/species_spinner"/>
 
   <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/recent_notes"
     android:layout_width="0dp"
-    android:layout_height="0dp"
+    android:layout_height="wrap_content"
     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-    app:layout_constraintTop_toBottomOf="@id/notes_header"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"/>
+    app:layout_constraintTop_toBottomOf="@id/notes_header"/>
 
   <com.google.android.material.floatingactionbutton.FloatingActionButton
     android:id="@+id/add_note"

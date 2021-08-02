@@ -77,7 +77,7 @@ public class NoteHomeFragment extends Fragment {
 
     mainViewModel.getRecentNotes().observe(getViewLifecycleOwner(), (notes) -> {
       if (notes != null) {
-        binding.recentNotes.setAdapter(new NoteAdapter(notes, getContext()));
+        binding.recentNotes.setAdapter(new NoteAdapter(getContext(), notes));
       }
     });
 

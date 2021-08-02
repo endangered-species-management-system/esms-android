@@ -43,7 +43,7 @@ public interface NoteDao {
   @Delete
   Single<Integer> delete(Collection<Note> note);
 
-  @Query("SELECT * FROM Note ORDER BY created DESC LIMIT 10")
+  @Query("SELECT * FROM Note ORDER BY created DESC LIMIT 25")
   LiveData<List<Note>> selectRecentNotes();
 
   @Query("SELECT * FROM Note WHERE species_id = :speciesId")

@@ -18,7 +18,7 @@ public class NoteAdapter extends RecyclerView.Adapter<Holder> {
   private Context context;
   private final LayoutInflater inflater;
 
-  public NoteAdapter(List<Note> notes, Context context) {
+  public NoteAdapter(Context context, List<Note> notes) {
     this.notes = notes;
     this.context = context;
     inflater = LayoutInflater.from(context);
@@ -55,7 +55,9 @@ public class NoteAdapter extends RecyclerView.Adapter<Holder> {
       Note note = notes.get(position);
       NoteType type = note.getType();
       binding.note.setText(note.getNote());
+      if(type != null) {
       binding.type.setText(type.toString());
+      }
       binding.getRoot();
     }
   }

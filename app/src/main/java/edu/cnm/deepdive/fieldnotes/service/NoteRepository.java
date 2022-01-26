@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData;
 import edu.cnm.deepdive.fieldnotes.model.dao.NoteDao;
 import edu.cnm.deepdive.fieldnotes.model.dao.SpeciesDao;
 import edu.cnm.deepdive.fieldnotes.model.entity.Note;
+import edu.cnm.deepdive.fieldnotes.model.entity.Note.NoteType;
 import edu.cnm.deepdive.fieldnotes.model.entity.Species;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
@@ -57,5 +58,13 @@ public class NoteRepository {
 
   public LiveData<List<Species>> getSpeciesList() {
     return speciesDao.selectAll();
+  }
+
+  public LiveData<List<Note>> getRecentNotes() {
+    return noteDao.selectRecentNotes();
+  }
+
+  public LiveData<List<Note>> getNotesByType(long speciesId, NoteType type) {
+    return noteDao.selectBySpeciesAndNoteType(speciesId, type);
   }
 }

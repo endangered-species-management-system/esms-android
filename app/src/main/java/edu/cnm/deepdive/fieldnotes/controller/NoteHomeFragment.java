@@ -16,6 +16,7 @@ import androidx.navigation.Navigation;
 import edu.cnm.deepdive.fieldnotes.NavigationDirections;
 import edu.cnm.deepdive.fieldnotes.NavigationDirections.OpenNote;
 import edu.cnm.deepdive.fieldnotes.R;
+import edu.cnm.deepdive.fieldnotes.adapter.NoteAdapter;
 import edu.cnm.deepdive.fieldnotes.databinding.FragmentNoteHomeBinding;
 import edu.cnm.deepdive.fieldnotes.model.entity.Species;
 import edu.cnm.deepdive.fieldnotes.viewmodel.MainViewModel;
@@ -27,6 +28,7 @@ public class NoteHomeFragment extends Fragment {
   private FragmentNoteHomeBinding binding;
   private List<Species> speciesList;
   private MainViewModel mainViewModel;
+  private NoteAdapter noteAdapter;
   private long speciesId;
 
   public static NoteHomeFragment newInstance() {
@@ -72,6 +74,13 @@ public class NoteHomeFragment extends Fragment {
   public void onViewCreated(@NonNull @NotNull View view,
       @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+
+    mainViewModel.getRecentNotes().observe(getViewLifecycleOwner(), (notes) -> {
+      if (notes != null) {
+        binding.recentNotes.setAdapter(new NoteAdapter(getContext(), notes));
+      }
+    });
+
     mainViewModel.loadSpecies().observe(getViewLifecycleOwner(), (list) -> {
       this.speciesList = list;
       ArrayAdapter<Species> adapter = new ArrayAdapter<>(getContext(),

@@ -51,7 +51,7 @@ public class NoteHomeFragment extends Fragment {
     binding = FragmentNoteHomeBinding.inflate(inflater, container, false);
     binding.addNote.setOnClickListener((value) -> {
       long speciesId = ((Species) binding.speciesSpinner.getSelectedItem()).getId();
-      OpenNote action = NavigationDirections.openNote(speciesId);
+      @NonNull OpenNote action = NavigationDirections.openNote(speciesId);
       Navigation.findNavController(binding.getRoot()).navigate(action);
     });
     binding.speciesSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -75,9 +75,11 @@ public class NoteHomeFragment extends Fragment {
       @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
-    mainViewModel.getRecentNotes().observe(getViewLifecycleOwner(), (notes) -> {
+    // TODO Need to replace recent notes display with notes tied to specific species
+    mainViewModel.getNotesBySpecies(speciesId).observe(getViewLifecycleOwner(), (notes) -> {
       if (notes != null) {
         binding.recentNotes.setAdapter(new NoteAdapter(getContext(), notes));
+        Log.i(getClass().getSimpleName(), "IS SPECIES ID COMING THROUGH? " + speciesId);
       }
     });
 

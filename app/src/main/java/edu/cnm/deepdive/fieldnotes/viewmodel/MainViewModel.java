@@ -46,6 +46,10 @@ public class MainViewModel extends AndroidViewModel {
     return repository.getSpeciesList();
   }
 
+  public LiveData<List<Note>> getNotesBySpecies(long speciesId) {
+    return repository.selectBySpecies(speciesId);
+  }
+
   public LiveData<List<Note>> getRecentNotes () {
     return notes;
   }

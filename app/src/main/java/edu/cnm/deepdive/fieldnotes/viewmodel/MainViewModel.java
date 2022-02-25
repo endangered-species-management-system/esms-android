@@ -54,7 +54,6 @@ public class MainViewModel extends AndroidViewModel {
     return notes;
   }
 
-
   public void setSpeciesId(long id) {
     speciesId.setValue(id);
   }

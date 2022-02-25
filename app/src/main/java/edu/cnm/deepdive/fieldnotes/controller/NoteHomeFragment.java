@@ -30,6 +30,7 @@ public class NoteHomeFragment extends Fragment {
   private MainViewModel mainViewModel;
   private NoteAdapter noteAdapter;
   private long speciesId;
+  private long speciesIdFromSpinner;
 
   public static NoteHomeFragment newInstance() {
     return new NoteHomeFragment();
@@ -38,10 +39,10 @@ public class NoteHomeFragment extends Fragment {
   @Override
   public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    if (getArguments() != null) {
-      NoteFragmentArgs args = NoteFragmentArgs.fromBundle(getArguments());
-      speciesId = args.getSpeciesId();
-    }
+//    if (getArguments() != null) {
+//      NoteFragmentArgs args = NoteFragmentArgs.fromBundle(getArguments());
+//      speciesId = args.getSpeciesId();
+//    }
   }
 
   @Override
@@ -49,16 +50,17 @@ public class NoteHomeFragment extends Fragment {
       @Nullable Bundle savedInstanceState) {
     mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
     binding = FragmentNoteHomeBinding.inflate(inflater, container, false);
-    binding.addNote.setOnClickListener((value) -> {
-      long speciesId = ((Species) binding.speciesSpinner.getSelectedItem()).getId();
-      @NonNull OpenNote action = NavigationDirections.openNote(speciesId);
-      Navigation.findNavController(binding.getRoot()).navigate(action);
-    });
     binding.speciesSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
       @Override
       public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
         Species species = (Species) adapterView.getItemAtPosition(position);
         mainViewModel.setSpeciesId(species.getId());
+        binding.addNote.setOnClickListener((value) -> {
+          Log.i(getClass().getSimpleName(), value.toString());
+          speciesId = ((Species) binding.speciesSpinner.getSelectedItem()).getId();
+          @NonNull OpenNote action = NavigationDirections.openNote(speciesId);
+          Navigation.findNavController(binding.getRoot()).navigate(action);
+        });
       }
 
       @Override
@@ -71,17 +73,19 @@ public class NoteHomeFragment extends Fragment {
   }
 
   @Override
-  public void onViewCreated(@NonNull @NotNull View view,
-      @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+  public void onViewCreated(@NonNull View view,
+      @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-
+    Log.i(getClass().getSimpleName(), "IS SPECIES ID COMING THROUGH? " + speciesId);
     // TODO Need to replace recent notes display with notes tied to specific species
-    mainViewModel.getNotesBySpecies(speciesId).observe(getViewLifecycleOwner(), (notes) -> {
-      if (notes != null) {
-        binding.recentNotes.setAdapter(new NoteAdapter(getContext(), notes));
-        Log.i(getClass().getSimpleName(), "IS SPECIES ID COMING THROUGH? " + speciesId);
-      }
-    });
+    mainViewModel.getNotesBySpecies(speciesId)
+        .observe(getViewLifecycleOwner(), (notes) -> {
+          if (notes != null) {
+            binding.recentNotes.setAdapter(new NoteAdapter(getContext(), (notes)));
+            Log.i(getClass().getSimpleName(),
+                "Is species list of notes by species coming through?" + notes);
+          }
+        });
 
     mainViewModel.loadSpecies().observe(getViewLifecycleOwner(), (list) -> {
       this.speciesList = list;

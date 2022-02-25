@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 import edu.cnm.deepdive.fieldnotes.model.entity.Note;
 import edu.cnm.deepdive.fieldnotes.model.entity.Species;
 import edu.cnm.deepdive.fieldnotes.service.NoteRepository;
@@ -15,6 +16,7 @@ public class MainViewModel extends AndroidViewModel {
 
   private final NoteRepository repository;
   private final MutableLiveData<Note> note;
+  private final LiveData<List<Note>> speciesNotes;
   private final LiveData<List<Note>> notes;
   private final MutableLiveData<Species> species;
   private final MutableLiveData<List<Species>> speciesList;
@@ -32,6 +34,7 @@ public class MainViewModel extends AndroidViewModel {
     species = new MutableLiveData<>();
     speciesList = new MutableLiveData<>();
     speciesId = new MutableLiveData<>();
+    speciesNotes = Transformations.switchMap(speciesId, repository::selectBySpecies);
   }
 
   public LiveData<Note> getNote() {
@@ -46,10 +49,9 @@ public class MainViewModel extends AndroidViewModel {
     return repository.getSpeciesList();
   }
 
-  public LiveData<List<Note>> getNotesBySpecies(long speciesId) {
-    return repository.selectBySpecies(speciesId);
+  public LiveData<List<Note>> getSpeciesNotes() {
+    return speciesNotes;
   }
-
   public LiveData<List<Note>> getRecentNotes () {
     return notes;
   }

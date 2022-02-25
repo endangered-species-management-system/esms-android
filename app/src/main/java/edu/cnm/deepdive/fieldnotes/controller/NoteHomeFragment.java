@@ -78,12 +78,11 @@ public class NoteHomeFragment extends Fragment {
     super.onViewCreated(view, savedInstanceState);
     Log.i(getClass().getSimpleName(), "IS SPECIES ID COMING THROUGH? " + speciesId);
     // TODO Need to replace recent notes display with notes tied to specific species
-    mainViewModel.getNotesBySpecies(speciesId)
+
+    mainViewModel.getSpeciesNotes()
         .observe(getViewLifecycleOwner(), (notes) -> {
           if (notes != null) {
             binding.recentNotes.setAdapter(new NoteAdapter(getContext(), (notes)));
-            Log.i(getClass().getSimpleName(),
-                "Is species list of notes by species coming through?" + notes);
           }
         });
 

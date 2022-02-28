@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "esms-android-notebook"
+rootProject.name = "esms-android"

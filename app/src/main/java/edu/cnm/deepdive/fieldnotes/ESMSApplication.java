@@ -5,7 +5,7 @@ import com.facebook.stetho.Stetho;
 import edu.cnm.deepdive.fieldnotes.service.NotesDatabase;
 import io.reactivex.schedulers.Schedulers;
 
-public class NotesApplication extends Application {
+public class ESMSApplication extends Application {
 
   @Override
   public void onCreate() {

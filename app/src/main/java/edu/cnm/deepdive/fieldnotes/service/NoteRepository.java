@@ -64,6 +64,10 @@ public class NoteRepository {
     return noteDao.selectRecentNotes();
   }
 
+  public LiveData<List<Note>> selectBySpecies(long speciesId) {
+    return noteDao.selectBySpecies(speciesId);
+  }
+
   public LiveData<List<Note>> getNotesByType(long speciesId, NoteType type) {
     return noteDao.selectBySpeciesAndNoteType(speciesId, type);
   }

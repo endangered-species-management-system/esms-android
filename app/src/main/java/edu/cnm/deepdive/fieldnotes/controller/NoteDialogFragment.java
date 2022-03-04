@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -23,6 +24,7 @@ import edu.cnm.deepdive.fieldnotes.model.entity.Note;
 import edu.cnm.deepdive.fieldnotes.model.entity.Note.NoteType;
 import edu.cnm.deepdive.fieldnotes.viewmodel.MainViewModel;
 import java.util.List;
+import java.util.UUID;
 
 public class NoteDialogFragment extends DialogFragment implements TextWatcher, OnClickListener {
 
@@ -78,8 +80,6 @@ public class NoteDialogFragment extends DialogFragment implements TextWatcher, O
         .into(binding.image);
     //noinspection ConstantConditions
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
-    viewModel.getNote().observe(getViewLifecycleOwner(), (notes) -> {
-    });
     setNoteType();
   }
 
@@ -94,14 +94,6 @@ public class NoteDialogFragment extends DialogFragment implements TextWatcher, O
     positive.setEnabled(!binding.note.getText().toString().trim().isEmpty());
   }
 
-  private void saveNote() {
-    Note note = new Note();
-    String newNote = binding.note.getText().toString().trim();
-    note.setNote(newNote);
-    note.setSpeciesId(speciesId);
-    note.setType(type);
-    viewModel.saveNote(note);
-  }
 
   @Override
   public void onClick(View view) {
@@ -125,6 +117,7 @@ public class NoteDialogFragment extends DialogFragment implements TextWatcher, O
     }
   }
 
+
   @Override
   public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -139,4 +132,34 @@ public class NoteDialogFragment extends DialogFragment implements TextWatcher, O
   public void afterTextChanged(Editable editable) {
     checkSubmitConditions();
   }
+
+  private void saveNote() {
+    Note note = new Note();
+    String newNote = binding.note.getText().toString().trim();
+    note.setNote(newNote);
+    note.setSpeciesId(speciesId);
+    note.setType(type);
+    if (note.getHref() != null) {
+      note.setHref(uri.toString());
+    } else {
+      note.setHref("No image");
+    }
+    note.setImageName("Poodle");
+    note.setContentType("png");
+    viewModel.saveNote(note);
+  }
+
+/*  @SuppressWarnings("ConstantConditions")
+  private void upload() {
+    String title = binding.title.getText().toString().trim();
+    String description = binding.galleryDescription.getText().toString().trim();
+    String galleryTitle = binding.galleryTitle.getText().toString().trim();
+    UUID galleryId = null;
+    for (Gallery g : galleries) {
+      if (g != null && galleryTitle.equals(g.getTitle())) {
+        galleryId = g.getId();
+      }
+    }
+    imageViewModel.store(galleryId, uri, title, (description.isEmpty() ? null : description));
+  }*/
 }

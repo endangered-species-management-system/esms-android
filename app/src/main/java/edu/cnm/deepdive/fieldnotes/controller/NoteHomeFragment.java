@@ -69,6 +69,7 @@ public class NoteHomeFragment extends Fragment {
         Species species = (Species) adapterView.getItemAtPosition(position);
         mainViewModel.setSpeciesId(species.getId());
         binding.addNote.setOnClickListener((value) -> {
+          pickImage();
           Log.i(getClass().getSimpleName(), value.toString());
           speciesId = ((Species) binding.speciesSpinner.getSelectedItem()).getId();
           @NonNull OpenNote action = NavigationDirections.openNote(speciesId, null);
@@ -105,5 +106,13 @@ public class NoteHomeFragment extends Fragment {
           R.layout.support_simple_spinner_dropdown_item, speciesList);
       binding.speciesSpinner.setAdapter(adapter);
     });
+  }
+
+  private void pickImage() {
+    Intent intent = new Intent();
+    intent.setType("image/*");
+    intent.setAction(Intent.ACTION_GET_CONTENT);
+    startActivityForResult(Intent.createChooser(intent, "Choose image to upload"),
+        PICK_IMAGE_REQUEST);
   }
 }

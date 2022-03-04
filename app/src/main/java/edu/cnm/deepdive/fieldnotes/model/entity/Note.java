@@ -6,6 +6,8 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverter;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 
 @Entity(
@@ -35,6 +37,16 @@ public class Note {
 
   @NonNull
   private String note;
+
+  @Expose
+  private String href;
+
+  @Expose
+  @SerializedName("name")
+  private String imageName;
+
+  @Expose
+  private String contentType;
 
   public long getId() {
     return id;
@@ -76,6 +88,30 @@ public class Note {
 
   public void setNote(@NonNull String note) {
     this.note = note;
+  }
+
+  public String getHref() {
+    return href;
+  }
+
+  public void setHref(String href) {
+    this.href = href;
+  }
+
+  public String getImageName() {
+    return imageName;
+  }
+
+  public void setImageName(String imageName) {
+    this.imageName = imageName;
+  }
+
+  public String getContentType() {
+    return contentType;
+  }
+
+  public void setContentType(String contentType) {
+    this.contentType = contentType;
   }
 
   public enum NoteType {

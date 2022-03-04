@@ -1,7 +1,7 @@
 package edu.cnm.deepdive.fieldnotes.controller;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,34 +16,38 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.lifecycle.ViewModelProvider;
+import com.squareup.picasso.Picasso;
 import edu.cnm.deepdive.fieldnotes.R;
-import edu.cnm.deepdive.fieldnotes.databinding.FragmentNoteBinding;
+import edu.cnm.deepdive.fieldnotes.databinding.FragmentDialogNoteBinding;
 import edu.cnm.deepdive.fieldnotes.model.entity.Note;
 import edu.cnm.deepdive.fieldnotes.model.entity.Note.NoteType;
 import edu.cnm.deepdive.fieldnotes.viewmodel.MainViewModel;
 import java.util.List;
 
-public class NoteFragment extends DialogFragment implements TextWatcher, OnClickListener {
+public class NoteDialogFragment extends DialogFragment implements TextWatcher, OnClickListener {
 
   private MainViewModel viewModel;
-  private FragmentNoteBinding binding;
+  private FragmentDialogNoteBinding binding;
+  private Uri uri;
   private AlertDialog alertDialog;
   private Long speciesId;
   private NoteType type;
+//  private List<Case> cases;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     if (getArguments() != null) {
-      NoteFragmentArgs args = NoteFragmentArgs.fromBundle(getArguments());
+      NoteDialogFragmentArgs args = NoteDialogFragmentArgs.fromBundle(getArguments());
       speciesId = args.getSpeciesId();
     }
+    uri = NoteDialogFragmentArgs.fromBundle(getArguments()).getContentUri();
   }
 
   @NonNull
   @Override
   public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-    binding = FragmentNoteBinding.inflate(LayoutInflater.from(getContext()));
+    binding = FragmentDialogNoteBinding.inflate(LayoutInflater.from(getContext()));
     //noinspection ConstantConditions
     alertDialog = new AlertDialog.Builder(getContext())
         .setTitle(R.string.new_note)
@@ -62,13 +66,16 @@ public class NoteFragment extends DialogFragment implements TextWatcher, OnClick
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-
     return binding.getRoot();
   }
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+    Picasso
+        .get()
+        .load(uri)
+        .into(binding.image);
     //noinspection ConstantConditions
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
     viewModel.getNote().observe(getViewLifecycleOwner(), (notes) -> {
@@ -102,17 +109,17 @@ public class NoteFragment extends DialogFragment implements TextWatcher, OnClick
     switch (view.getId()) {
       case R.id.radio_button_season:
         if (checked) {
-          type = NoteType.SEASON;
+          type = NoteType.ATTRIBUTE;
         }
         break;
       case R.id.radio_button_location:
         if (checked) {
-          type = NoteType.LOCATION;
+          type = NoteType.HABITAT;
         }
         break;
       case R.id.radio_button_conditions:
         if (checked) {
-          type = NoteType.CONDITIONS;
+          type = NoteType.GENERAL;
         }
         break;
     }

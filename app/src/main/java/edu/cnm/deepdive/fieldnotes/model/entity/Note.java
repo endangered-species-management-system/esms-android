@@ -79,9 +79,9 @@ public class Note {
   }
 
   public enum NoteType {
-    SEASON,
-    LOCATION,
-    CONDITIONS;
+    ATTRIBUTE,
+    HABITAT,
+    GENERAL;
 
     @TypeConverter
     public static Integer noteTypeToInteger(NoteType type) {

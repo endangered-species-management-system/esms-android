@@ -1,5 +1,7 @@
 package edu.cnm.deepdive.fieldnotes.controller;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +27,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class NoteHomeFragment extends Fragment {
 
+  private static final int PICK_IMAGE_REQUEST = 1023;
   private FragmentNoteHomeBinding binding;
   private List<Species> speciesList;
   private MainViewModel mainViewModel;
@@ -46,6 +49,16 @@ public class NoteHomeFragment extends Fragment {
   }
 
   @Override
+  public void onActivityResult(int requestCode, int resultCode,
+      @Nullable Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+      OpenNote action = NavigationDirections.openNote(speciesId,data.getData());
+      Navigation.findNavController(binding.getRoot()).navigate(action);
+    }
+  }
+
+  @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
     mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
@@ -58,7 +71,7 @@ public class NoteHomeFragment extends Fragment {
         binding.addNote.setOnClickListener((value) -> {
           Log.i(getClass().getSimpleName(), value.toString());
           speciesId = ((Species) binding.speciesSpinner.getSelectedItem()).getId();
-          @NonNull OpenNote action = NavigationDirections.openNote(speciesId);
+          @NonNull OpenNote action = NavigationDirections.openNote(speciesId, null);
           Navigation.findNavController(binding.getRoot()).navigate(action);
         });
       }

@@ -4,30 +4,30 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:id="@+id/navigation"
-  app:startDestination="@id/note_home_fragment">
+  app:startDestination="@id/navigation_home">
 
-  <action
-    android:id="@+id/open_note"
-    app:destination="@id/note_dialog">
-    <argument
-      android:name="species_id"
-      app:argType="long"/>
-    <argument
-      android:name="content_uri"
-      app:nullable="true"
-      app:argType="android.net.Uri"/>
-  </action>
+    <action
+      android:id="@+id/open_note_dialog"
+      app:destination="@id/note_dialog_fragment">
+      <argument
+        android:name="species_id"
+        app:argType="long"/>
+      <argument
+        android:name="content_uri"
+        app:nullable="true"
+        app:argType="android.net.Uri"/>
+    </action>
 
   <fragment
-    android:id="@+id/note_home_fragment"
+    android:id="@+id/navigation_home"
     android:name="edu.cnm.deepdive.fieldnotes.controller.NoteHomeFragment"
-    android:label="fragment_note"
-    tools:layout="@layout/fragment_dialog_note"/>
+    android:label="Home"
+    tools:layout="@layout/fragment_note_home"/>
 
   <dialog
-    android:id="@+id/note_dialog"
+    android:id="@+id/note_dialog_fragment"
     android:name="edu.cnm.deepdive.fieldnotes.controller.NoteDialogFragment"
-    android:label="fragment_note"
+    android:label="Note Dialog"
     tools:layout="@layout/fragment_dialog_note">
     <argument
       android:name="species_id"

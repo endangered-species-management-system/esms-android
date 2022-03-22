@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import edu.cnm.deepdive.fieldnotes.NavigationDirections;
-import edu.cnm.deepdive.fieldnotes.NavigationDirections.OpenNote;
 import edu.cnm.deepdive.fieldnotes.R;
 import edu.cnm.deepdive.fieldnotes.adapter.NoteAdapter;
 import edu.cnm.deepdive.fieldnotes.databinding.FragmentNoteHomeBinding;
@@ -42,10 +41,10 @@ public class NoteHomeFragment extends Fragment {
   @Override
   public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-//    if (getArguments() != null) {
-//      NoteFragmentArgs args = NoteFragmentArgs.fromBundle(getArguments());
-//      speciesId = args.getSpeciesId();
-//    }
+    if (getArguments() != null) {
+      NoteDialogFragmentArgs args = NoteDialogFragmentArgs.fromBundle(getArguments());
+      speciesId = args.getSpeciesId();
+    }
   }
 
   @Override
@@ -53,7 +52,7 @@ public class NoteHomeFragment extends Fragment {
       @Nullable Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
-      OpenNote action = NavigationDirections.openNote(speciesId,data.getData());
+      @NonNull NavigationDirections.OpenNoteDialog action = NavigationDirections.openNoteDialog(speciesId,data.getData());
       Navigation.findNavController(binding.getRoot()).navigate(action);
     }
   }
@@ -69,11 +68,9 @@ public class NoteHomeFragment extends Fragment {
         Species species = (Species) adapterView.getItemAtPosition(position);
         mainViewModel.setSpeciesId(species.getId());
         binding.addNote.setOnClickListener((value) -> {
-          pickImage();
           Log.i(getClass().getSimpleName(), value.toString());
           speciesId = ((Species) binding.speciesSpinner.getSelectedItem()).getId();
-          @NonNull OpenNote action = NavigationDirections.openNote(speciesId, null);
-          Navigation.findNavController(binding.getRoot()).navigate(action);
+          pickImage();
         });
       }
 
@@ -90,7 +87,6 @@ public class NoteHomeFragment extends Fragment {
   public void onViewCreated(@NonNull View view,
       @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    Log.i(getClass().getSimpleName(), "IS SPECIES ID COMING THROUGH? " + speciesId);
     // TODO Need to replace recent notes display with notes tied to specific species
 
     mainViewModel.getSpeciesNotes()

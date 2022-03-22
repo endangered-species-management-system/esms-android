@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.fieldnotes.controller;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import androidx.fragment.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import com.squareup.picasso.Picasso;
 import edu.cnm.deepdive.fieldnotes.R;
@@ -95,6 +98,7 @@ public class NoteDialogFragment extends DialogFragment implements TextWatcher, O
   }
 
 
+  @SuppressLint("NonConstantResourceId")
   @Override
   public void onClick(View view) {
     boolean checked = ((RadioButton) view).isChecked();

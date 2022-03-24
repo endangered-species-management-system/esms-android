@@ -57,7 +57,7 @@ public class GoogleSignInService {
 
   public Single<String> refreshBearerToken() {
     return refresh()
-        .map((account) -> String.format(BEARER_TOKEN_FORMAT, account.getIdToken()));
+        .map(this::getBearerToken);
   }
 
   public void startSignIn(ActivityResultLauncher<Intent> launcher) {

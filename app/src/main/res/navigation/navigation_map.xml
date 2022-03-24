@@ -3,7 +3,7 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
-  android:id="@+id/navigation"
+  android:id="@+id/navigation_map"
   app:startDestination="@id/navigation_home">
 
     <action
@@ -21,8 +21,20 @@
   <fragment
     android:id="@+id/navigation_home"
     android:name="edu.cnm.deepdive.fieldnotes.controller.NoteHomeFragment"
-    android:label="Home"
+    android:label="@string/home_title"
     tools:layout="@layout/fragment_note_home"/>
+
+  <fragment
+    android:id="@+id/navigation_personnel"
+    android:name="edu.cnm.deepdive.fieldnotes.controller.Personnel"
+    android:label="@string/personnel_title"
+    tools:layout="@layout/fragment_personnel"/>
+
+  <fragment
+    android:id="@+id/navigation_audit"
+    android:name="edu.cnm.deepdive.fieldnotes.controller.Audit"
+    android:label="@string/audit_title"
+    tools:layout="@layout/fragment_audit"/>
 
   <dialog
     android:id="@+id/note_dialog_fragment"

@@ -144,11 +144,11 @@ public class NoteDialogFragment extends DialogFragment implements TextWatcher, O
     note.setSpeciesId(speciesId);
     note.setType(type);
     if (note.getHref() != null) {
-      note.setHref(uri.toString());
+      note.setHref(String.valueOf(uri));
     } else {
       note.setHref("No image");
     }
-    note.setImageName("Poodle");
+    note.setImageName("?");
     note.setContentType("png");
     viewModel.saveNote(note);
   }

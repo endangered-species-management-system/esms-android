@@ -15,7 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-import edu.cnm.deepdive.fieldnotes.NavigationDirections;
+import edu.cnm.deepdive.fieldnotes.NavigationMapDirections;
 import edu.cnm.deepdive.fieldnotes.R;
 import edu.cnm.deepdive.fieldnotes.adapter.NoteAdapter;
 import edu.cnm.deepdive.fieldnotes.databinding.FragmentNoteHomeBinding;
@@ -52,7 +52,7 @@ public class NoteHomeFragment extends Fragment {
       @Nullable Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
-      @NonNull NavigationDirections.OpenNoteDialog action = NavigationDirections.openNoteDialog(speciesId,data.getData());
+      @NonNull NavigationMapDirections.OpenNoteDialog action = NavigationMapDirections.openNoteDialog(speciesId,data.getData());
       Navigation.findNavController(binding.getRoot()).navigate(action);
     }
   }
@@ -110,5 +110,11 @@ public class NoteHomeFragment extends Fragment {
     intent.setAction(Intent.ACTION_GET_CONTENT);
     startActivityForResult(Intent.createChooser(intent, "Choose image to upload"),
         PICK_IMAGE_REQUEST);
+  }
+
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    binding = null;
   }
 }

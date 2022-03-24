@@ -64,8 +64,7 @@ public class MainViewModel extends AndroidViewModel {
     pending.add(
         repository.saveNote(note)
             .subscribe(
-                (n) -> {
-                },
+                (n) -> {},
                 throwable::postValue
             )
     );

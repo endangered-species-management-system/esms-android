@@ -2,9 +2,11 @@ package edu.cnm.deepdive.fieldnotes.controller;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -15,35 +17,42 @@ import androidx.fragment.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
+import com.squareup.picasso.Picasso;
 import edu.cnm.deepdive.fieldnotes.R;
-import edu.cnm.deepdive.fieldnotes.databinding.FragmentNoteBinding;
+import edu.cnm.deepdive.fieldnotes.databinding.FragmentDialogNoteBinding;
 import edu.cnm.deepdive.fieldnotes.model.entity.Note;
 import edu.cnm.deepdive.fieldnotes.model.entity.Note.NoteType;
 import edu.cnm.deepdive.fieldnotes.viewmodel.MainViewModel;
 import java.util.List;
+import java.util.UUID;
 
-public class NoteFragment extends DialogFragment implements TextWatcher, OnClickListener {
+public class NoteDialogFragment extends DialogFragment implements TextWatcher, OnClickListener {
 
   private MainViewModel viewModel;
-  private FragmentNoteBinding binding;
+  private FragmentDialogNoteBinding binding;
+  private Uri uri;
   private AlertDialog alertDialog;
   private Long speciesId;
   private NoteType type;
+//  private List<Case> cases;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     if (getArguments() != null) {
-      NoteFragmentArgs args = NoteFragmentArgs.fromBundle(getArguments());
+      NoteDialogFragmentArgs args = NoteDialogFragmentArgs.fromBundle(getArguments());
       speciesId = args.getSpeciesId();
     }
+    uri = NoteDialogFragmentArgs.fromBundle(getArguments()).getContentUri();
   }
 
   @NonNull
   @Override
   public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-    binding = FragmentNoteBinding.inflate(LayoutInflater.from(getContext()));
+    binding = FragmentDialogNoteBinding.inflate(LayoutInflater.from(getContext()));
     //noinspection ConstantConditions
     alertDialog = new AlertDialog.Builder(getContext())
         .setTitle(R.string.new_note)
@@ -62,17 +71,18 @@ public class NoteFragment extends DialogFragment implements TextWatcher, OnClick
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-
     return binding.getRoot();
   }
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+    Picasso
+        .get()
+        .load(uri)
+        .into(binding.image);
     //noinspection ConstantConditions
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
-    viewModel.getNote().observe(getViewLifecycleOwner(), (notes) -> {
-    });
     setNoteType();
   }
 
@@ -87,36 +97,30 @@ public class NoteFragment extends DialogFragment implements TextWatcher, OnClick
     positive.setEnabled(!binding.note.getText().toString().trim().isEmpty());
   }
 
-  private void saveNote() {
-    Note note = new Note();
-    String newNote = binding.note.getText().toString().trim();
-    note.setNote(newNote);
-    note.setSpeciesId(speciesId);
-    note.setType(type);
-    viewModel.saveNote(note);
-  }
 
+  @SuppressLint("NonConstantResourceId")
   @Override
   public void onClick(View view) {
     boolean checked = ((RadioButton) view).isChecked();
     switch (view.getId()) {
       case R.id.radio_button_season:
         if (checked) {
-          type = NoteType.SEASON;
+          type = NoteType.ATTRIBUTE;
         }
         break;
       case R.id.radio_button_location:
         if (checked) {
-          type = NoteType.LOCATION;
+          type = NoteType.HABITAT;
         }
         break;
       case R.id.radio_button_conditions:
         if (checked) {
-          type = NoteType.CONDITIONS;
+          type = NoteType.GENERAL;
         }
         break;
     }
   }
+
 
   @Override
   public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -132,4 +136,34 @@ public class NoteFragment extends DialogFragment implements TextWatcher, OnClick
   public void afterTextChanged(Editable editable) {
     checkSubmitConditions();
   }
+
+  private void saveNote() {
+    Note note = new Note();
+    String newNote = binding.note.getText().toString().trim();
+    note.setNote(newNote);
+    note.setSpeciesId(speciesId);
+    note.setType(type);
+    if (note.getHref() != null) {
+      note.setHref(String.valueOf(uri));
+    } else {
+      note.setHref("No image");
+    }
+    note.setImageName("?");
+    note.setContentType("png");
+    viewModel.saveNote(note);
+  }
+
+/*  @SuppressWarnings("ConstantConditions")
+  private void upload() {
+    String title = binding.title.getText().toString().trim();
+    String description = binding.galleryDescription.getText().toString().trim();
+    String galleryTitle = binding.galleryTitle.getText().toString().trim();
+    UUID galleryId = null;
+    for (Gallery g : galleries) {
+      if (g != null && galleryTitle.equals(g.getTitle())) {
+        galleryId = g.getId();
+      }
+    }
+    imageViewModel.store(galleryId, uri, title, (description.isEmpty() ? null : description));
+  }*/
 }

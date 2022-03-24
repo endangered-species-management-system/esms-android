@@ -1,5 +1,7 @@
 package edu.cnm.deepdive.fieldnotes.controller;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,8 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-import edu.cnm.deepdive.fieldnotes.NavigationDirections;
-import edu.cnm.deepdive.fieldnotes.NavigationDirections.OpenNote;
+import edu.cnm.deepdive.fieldnotes.NavigationMapDirections;
 import edu.cnm.deepdive.fieldnotes.R;
 import edu.cnm.deepdive.fieldnotes.adapter.NoteAdapter;
 import edu.cnm.deepdive.fieldnotes.databinding.FragmentNoteHomeBinding;
@@ -25,6 +26,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class NoteHomeFragment extends Fragment {
 
+  private static final int PICK_IMAGE_REQUEST = 1023;
   private FragmentNoteHomeBinding binding;
   private List<Species> speciesList;
   private MainViewModel mainViewModel;
@@ -39,10 +41,20 @@ public class NoteHomeFragment extends Fragment {
   @Override
   public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-//    if (getArguments() != null) {
-//      NoteFragmentArgs args = NoteFragmentArgs.fromBundle(getArguments());
-//      speciesId = args.getSpeciesId();
-//    }
+    if (getArguments() != null) {
+      NoteDialogFragmentArgs args = NoteDialogFragmentArgs.fromBundle(getArguments());
+      speciesId = args.getSpeciesId();
+    }
+  }
+
+  @Override
+  public void onActivityResult(int requestCode, int resultCode,
+      @Nullable Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+      @NonNull NavigationMapDirections.OpenNoteDialog action = NavigationMapDirections.openNoteDialog(speciesId,data.getData());
+      Navigation.findNavController(binding.getRoot()).navigate(action);
+    }
   }
 
   @Override
@@ -58,8 +70,7 @@ public class NoteHomeFragment extends Fragment {
         binding.addNote.setOnClickListener((value) -> {
           Log.i(getClass().getSimpleName(), value.toString());
           speciesId = ((Species) binding.speciesSpinner.getSelectedItem()).getId();
-          @NonNull OpenNote action = NavigationDirections.openNote(speciesId);
-          Navigation.findNavController(binding.getRoot()).navigate(action);
+          pickImage();
         });
       }
 
@@ -76,7 +87,6 @@ public class NoteHomeFragment extends Fragment {
   public void onViewCreated(@NonNull View view,
       @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    Log.i(getClass().getSimpleName(), "IS SPECIES ID COMING THROUGH? " + speciesId);
     // TODO Need to replace recent notes display with notes tied to specific species
 
     mainViewModel.getSpeciesNotes()
@@ -92,5 +102,19 @@ public class NoteHomeFragment extends Fragment {
           R.layout.support_simple_spinner_dropdown_item, speciesList);
       binding.speciesSpinner.setAdapter(adapter);
     });
+  }
+
+  private void pickImage() {
+    Intent intent = new Intent();
+    intent.setType("image/*");
+    intent.setAction(Intent.ACTION_GET_CONTENT);
+    startActivityForResult(Intent.createChooser(intent, "Choose image to upload"),
+        PICK_IMAGE_REQUEST);
+  }
+
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    binding = null;
   }
 }

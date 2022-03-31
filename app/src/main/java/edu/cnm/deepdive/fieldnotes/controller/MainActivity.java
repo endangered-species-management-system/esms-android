@@ -1,7 +1,10 @@
 package edu.cnm.deepdive.fieldnotes.controller;
 
 import android.content.Intent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.lifecycle.ViewModelProvider;
@@ -62,6 +65,29 @@ public class MainActivity extends AppCompatActivity {
               Toast.LENGTH_LONG)
           .show();
     }
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    super.onCreateOptionsMenu(menu);
+    getMenuInflater().inflate(R.menu.main_options, menu);
+    return true;
+  }
+  @Override
+  public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    boolean handled;
+    int itemId = item.getItemId();
+    if (itemId == R.id.settings) {
+      Intent intent = new Intent(this, SettingsActivity.class);
+      startActivity(intent);
+      handled = true;
+    } else if (itemId == R.id.sign_out) {
+      viewModel.signOut();
+      handled = true;
+    } else {
+      handled = super.onOptionsItemSelected(item);
+    }
+    return handled;
   }
 
   @Override

@@ -16,7 +16,8 @@
   <string name="home_title">Home</string>
   <string name="personnel_title">Personnel</string>
   <string name="audit_title">Audit</string>
-
+  <string name="settings_title">Settings</string>
   <string name="login_failure_message">Unable to sign in with provided credentials.</string>
   <string name="display_name_format">Signed in as %s</string>
+  <string name="sign_out">Sign out</string>
 </resources>

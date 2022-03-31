@@ -31,9 +31,7 @@ public class LoginActivity extends AppCompatActivity {
         .observe(this, this::handleAccount);
     viewModel
         .getThrowable()
-        .observe(this, (throwable) -> {
-// TODO Handle throwable
-        });
+        .observe(this, this::informFailure);
   }
 
   private void handleAccount(GoogleSignInAccount account) {

@@ -9,12 +9,14 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import edu.cnm.deepdive.fieldnotes.R;
 import edu.cnm.deepdive.fieldnotes.databinding.ActivityMainBinding;
+import edu.cnm.deepdive.fieldnotes.viewmodel.LoginViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
   private ActivityMainBinding binding;
   private NavController navController;
   private AppBarConfiguration appBarConfiguration;
+  private LoginViewModel viewModel;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

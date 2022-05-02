@@ -1,11 +1,10 @@
-package edu.cnm.deepdive.fieldnotes;
+package edu.cnm.deepdive.esms;
 
 import android.app.Application;
 import com.facebook.stetho.Stetho;
 import com.squareup.picasso.Picasso;
-import edu.cnm.deepdive.fieldnotes.service.GoogleSignInService;
-import edu.cnm.deepdive.fieldnotes.service.NotesDatabase;
-import io.reactivex.schedulers.Schedulers;
+import edu.cnm.deepdive.esms.service.GoogleSignInService;
+import edu.cnm.deepdive.esms.service.NotesDatabase;
 
 public class ESMSApplication extends Application {
 

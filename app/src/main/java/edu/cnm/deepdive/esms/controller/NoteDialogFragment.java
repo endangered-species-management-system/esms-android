@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.fieldnotes.controller;
+package edu.cnm.deepdive.esms.controller;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -17,17 +16,13 @@ import androidx.fragment.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import com.squareup.picasso.Picasso;
-import edu.cnm.deepdive.fieldnotes.R;
-import edu.cnm.deepdive.fieldnotes.databinding.FragmentDialogNoteBinding;
-import edu.cnm.deepdive.fieldnotes.model.entity.Note;
-import edu.cnm.deepdive.fieldnotes.model.entity.Note.NoteType;
-import edu.cnm.deepdive.fieldnotes.viewmodel.MainViewModel;
-import java.util.List;
-import java.util.UUID;
+import edu.cnm.deepdive.esms.R;
+import edu.cnm.deepdive.esms.databinding.FragmentDialogNoteBinding;
+import edu.cnm.deepdive.esms.model.entity.Note;
+import edu.cnm.deepdive.esms.model.entity.Note.NoteType;
+import edu.cnm.deepdive.esms.viewmodel.MainViewModel;
 
 public class NoteDialogFragment extends DialogFragment implements TextWatcher, OnClickListener {
 

@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.fieldnotes.controller;
+package edu.cnm.deepdive.esms.controller;
 
 import android.content.Intent;
 import android.view.Menu;
@@ -13,10 +13,9 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import edu.cnm.deepdive.fieldnotes.R;
-import edu.cnm.deepdive.fieldnotes.databinding.ActivityMainBinding;
-import edu.cnm.deepdive.fieldnotes.viewmodel.LoginViewModel;
+import edu.cnm.deepdive.esms.R;
+import edu.cnm.deepdive.esms.databinding.ActivityMainBinding;
+import edu.cnm.deepdive.esms.viewmodel.LoginViewModel;
 
 public class MainActivity extends AppCompatActivity {
 

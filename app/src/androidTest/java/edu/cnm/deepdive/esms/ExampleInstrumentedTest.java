@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.fieldnotes;
+package edu.cnm.deepdive.esms;
 
 import android.content.Context;
 import androidx.test.platform.app.InstrumentationRegistry;

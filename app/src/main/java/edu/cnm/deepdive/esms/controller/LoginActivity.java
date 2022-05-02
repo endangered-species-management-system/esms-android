@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.fieldnotes.controller;
+package edu.cnm.deepdive.esms.controller;
 
 import android.content.Intent;
 import androidx.activity.result.ActivityResultLauncher;
@@ -8,9 +8,9 @@ import android.os.Bundle;
 import androidx.lifecycle.ViewModelProvider;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.snackbar.Snackbar;
-import edu.cnm.deepdive.fieldnotes.R;
-import edu.cnm.deepdive.fieldnotes.databinding.ActivityLoginBinding;
-import edu.cnm.deepdive.fieldnotes.viewmodel.LoginViewModel;
+import edu.cnm.deepdive.esms.R;
+import edu.cnm.deepdive.esms.databinding.ActivityLoginBinding;
+import edu.cnm.deepdive.esms.viewmodel.LoginViewModel;
 
 public class LoginActivity extends AppCompatActivity {
 

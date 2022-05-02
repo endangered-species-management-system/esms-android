@@ -1,11 +1,10 @@
-package edu.cnm.deepdive.fieldnotes.model.entity;
+package edu.cnm.deepdive.esms.model.entity;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import java.util.Date;
-import org.jetbrains.annotations.NotNull;
 
 @Entity
 public class Species {

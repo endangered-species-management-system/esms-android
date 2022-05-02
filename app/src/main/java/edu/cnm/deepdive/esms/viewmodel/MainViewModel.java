@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.fieldnotes.viewmodel;
+package edu.cnm.deepdive.esms.viewmodel;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -6,9 +6,9 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
-import edu.cnm.deepdive.fieldnotes.model.entity.Note;
-import edu.cnm.deepdive.fieldnotes.model.entity.Species;
-import edu.cnm.deepdive.fieldnotes.service.NoteRepository;
+import edu.cnm.deepdive.esms.model.entity.Note;
+import edu.cnm.deepdive.esms.model.entity.Species;
+import edu.cnm.deepdive.esms.service.NoteRepository;
 import io.reactivex.disposables.CompositeDisposable;
 import java.util.List;
 

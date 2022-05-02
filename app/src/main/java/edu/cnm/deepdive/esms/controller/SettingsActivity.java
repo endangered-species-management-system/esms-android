@@ -1,10 +1,10 @@
-package edu.cnm.deepdive.fieldnotes.controller;
+package edu.cnm.deepdive.esms.controller;
 
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
-import edu.cnm.deepdive.fieldnotes.R;
+import edu.cnm.deepdive.esms.R;
 
 public class SettingsActivity extends AppCompatActivity {
 

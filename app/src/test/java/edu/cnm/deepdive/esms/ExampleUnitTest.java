@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.fieldnotes;
+package edu.cnm.deepdive.esms;
 
 import org.junit.Test;
 

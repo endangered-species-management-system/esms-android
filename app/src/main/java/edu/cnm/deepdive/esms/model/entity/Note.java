@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.fieldnotes.model.entity;
+package edu.cnm.deepdive.esms.model.entity;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;

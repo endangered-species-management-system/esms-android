@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.fieldnotes.viewmodel;
+package edu.cnm.deepdive.esms.viewmodel;
 
 import android.app.Application;
 import android.content.Intent;
@@ -12,7 +12,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import edu.cnm.deepdive.fieldnotes.service.GoogleSignInService;
+import edu.cnm.deepdive.esms.service.GoogleSignInService;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import org.jetbrains.annotations.NotNull;

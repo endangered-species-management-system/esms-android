@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.fieldnotes.service;
+package edu.cnm.deepdive.esms.service;
 
 import android.app.Application;
 import android.content.Intent;
@@ -12,7 +12,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import edu.cnm.deepdive.fieldnotes.BuildConfig;
+import edu.cnm.deepdive.esms.BuildConfig;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.core.SingleEmitter;

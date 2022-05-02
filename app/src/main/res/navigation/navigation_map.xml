@@ -20,25 +20,25 @@
 
   <fragment
     android:id="@+id/navigation_home"
-    android:name="edu.cnm.deepdive.fieldnotes.controller.NoteHomeFragment"
+    android:name="edu.cnm.deepdive.esms.controller.NoteHomeFragment"
     android:label="@string/home_title"
     tools:layout="@layout/fragment_note_home"/>
 
   <fragment
     android:id="@+id/navigation_personnel"
-    android:name="edu.cnm.deepdive.fieldnotes.controller.Personnel"
+    android:name="edu.cnm.deepdive.esms.controller.Personnel"
     android:label="@string/personnel_title"
     tools:layout="@layout/fragment_personnel"/>
 
   <fragment
     android:id="@+id/navigation_audit"
-    android:name="edu.cnm.deepdive.fieldnotes.controller.Audit"
+    android:name="edu.cnm.deepdive.esms.controller.Audit"
     android:label="@string/audit_title"
     tools:layout="@layout/fragment_audit"/>
 
   <dialog
     android:id="@+id/note_dialog_fragment"
-    android:name="edu.cnm.deepdive.fieldnotes.controller.NoteDialogFragment"
+    android:name="edu.cnm.deepdive.esms.controller.NoteDialogFragment"
     android:label="Note Dialog"
     tools:layout="@layout/fragment_dialog_note">
     <argument

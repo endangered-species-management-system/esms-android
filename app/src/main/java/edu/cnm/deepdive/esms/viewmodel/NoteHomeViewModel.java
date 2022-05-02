@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.fieldnotes.viewmodel;
+package edu.cnm.deepdive.esms.viewmodel;
 
 import androidx.lifecycle.ViewModel;
 

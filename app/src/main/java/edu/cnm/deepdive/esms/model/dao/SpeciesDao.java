@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.fieldnotes.model.dao;
+package edu.cnm.deepdive.esms.model.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -6,7 +6,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
-import edu.cnm.deepdive.fieldnotes.model.entity.Species;
+import edu.cnm.deepdive.esms.model.entity.Species;
 import io.reactivex.Single;
 import java.util.Collection;
 import java.util.List;

@@ -1,14 +1,14 @@
-package edu.cnm.deepdive.fieldnotes.adapter;
+package edu.cnm.deepdive.esms.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import edu.cnm.deepdive.fieldnotes.adapter.NoteAdapter.Holder;
-import edu.cnm.deepdive.fieldnotes.databinding.ItemNoteBinding;
-import edu.cnm.deepdive.fieldnotes.model.entity.Note;
-import edu.cnm.deepdive.fieldnotes.model.entity.Note.NoteType;
+import edu.cnm.deepdive.esms.adapter.NoteAdapter.Holder;
+import edu.cnm.deepdive.esms.databinding.ItemNoteBinding;
+import edu.cnm.deepdive.esms.model.entity.Note;
+import edu.cnm.deepdive.esms.model.entity.Note.NoteType;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
 

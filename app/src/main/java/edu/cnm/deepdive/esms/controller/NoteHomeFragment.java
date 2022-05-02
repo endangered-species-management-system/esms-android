@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.fieldnotes.controller;
+package edu.cnm.deepdive.esms.controller;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,14 +15,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-import edu.cnm.deepdive.fieldnotes.NavigationMapDirections;
-import edu.cnm.deepdive.fieldnotes.R;
-import edu.cnm.deepdive.fieldnotes.adapter.NoteAdapter;
-import edu.cnm.deepdive.fieldnotes.databinding.FragmentNoteHomeBinding;
-import edu.cnm.deepdive.fieldnotes.model.entity.Species;
-import edu.cnm.deepdive.fieldnotes.viewmodel.MainViewModel;
+import edu.cnm.deepdive.esms.NavigationMapDirections;
+import edu.cnm.deepdive.esms.R;
+import edu.cnm.deepdive.esms.adapter.NoteAdapter;
+import edu.cnm.deepdive.esms.databinding.FragmentNoteHomeBinding;
+import edu.cnm.deepdive.esms.model.entity.Species;
+import edu.cnm.deepdive.esms.viewmodel.MainViewModel;
 import java.util.List;
-import org.jetbrains.annotations.NotNull;
 
 public class NoteHomeFragment extends Fragment {
 

@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.fieldnotes.service;
+package edu.cnm.deepdive.esms.service;
 
 import android.app.Application;
 import android.util.Log;
@@ -9,12 +9,12 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
-import edu.cnm.deepdive.fieldnotes.R;
-import edu.cnm.deepdive.fieldnotes.model.dao.NoteDao;
-import edu.cnm.deepdive.fieldnotes.model.dao.SpeciesDao;
-import edu.cnm.deepdive.fieldnotes.model.entity.Note;
-import edu.cnm.deepdive.fieldnotes.model.entity.Species;
-import edu.cnm.deepdive.fieldnotes.service.NotesDatabase.Converters;
+import edu.cnm.deepdive.esms.R;
+import edu.cnm.deepdive.esms.model.dao.NoteDao;
+import edu.cnm.deepdive.esms.model.dao.SpeciesDao;
+import edu.cnm.deepdive.esms.model.entity.Note;
+import edu.cnm.deepdive.esms.model.entity.Species;
+import edu.cnm.deepdive.esms.service.NotesDatabase.Converters;
 import io.reactivex.schedulers.Schedulers;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;

@@ -20,7 +20,6 @@ import edu.cnm.deepdive.esms.viewmodel.LoginViewModel;
 public class MainActivity extends AppCompatActivity {
 
   private ActivityMainBinding binding;
-  private NavController navController;
   private AppBarConfiguration appBarConfiguration;
   private LoginViewModel viewModel;
 
@@ -31,18 +30,6 @@ public class MainActivity extends AppCompatActivity {
     binding = ActivityMainBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
     setupViewModel();
-    setUpNavigation();
-  }
-
-  private void setUpNavigation() {
-    navController = ((NavHostFragment) getSupportFragmentManager()
-        .findFragmentById(R.id.nav_host_fragment))
-        .getNavController();
-    appBarConfiguration = new AppBarConfiguration.Builder(R.id.navigation_home,
-        R.id.navigation_personnel, R.id.navigation_audit)
-        .build();
-    NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-    NavigationUI.setupWithNavController(binding.navView, navController);
   }
 
   private void setupViewModel() {
@@ -91,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   public boolean onSupportNavigateUp() {
-    return NavigationUI.navigateUp(navController, appBarConfiguration)
-        || super.onSupportNavigateUp();
+    return super.onSupportNavigateUp();
   }
 }

@@ -7,29 +7,46 @@
   android:layout_height="match_parent"
   tools:context=".controller.MainActivity">
 
-  <com.google.android.material.bottomnavigation.BottomNavigationView
-    android:id="@+id/nav_view"
-    android:layout_width="0dp"
+  <TableLayout
+    android:id="@+id/tab_layout"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="0dp"
-    android:layout_marginEnd="0dp"
-    android:background="?android:attr/windowBackground"
-    app:layout_constraintTop_toBottomOf="@id/nav_host_fragment"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintRight_toRightOf="parent"
-    app:menu="@menu/bottom_nav_menu"/>
+    app:layout_constraintBottom_toTopOf="@id/viewpager"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
 
-  <androidx.fragment.app.FragmentContainerView
-    android:id="@+id/nav_host_fragment"
-    android:name="androidx.navigation.fragment.NavHostFragment"
-    android:layout_width="0dp"
-    android:layout_height="0dp"
-    app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintRight_toRightOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintBottom_toTopOf="@id/nav_view"
-    app:defaultNavHost="true"
-    app:navGraph="@navigation/navigation_map" />
+    <com.google.android.material.tabs.TabItem
+      android:id="@+id/unknown_tab"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:text="@string/unknown"
+      />
+
+    <com.google.android.material.tabs.TabItem
+      android:id="@+id/team_tab"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:text="@string/team"
+      />
+
+    <com.google.android.material.tabs.TabItem
+      android:id="@+id/evidence_tab"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:text="@string/evidence"
+      />
+  </TableLayout>
+
+  <androidx.viewpager.widget.ViewPager
+    android:id="@+id/viewpager"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/tab_layout"
+    android:contentDescription="@string/a_view_pager"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

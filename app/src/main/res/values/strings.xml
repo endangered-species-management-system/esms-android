@@ -24,4 +24,7 @@
   <string name="team">Team</string>
   <string name="evidence">Evidence</string>
   <string name="a_view_pager">A view pager</string>
+  <string name="unknown_tab">Unknown</string>
+  <string name="team_tab">Team</string>
+  <string name="evidence_tab">Evidence</string>
 </resources>

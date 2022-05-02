@@ -18,21 +18,21 @@
 
     <com.google.android.material.tabs.TabItem
       android:id="@+id/unknown_tab"
-      android:layout_width="0dp"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="@string/unknown"
       />
 
     <com.google.android.material.tabs.TabItem
       android:id="@+id/team_tab"
-      android:layout_width="0dp"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="@string/team"
       />
 
     <com.google.android.material.tabs.TabItem
       android:id="@+id/evidence_tab"
-      android:layout_width="0dp"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="@string/evidence"
       />

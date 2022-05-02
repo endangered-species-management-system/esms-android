@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import edu.cnm.deepdive.esms.databinding.FragmentUnknownBinding;
 
-public class Unknown extends Fragment {
+public class SpeciesCase extends Fragment {
 
   private FragmentUnknownBinding binding;
 

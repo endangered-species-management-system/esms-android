@@ -5,10 +5,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import edu.cnm.deepdive.esms.R;
 import edu.cnm.deepdive.esms.databinding.FragmentEvidenceBinding;
 
-public class Evidence extends Fragment {
+public class EvidenceFragment extends Fragment {
   private FragmentEvidenceBinding binding;
 
   @Override

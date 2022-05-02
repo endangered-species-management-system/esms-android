@@ -5,11 +5,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import edu.cnm.deepdive.esms.R;
-import edu.cnm.deepdive.esms.databinding.FragmentEvidenceBinding;
 import edu.cnm.deepdive.esms.databinding.FragmentTeamBinding;
 
-public class Team extends Fragment {
+public class TeamFragment extends Fragment {
 
   private FragmentTeamBinding binding;
 

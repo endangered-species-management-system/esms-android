@@ -10,43 +10,45 @@
   <TableLayout
     android:id="@+id/tab_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:layout_constraintBottom_toTopOf="@id/viewpager"
-    app:layout_constraintEnd_toEndOf="parent"
+    android:layout_height="34dp"
+    android:gravity="center"
+    android:background="@color/purple_700"
+    app:tabIndicatorColor="@color/white"
+    app:tabSelectedTextColor="@color/white"
+    app:tabTextColor="@color/teal_700"
+    app:tabIndicatorHeight="0dp"
+    app:tabGravity="center"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintEnd_toEndOf="parent">
 
-    <com.google.android.material.tabs.TabItem
-      android:id="@+id/unknown_tab"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="@string/unknown"
-      />
+<!--    <com.google.android.material.tabs.TabItem-->
+<!--      android:id="@+id/unknown_tab"-->
+<!--      android:layout_width="wrap_content"-->
+<!--      android:layout_height="wrap_content"-->
+<!--      android:text="@string/unknown"-->
+<!--      />-->
 
-    <com.google.android.material.tabs.TabItem
-      android:id="@+id/team_tab"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="@string/team"
-      />
+<!--    <com.google.android.material.tabs.TabItem-->
+<!--      android:id="@+id/team_tab"-->
+<!--      android:layout_width="wrap_content"-->
+<!--      android:layout_height="wrap_content"-->
+<!--      android:text="@string/team"-->
+<!--      />-->
 
-    <com.google.android.material.tabs.TabItem
-      android:id="@+id/evidence_tab"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="@string/evidence"
-      />
+<!--    <com.google.android.material.tabs.TabItem-->
+<!--      android:id="@+id/evidence_tab"-->
+<!--      android:layout_width="wrap_content"-->
+<!--      android:layout_height="wrap_content"-->
+<!--      android:text="@string/evidence"-->
+<!--      />-->
   </TableLayout>
 
-  <androidx.viewpager.widget.ViewPager
-    android:id="@+id/viewpager"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/tab_layout"
-    android:contentDescription="@string/a_view_pager"/>
+<androidx.viewpager2.widget.ViewPager2
+  android:id="@+id/view_pager"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+</androidx.viewpager2.widget.ViewPager2>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

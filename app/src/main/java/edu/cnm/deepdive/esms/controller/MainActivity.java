@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TableLayout;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,21 +12,24 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ui.AppBarConfiguration;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import edu.cnm.deepdive.esms.R;
+import edu.cnm.deepdive.esms.adapter.VPAdapter;
 import edu.cnm.deepdive.esms.databinding.ActivityMainBinding;
 import edu.cnm.deepdive.esms.viewmodel.LoginViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
   private ActivityMainBinding binding;
+  private VPAdapter vpAdapter;
   private AppBarConfiguration appBarConfiguration;
   private LoginViewModel viewModel;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
     binding = ActivityMainBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
+//    getSupportActionBar().hide();
+    vpAdapter = new VPAdapter(this);
     setupViewModel();
   }
 

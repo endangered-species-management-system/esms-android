@@ -12,6 +12,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import edu.cnm.deepdive.fieldnotes.BuildConfig;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.core.SingleEmitter;
@@ -30,7 +31,7 @@ public class GoogleSignInService {
         .requestEmail()
         .requestId()
         .requestProfile()
-//        .requestIdToken(BuildConfig.)
+        .requestIdToken(BuildConfig.CLIENT_ID)
         .build();
     client = GoogleSignIn.getClient(context, options);
   }

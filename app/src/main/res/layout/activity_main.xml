@@ -7,42 +7,18 @@
   android:layout_height="match_parent"
   tools:context=".controller.MainActivity">
 
-  <TableLayout
+  <com.google.android.material.tabs.TabLayout
     android:id="@+id/tab_layout"
     android:layout_width="match_parent"
-    android:layout_height="34dp"
-    android:gravity="center"
-    android:background="@color/purple_700"
+    android:layout_height="0dp"
     app:tabIndicatorColor="@color/white"
-    app:tabSelectedTextColor="@color/white"
-    app:tabTextColor="@color/teal_700"
-    app:tabIndicatorHeight="0dp"
-    app:tabGravity="center"
+    app:tabSelectedTextColor="#035453"
+    app:tabTextColor="@color/teal_200"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintEnd_toEndOf="parent">
+    app:layout_constraintEnd_toEndOf="parent" >
 
-<!--    <com.google.android.material.tabs.TabItem-->
-<!--      android:id="@+id/unknown_tab"-->
-<!--      android:layout_width="wrap_content"-->
-<!--      android:layout_height="wrap_content"-->
-<!--      android:text="@string/unknown"-->
-<!--      />-->
-
-<!--    <com.google.android.material.tabs.TabItem-->
-<!--      android:id="@+id/team_tab"-->
-<!--      android:layout_width="wrap_content"-->
-<!--      android:layout_height="wrap_content"-->
-<!--      android:text="@string/team"-->
-<!--      />-->
-
-<!--    <com.google.android.material.tabs.TabItem-->
-<!--      android:id="@+id/evidence_tab"-->
-<!--      android:layout_width="wrap_content"-->
-<!--      android:layout_height="wrap_content"-->
-<!--      android:text="@string/evidence"-->
-<!--      />-->
-  </TableLayout>
+  </com.google.android.material.tabs.TabLayout>
 
 <androidx.viewpager2.widget.ViewPager2
   android:id="@+id/view_pager"

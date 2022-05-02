@@ -4,13 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TableLayout;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ui.AppBarConfiguration;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.material.tabs.TabLayoutMediator;
 import edu.cnm.deepdive.esms.R;
 import edu.cnm.deepdive.esms.adapter.VPAdapter;
 import edu.cnm.deepdive.esms.databinding.ActivityMainBinding;
@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
   private ActivityMainBinding binding;
   private VPAdapter vpAdapter;
   private AppBarConfiguration appBarConfiguration;
+  private final String[] titles = new String[]{"Unknown", "Team", "Evidence"};
   private LoginViewModel viewModel;
 
   @Override
@@ -30,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
     setContentView(binding.getRoot());
 //    getSupportActionBar().hide();
     vpAdapter = new VPAdapter(this);
+    binding.viewPager.setAdapter(vpAdapter);
+    new TabLayoutMediator(binding.tabLayout, binding.viewPager,
+        (tab, position) -> tab.setText(titles[position])).attach();
     setupViewModel();
   }
 
@@ -60,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     getMenuInflater().inflate(R.menu.main_options, menu);
     return true;
   }
+
   @Override
   public boolean onOptionsItemSelected(@NonNull MenuItem item) {
     boolean handled;

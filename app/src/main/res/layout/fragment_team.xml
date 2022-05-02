@@ -8,7 +8,9 @@
   <TextView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:text="@string/team_tab"
-    android:layout_gravity="center"
+    android:text="@string/team"
+    android:textSize="40sp"
+    android:textColor="@color/purple_700"
+    android:gravity="center"
     />
 </FrameLayout>

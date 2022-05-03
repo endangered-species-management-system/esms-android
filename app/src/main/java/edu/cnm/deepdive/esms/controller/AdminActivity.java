@@ -14,11 +14,10 @@ public class AdminActivity extends AppCompatActivity {
     setContentView(R.layout.activity_admin);
   }
 
-  public static class SettingsFragment extends PreferenceFragmentCompat {
+/*  public static class AdminFragment extends PreferenceFragmentCompat {
 
     @Override
     public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
-      setPreferencesFromResource(R.xml.settings, rootKey);
     }
-  }
+  }*/
 }

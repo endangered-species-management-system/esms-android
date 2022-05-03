@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/navigation_graph"
+  app:startDestination="@id/navigation_case">
+
+  <action
+    android:id="@+id/open_admin_menu"
+    app:destination="@id/nav_admin_menu"/>
+
+  <fragment
+    android:id="@+id/navigation_case"
+    android:name="edu.cnm.deepdive.esms.controller.SpeciesCaseFragment"
+    android:label="Case"
+    tools:layout="@layout/fragment_case"/>
+
+  <fragment
+    android:id="@+id/nav_admin_menu"
+    android:label="@string/user_admin_settings"
+    android:name="edu.cnm.deepdive.esms.controller.AdminFragment"/>
+
+</navigation>

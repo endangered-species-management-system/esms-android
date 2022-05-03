@@ -28,4 +28,5 @@
   <string name="team_tab">Team</string>
   <string name="evidence_tab">Evidence</string>
   <string name="user_admin">User admin</string>
+  <string name="user_admin_settings">User Admin</string>
 </resources>

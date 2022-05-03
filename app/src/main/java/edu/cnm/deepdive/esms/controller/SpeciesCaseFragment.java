@@ -5,16 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
-import edu.cnm.deepdive.esms.databinding.FragmentUnknownBinding;
+import edu.cnm.deepdive.esms.databinding.FragmentCaseBinding;
 
-public class SpeciesCase extends Fragment {
+public class SpeciesCaseFragment extends Fragment {
 
-  private FragmentUnknownBinding binding;
+  private FragmentCaseBinding binding;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    binding = FragmentUnknownBinding.inflate(inflater, container, false);
+    binding = FragmentCaseBinding.inflate(inflater, container, false);
     return binding.getRoot();
   }
 

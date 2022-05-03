@@ -1,48 +1,40 @@
 package edu.cnm.deepdive.esms.controller;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.material.tabs.TabLayoutMediator;
 import edu.cnm.deepdive.esms.R;
+import edu.cnm.deepdive.esms.adapter.VPAdapter;
 import edu.cnm.deepdive.esms.databinding.ActivityMainBinding;
 import edu.cnm.deepdive.esms.viewmodel.LoginViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
   private ActivityMainBinding binding;
-  private NavController navController;
+  private VPAdapter vpAdapter;
   private AppBarConfiguration appBarConfiguration;
+  private final String[] titles = new String[]{"Unknown", "Team", "Evidence"};
   private LoginViewModel viewModel;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
     binding = ActivityMainBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
+//    getSupportActionBar().hide();
+    vpAdapter = new VPAdapter(this);
+    binding.viewPager.setAdapter(vpAdapter);
+    new TabLayoutMediator(binding.tabLayout, binding.viewPager,
+        (tab, position) -> tab.setText(titles[position])).attach();
     setupViewModel();
-    setUpNavigation();
-  }
-
-  private void setUpNavigation() {
-    navController = ((NavHostFragment) getSupportFragmentManager()
-        .findFragmentById(R.id.nav_host_fragment))
-        .getNavController();
-    appBarConfiguration = new AppBarConfiguration.Builder(R.id.navigation_home,
-        R.id.navigation_personnel, R.id.navigation_audit)
-        .build();
-    NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-    NavigationUI.setupWithNavController(binding.navView, navController);
   }
 
   private void setupViewModel() {
@@ -72,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     getMenuInflater().inflate(R.menu.main_options, menu);
     return true;
   }
+
   @Override
   public boolean onOptionsItemSelected(@NonNull MenuItem item) {
     boolean handled;
@@ -91,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   public boolean onSupportNavigateUp() {
-    return NavigationUI.navigateUp(navController, appBarConfiguration)
-        || super.onSupportNavigateUp();
+    return super.onSupportNavigateUp();
   }
 }

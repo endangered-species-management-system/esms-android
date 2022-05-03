@@ -20,4 +20,11 @@
   <string name="login_failure_message">Unable to sign in with provided credentials.</string>
   <string name="display_name_format">Signed in as %s</string>
   <string name="sign_out">Sign out</string>
+  <string name="unknown">Unknown</string>
+  <string name="team">Team</string>
+  <string name="evidence">Evidence</string>
+  <string name="a_view_pager">A view pager</string>
+  <string name="unknown_tab">Unknown</string>
+  <string name="team_tab">Team</string>
+  <string name="evidence_tab">Evidence</string>
 </resources>

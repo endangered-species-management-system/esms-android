@@ -12,7 +12,7 @@
 
   <fragment
     android:id="@+id/navigation_case"
-    android:name="edu.cnm.deepdive.esms.controller.SpeciesCaseFragment"
+    android:name="edu.cnm.deepdive.esms.controller.SpeciesFragment"
     android:label="Case"
     tools:layout="@layout/fragment_case"/>
 

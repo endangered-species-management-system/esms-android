@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import edu.cnm.deepdive.esms.controller.EvidenceFragment;
 import edu.cnm.deepdive.esms.controller.TeamFragment;
-import edu.cnm.deepdive.esms.controller.SpeciesCaseFragment;
+import edu.cnm.deepdive.esms.controller.SpeciesFragment;
 import org.jetbrains.annotations.NotNull;
 
 public class VPAdapter extends FragmentStateAdapter {
@@ -22,13 +22,13 @@ public class VPAdapter extends FragmentStateAdapter {
   public Fragment createFragment(int position) {
     switch (position) {
       case 0:
-        return new SpeciesCaseFragment();
+        return new SpeciesFragment();
       case 1:
         return new TeamFragment();
       case 2:
         return new EvidenceFragment();
     }
-    return new SpeciesCaseFragment();
+    return new SpeciesFragment();
   }
 
   @Override

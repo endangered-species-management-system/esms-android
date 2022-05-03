@@ -29,4 +29,5 @@
   <string name="evidence_tab">Evidence</string>
   <string name="user_admin">User admin</string>
   <string name="user_admin_settings">User Admin</string>
+  <string name="species">Species</string>
 </resources>

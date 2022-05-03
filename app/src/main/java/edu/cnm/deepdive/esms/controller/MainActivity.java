@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
   private VPAdapter vpAdapter;
   private NavController navController;
   private AppBarConfiguration appBarConfiguration;
-  private final String[] titles = new String[]{"Unknown", "Team", "Evidence"};
+  private final String[] titles = new String[]{"Species", "Team", "Evidence"};
   private LoginViewModel viewModel;
 
   @Override
@@ -40,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
         (tab, position) -> tab.setText(titles[position])).attach();
     setupViewModel();
 
-    navController = Navigation.findNavController(this,
-        R.id.nav_host_fragment_activity_main);
+/*    navController = Navigation.findNavController(this,
+        R.id.nav_host_fragment_activity_main);*/
   }
 
   private void setupViewModel() {
@@ -93,11 +93,11 @@ public class MainActivity extends AppCompatActivity {
     return handled;
   }
 
-  @Override
+/*  @Override
   public boolean onSupportNavigateUp() {
     NavController navController = Navigation.findNavController(this,
         R.id.nav_host_fragment_activity_main);
     return NavigationUI.navigateUp(navController, appBarConfiguration)
         || super.onSupportNavigateUp();
-  }
+  }*/
 }

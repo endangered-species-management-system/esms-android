@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     binding = ActivityMainBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
-//    getSupportActionBar().hide();
     vpAdapter = new VPAdapter(this);
     binding.viewPager.setAdapter(vpAdapter);
     new TabLayoutMediator(binding.tabLayout, binding.viewPager,
@@ -75,6 +74,10 @@ public class MainActivity extends AppCompatActivity {
       handled = true;
     } else if (itemId == R.id.sign_out) {
       viewModel.signOut();
+      handled = true;
+    } else if (itemId == R.id.admin) {
+      Intent intent = new Intent(this, AdminActivity.class);
+      startActivity(intent);
       handled = true;
     } else {
       handled = super.onOptionsItemSelected(item);

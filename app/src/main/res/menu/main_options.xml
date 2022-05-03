@@ -14,4 +14,10 @@
     android:title="@string/sign_out"
     android:orderInCategory="1100"
     app:showAsAction="never"/>
+
+  <item
+    android:id="@+id/admin"
+    android:title="@string/user_admin"
+    android:orderInCategory="1200"
+    app:showAsAction="never"/>
 </menu>

@@ -3,6 +3,7 @@ package edu.cnm.deepdive.esms;
 import android.app.Application;
 import com.facebook.stetho.Stetho;
 import com.squareup.picasso.Picasso;
+import edu.cnm.deepdive.esms.service.ESMSServiceProxy;
 import edu.cnm.deepdive.esms.service.GoogleSignInService;
 import edu.cnm.deepdive.esms.service.NotesDatabase;
 

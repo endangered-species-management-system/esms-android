@@ -7,7 +7,7 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:layout_margin="@dimen/half_dynamic_spacing"
-  tools:viewBindingIgnore="true">
+  android:name="edu.cnm.deepdive.esms.controller.AdminFragment">
 
   <Spinner
     android:id="@+id/user_selector"
@@ -16,5 +16,4 @@
     android:layout_margin="@dimen/half_dynamic_spacing"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

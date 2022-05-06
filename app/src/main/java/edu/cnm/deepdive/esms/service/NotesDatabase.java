@@ -9,7 +9,6 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
-import edu.cnm.deepdive.esms.R;
 import edu.cnm.deepdive.esms.model.dao.NoteDao;
 import edu.cnm.deepdive.esms.model.dao.SpeciesDao;
 import edu.cnm.deepdive.esms.model.entity.Note;
@@ -65,10 +64,10 @@ public abstract class NotesDatabase extends RoomDatabase {
     @Override
     public void onCreate(@NonNull SupportSQLiteDatabase db) {
       super.onCreate(db);
-      insertSpecies();
+//      insertSpecies();
     }
 
-    private void insertSpecies() {
+   /* private void insertSpecies() {
       try (
           InputStream inputStream = context.getResources().openRawResource(R.raw.species);
           Reader reader = new InputStreamReader(inputStream);
@@ -117,7 +116,7 @@ public abstract class NotesDatabase extends RoomDatabase {
         Log.e(getClass().getSimpleName(), e.getMessage(), e);
         throw new RuntimeException(e);
       }
-    }
+    }*/
   }
 
   public static class Converters {

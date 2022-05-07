@@ -23,10 +23,10 @@ import edu.cnm.deepdive.esms.viewmodel.LoginViewModel;
 public class MainActivity extends AppCompatActivity {
 
   private ActivityMainBinding binding;
-  private VPAdapter vpAdapter;
+//  private VPAdapter vpAdapter;
   private NavController navController;
   private AppBarConfiguration appBarConfiguration;
-  private final String[] titles = new String[]{"Species", "Team", "Evidence"};
+//  private final String[] titles = new String[]{"Species", "Team", "Evidence"};
   private LoginViewModel viewModel;
 
   @Override
@@ -34,10 +34,10 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     binding = ActivityMainBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
-    vpAdapter = new VPAdapter(this);
+  /*  vpAdapter = new VPAdapter(this);
     binding.viewPager.setAdapter(vpAdapter);
     new TabLayoutMediator(binding.tabLayout, binding.viewPager,
-        (tab, position) -> tab.setText(titles[position])).attach();
+        (tab, position) -> tab.setText(titles[position])).attach();*/
     setupViewModel();
 
 /*    navController = Navigation.findNavController(this,
@@ -96,11 +96,16 @@ public class MainActivity extends AppCompatActivity {
     return handled;
   }
 
-/*  @Override
+  @Override
   public boolean onSupportNavigateUp() {
-    NavController navController = Navigation.findNavController(this,
-        R.id.nav_host_fragment_activity_main);
     return NavigationUI.navigateUp(navController, appBarConfiguration)
         || super.onSupportNavigateUp();
-  }*/
+  }
+
+  private void setupNavigation() {
+    appBarConfiguration = new AppBarConfiguration.Builder()
+        .build();
+    navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
+    NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+  }
 }

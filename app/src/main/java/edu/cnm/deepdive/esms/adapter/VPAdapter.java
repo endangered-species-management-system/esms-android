@@ -7,7 +7,6 @@ import edu.cnm.deepdive.esms.controller.EvidenceFragment;
 import edu.cnm.deepdive.esms.controller.MainFragment;
 import edu.cnm.deepdive.esms.controller.TeamFragment;
 import edu.cnm.deepdive.esms.controller.SpeciesFragment;
-import org.jetbrains.annotations.NotNull;
 
 public class VPAdapter extends FragmentStateAdapter {
 

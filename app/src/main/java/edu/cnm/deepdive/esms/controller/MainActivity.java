@@ -23,10 +23,8 @@ import edu.cnm.deepdive.esms.viewmodel.LoginViewModel;
 public class MainActivity extends AppCompatActivity {
 
   private ActivityMainBinding binding;
-//  private VPAdapter vpAdapter;
   private NavController navController;
   private AppBarConfiguration appBarConfiguration;
-//  private final String[] titles = new String[]{"Species", "Team", "Evidence"};
   private LoginViewModel viewModel;
 
   @Override
@@ -34,14 +32,8 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     binding = ActivityMainBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
-  /*  vpAdapter = new VPAdapter(this);
-    binding.viewPager.setAdapter(vpAdapter);
-    new TabLayoutMediator(binding.tabLayout, binding.viewPager,
-        (tab, position) -> tab.setText(titles[position])).attach();*/
     setupViewModel();
-
-/*    navController = Navigation.findNavController(this,
-        R.id.nav_host_fragment_activity_main);*/
+    setupNavigation();
   }
 
   private void setupViewModel() {
@@ -66,44 +58,13 @@ public class MainActivity extends AppCompatActivity {
   }
 
   @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    super.onCreateOptionsMenu(menu);
-    getMenuInflater().inflate(R.menu.main_options, menu);
-    return true;
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-    boolean handled;
-    int itemId = item.getItemId();
-    if (itemId == R.id.settings) {
-      Intent intent = new Intent(this, SettingsActivity.class);
-      startActivity(intent);
-      handled = true;
-    } else if (itemId == R.id.sign_out) {
-      viewModel.signOut();
-      handled = true;
-    } else if (itemId == R.id.admin) {
-      Navigation
-          .findNavController(this, R.id.nav_host_fragment_activity_main)
-          .navigate(NavigationGraphDirections.openAdminMenu());
-//      Intent intent = new Intent(this, AdminActivity.class);
-//      startActivity(intent);
-      handled = true;
-    } else {
-      handled = super.onOptionsItemSelected(item);
-    }
-    return handled;
-  }
-
-  @Override
   public boolean onSupportNavigateUp() {
     return NavigationUI.navigateUp(navController, appBarConfiguration)
         || super.onSupportNavigateUp();
   }
 
   private void setupNavigation() {
-    appBarConfiguration = new AppBarConfiguration.Builder()
+    appBarConfiguration = new AppBarConfiguration.Builder(R.id.navigation_main_frag)
         .build();
     navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
     NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);

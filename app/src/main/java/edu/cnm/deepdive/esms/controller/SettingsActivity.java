@@ -14,13 +14,4 @@ public class SettingsActivity extends AppCompatActivity {
     setContentView(R.layout.activity_settings);
   }
 
-  public static class SettingsFragment extends PreferenceFragmentCompat {
-
-    @Override
-    public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
-      setPreferencesFromResource(R.xml.settings, rootKey);
-    }
-
-  }
-
 }

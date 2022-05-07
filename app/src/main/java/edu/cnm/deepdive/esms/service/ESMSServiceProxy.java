@@ -21,8 +21,11 @@ import retrofit2.http.Path;
 
 public interface ESMSServiceProxy {
 
-  @GET("users")
-  Single<User> getUsers(@Header("Authorization") String bearerToken);
+  @GET("users/me")
+  Single<User> getProfile(@Header("Authorization") String bearerToken);
+
+  @PUT("users/me")
+  Single<User> updateProfile(@Body User user, @Header("Authorization") String bearerToken);
 
  /* @PUT(value = "users/{id}/roles")
   Single<User> setRoles(@Body Set<Role> roles, @Path("id") UUID id,

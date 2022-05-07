@@ -13,14 +13,9 @@ import edu.cnm.deepdive.esms.databinding.FragmentAdminBinding;
 import edu.cnm.deepdive.esms.databinding.FragmentCaseBinding;
 import org.jetbrains.annotations.NotNull;
 
-public class AdminFragment extends PreferenceFragmentCompat {
+public class AdminFragment extends Fragment {
 
   FragmentAdminBinding binding;
-
-  @Override
-  public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-    setPreferencesFromResource(R.xml.admin_pref, rootKey);
-  }
 
   @NotNull
   @Override

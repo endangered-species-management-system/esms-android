@@ -84,8 +84,11 @@ public class MainActivity extends AppCompatActivity {
       viewModel.signOut();
       handled = true;
     } else if (itemId == R.id.admin) {
-      Intent intent = new Intent(this, AdminActivity.class);
-      startActivity(intent);
+      Navigation
+          .findNavController(this, R.id.nav_host_fragment_activity_main)
+          .navigate(NavigationGraphDirections.openAdminMenu());
+//      Intent intent = new Intent(this, AdminActivity.class);
+//      startActivity(intent);
       handled = true;
     } else {
       handled = super.onOptionsItemSelected(item);

@@ -9,11 +9,16 @@
   android:layout_margin="@dimen/half_dynamic_spacing"
   android:name="edu.cnm.deepdive.esms.controller.AdminFragment">
 
-  <Spinner
-    android:id="@+id/user_selector"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/half_dynamic_spacing"
+  <androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/user_roles"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:orientation="vertical"
+    tools:text="@tools:sample/full_names"
+    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+    app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"/>
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

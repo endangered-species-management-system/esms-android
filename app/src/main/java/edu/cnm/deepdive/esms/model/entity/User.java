@@ -2,6 +2,7 @@ package edu.cnm.deepdive.esms.model.entity;
 
 import com.google.gson.annotations.Expose;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public class User {
@@ -23,6 +24,12 @@ public class User {
 
   @Expose
   private Date created;
+
+  @Expose
+  private List<String> roles;
+
+  @Expose
+  private boolean active;
 
   public UUID getId() {
     return id;
@@ -70,5 +77,21 @@ public class User {
 
   public void setCreated(Date created) {
     this.created = created;
+  }
+
+  public List<String> getRoles() {
+    return roles;
+  }
+
+  public void setRoles(List<String> roles) {
+    this.roles = roles;
+  }
+
+  public boolean isActive() {
+    return active;
+  }
+
+  public void setActive(boolean active) {
+    this.active = active;
   }
 }

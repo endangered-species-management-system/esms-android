@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tool="http://schemas.android.com/tools">
+
+  <TextView
+    android:id="@+id/display_name"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tool:text="@tools:sample/full_names"
+    android:layout_margin="@dimen/half_dynamic_spacing"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toStartOf="@id/role_boxes_layout"/>
+
+  <LinearLayout
+    android:id="@+id/role_boxes_layout"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:layout_constraintStart_toEndOf="@id/display_name"
+    app:layout_constraintEnd_toStartOf="@id/active_box"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+      android:id="@+id/admin_role_box"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/admin_role"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+      android:id="@+id/lead_role_box"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/lead_role"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+      android:id="@+id/researcher_role_box"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/researcher_role"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"/>
+  </LinearLayout>
+
+  <androidx.appcompat.widget.AppCompatCheckBox
+    android:id="@+id/active_box"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/active"
+    android:layout_margin="@dimen/half_dynamic_spacing"
+    app:layout_constraintStart_toEndOf="@id/role_boxes_layout"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,14 +1,23 @@
-/*
 package edu.cnm.deepdive.esms.viewmodel;
 
+import android.app.Application;
+import android.content.Intent;
+import android.util.Log;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import edu.cnm.deepdive.esms.model.entity.User;
 import edu.cnm.deepdive.esms.service.GoogleSignInService;
 import edu.cnm.deepdive.esms.service.UserRepository;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import java.util.List;
 
 public class UserViewModel extends AndroidViewModel implements DefaultLifecycleObserver {
 
@@ -18,6 +27,7 @@ public class UserViewModel extends AndroidViewModel implements DefaultLifecycleO
   private final UserRepository userRepository;
   private final MutableLiveData<GoogleSignInAccount> account;
   private final MutableLiveData<User> user;
+  private final MutableLiveData<List<User>> users;
   private final MutableLiveData<Throwable> throwable;
   private final CompositeDisposable pending;
 
@@ -29,7 +39,12 @@ public class UserViewModel extends AndroidViewModel implements DefaultLifecycleO
     user = new MutableLiveData<>();
     throwable = new MutableLiveData<>();
     pending = new CompositeDisposable();
+    users = new MutableLiveData<>();
     refresh();
+  }
+
+  public LiveData<List<User>> getUsers() {
+    return users;
   }
 
   public LiveData<GoogleSignInAccount> getAccount() {
@@ -73,7 +88,8 @@ public class UserViewModel extends AndroidViewModel implements DefaultLifecycleO
         .signOut()
         .doFinally(() -> account.postValue(null))
         .subscribe(
-            () -> {},
+            () -> {
+            },
             this::postThrowable
         );
     pending.add(disposable);
@@ -89,6 +105,18 @@ public class UserViewModel extends AndroidViewModel implements DefaultLifecycleO
         );
     pending.add(disposable);
     return user;
+  }
+
+  public LiveData<List<User>> getAll() {
+    throwable.setValue(null);
+    Disposable disposable = userRepository
+        .getAll()
+        .subscribe(
+            users::postValue,
+            this::postThrowable
+        );
+    pending.add(disposable);
+    return users;
   }
 
   public void updateUser(User user) {
@@ -113,4 +141,4 @@ public class UserViewModel extends AndroidViewModel implements DefaultLifecycleO
     this.throwable.postValue(throwable);
   }
 
-}*/
+}

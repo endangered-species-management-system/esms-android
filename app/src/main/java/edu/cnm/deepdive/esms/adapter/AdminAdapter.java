@@ -49,7 +49,7 @@ public class AdminAdapter extends RecyclerView.Adapter<Holder> {
     private void bind(int position) {
       User user = users.get(position);
       binding.displayName.setText(user.getDisplayName());
-      binding.adminRoleBox.setChecked(user.getRoles().contains("ADMIN"));
+      binding.adminRoleBox.setChecked(user.getRoles().contains("ADMINISTRATOR"));
       binding.leadRoleBox.setChecked(user.getRoles().contains("LEAD"));
       binding.researcherRoleBox.setChecked(user.getRoles().contains("RESEARCHER"));
       binding.activeBox.setChecked(user.isActive());

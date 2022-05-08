@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import edu.cnm.deepdive.esms.BuildConfig;
 import edu.cnm.deepdive.esms.model.entity.User;
 import io.reactivex.rxjava3.core.Single;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import okhttp3.OkHttpClient;
@@ -20,6 +21,9 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface ESMSServiceProxy {
+
+  @GET("users")
+  Single<List<User>> getUsers(@Header("Authorization") String bearerToken);
 
   @GET("users/me")
   Single<User> getProfile(@Header("Authorization") String bearerToken);

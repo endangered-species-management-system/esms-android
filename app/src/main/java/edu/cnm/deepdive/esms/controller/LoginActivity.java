@@ -1,28 +1,28 @@
 package edu.cnm.deepdive.esms.controller;
 
 import android.content.Intent;
+import android.os.Bundle;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult;
 import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
 import androidx.lifecycle.ViewModelProvider;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.snackbar.Snackbar;
 import edu.cnm.deepdive.esms.R;
 import edu.cnm.deepdive.esms.databinding.ActivityLoginBinding;
-import edu.cnm.deepdive.esms.viewmodel.LoginViewModel;
+import edu.cnm.deepdive.esms.viewmodel.UserViewModel;
 
 public class LoginActivity extends AppCompatActivity {
 
   private ActivityLoginBinding binding;
-  private LoginViewModel viewModel;
+  private UserViewModel viewModel;
   private ActivityResultLauncher<Intent> launcher;
   private boolean silent;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+    viewModel = new ViewModelProvider(this).get(UserViewModel.class);
     getLifecycle().addObserver(viewModel);
     launcher = registerForActivityResult(new StartActivityForResult(), viewModel::completeSignIn);
     silent = true;

@@ -37,7 +37,7 @@ public class AdminFragment extends Fragment {
       @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     LifecycleOwner owner = getViewLifecycleOwner();
-    viewModel = new ViewModelProvider(this).get(UserViewModel.class);
+    viewModel = new ViewModelProvider(getActivity()).get(UserViewModel.class);
     viewModel
         .getCurrentUser()
         .observe(owner, (user) -> {

@@ -42,7 +42,6 @@ public class UserViewModel extends AndroidViewModel implements DefaultLifecycleO
     throwable = new MutableLiveData<>();
     pending = new CompositeDisposable();
     users = new MutableLiveData<>();
-    fetchCurrentUser();
     refreshAccount();
   }
 

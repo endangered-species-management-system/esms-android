@@ -2,10 +2,7 @@ package edu.cnm.deepdive.esms.controller;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -13,19 +10,16 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.material.tabs.TabLayoutMediator;
-import edu.cnm.deepdive.esms.NavigationGraphDirections;
 import edu.cnm.deepdive.esms.R;
-import edu.cnm.deepdive.esms.adapter.VPAdapter;
 import edu.cnm.deepdive.esms.databinding.ActivityMainBinding;
-import edu.cnm.deepdive.esms.viewmodel.LoginViewModel;
+import edu.cnm.deepdive.esms.viewmodel.UserViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
   private ActivityMainBinding binding;
   private NavController navController;
   private AppBarConfiguration appBarConfiguration;
-  private LoginViewModel viewModel;
+  private UserViewModel viewModel;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +31,12 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void setupViewModel() {
-    viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+    viewModel = new ViewModelProvider(this).get(UserViewModel.class);
     getLifecycle().addObserver(viewModel);
     viewModel
         .getAccount()
         .observe(this, this::handleAccount);
+    viewModel.fetchCurrentUser();
   }
 
   private void handleAccount(GoogleSignInAccount account) {

@@ -1,27 +1,26 @@
 package edu.cnm.deepdive.esms.controller;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.tabs.TabLayoutMediator;
 import edu.cnm.deepdive.esms.NavigationGraphDirections;
 import edu.cnm.deepdive.esms.R;
 import edu.cnm.deepdive.esms.adapter.VPAdapter;
-import edu.cnm.deepdive.esms.databinding.ActivityMainBinding;
 import edu.cnm.deepdive.esms.databinding.FragmentMainBinding;
-import edu.cnm.deepdive.esms.viewmodel.LoginViewModel;
+import edu.cnm.deepdive.esms.model.entity.User;
+import edu.cnm.deepdive.esms.viewmodel.UserViewModel;
 import org.jetbrains.annotations.NotNull;
 
 public class MainFragment extends Fragment {
@@ -29,8 +28,9 @@ public class MainFragment extends Fragment {
   private FragmentMainBinding binding;
   private VPAdapter vpAdapter;
   private final String[] titles = new String[]{"Species", "Team", "Evidence"};
-  private LoginViewModel viewModel;
+  private UserViewModel viewModel;
   private NavController navController;
+  private User currentUser;
 
   @Override
   public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -66,6 +66,15 @@ public class MainFragment extends Fragment {
   }
 
   @Override
+  public void onPrepareOptionsMenu(@NonNull @NotNull Menu menu) {
+    super.onPrepareOptionsMenu(menu);
+    if (currentUser != null) {
+      menu.findItem(R.id.admin)
+          .setVisible(currentUser.getRoles().contains("ADMINISTRATOR"));
+    }
+  }
+
+  @Override
   public boolean onOptionsItemSelected(@NonNull MenuItem item) {
     boolean handled;
     int itemId = item.getItemId();
@@ -86,7 +95,14 @@ public class MainFragment extends Fragment {
 
 
   private void setupViewModel() {
-    viewModel = new ViewModelProvider(getActivity()).get(LoginViewModel.class);
+    FragmentActivity activity = getActivity();
+    viewModel = new ViewModelProvider(activity).get(UserViewModel.class);
+    viewModel
+        .getCurrentUser()
+        .observe(getViewLifecycleOwner(), (user) -> {
+          currentUser = user;
+          activity.invalidateOptionsMenu();
+        });
   }
 
 }

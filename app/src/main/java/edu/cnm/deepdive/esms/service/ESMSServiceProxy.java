@@ -3,6 +3,7 @@ package edu.cnm.deepdive.esms.service;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import edu.cnm.deepdive.esms.BuildConfig;
+import edu.cnm.deepdive.esms.model.entity.Species;
 import edu.cnm.deepdive.esms.model.entity.User;
 import io.reactivex.rxjava3.core.Single;
 import java.util.List;
@@ -32,14 +33,15 @@ public interface ESMSServiceProxy {
   Single<User> updateProfile(@Body User user, @Header("Authorization") String bearerToken);
 
   @PUT("users/{id}/roles")
-  Single<User> updateRoles(@Path("id") UUID id, @Body Set<String> roles, @Header("Authorization") String bearerToken);
+  Single<User> updateRoles(@Path("id") UUID id, @Body Set<String> roles,
+      @Header("Authorization") String bearerToken);
 
   @PUT("users/{id}/inactive")
-  Single<User> updateInactive(@Path("id") UUID id, @Body boolean inactive, @Header("Authorization") String bearerToken);
+  Single<User> updateInactive(@Path("id") UUID id, @Body boolean inactive,
+      @Header("Authorization") String bearerToken);
 
- /* @PUT(value = "users/{id}/roles")
-  Single<User> setRoles(@Body Set<Role> roles, @Path("id") UUID id,
-      @Header("Authorization") String bearerToken);*/
+  @GET("cases")
+  Single<List<Species>> getAllCases(@Header("Authorization") String bearerToken);
 
   static ESMSServiceProxy getInstance() {
     return InstanceHolder.INSTANCE;

@@ -7,6 +7,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -19,16 +22,19 @@ import edu.cnm.deepdive.esms.NavigationGraphDirections;
 import edu.cnm.deepdive.esms.R;
 import edu.cnm.deepdive.esms.adapter.VPAdapter;
 import edu.cnm.deepdive.esms.databinding.FragmentMainBinding;
+import edu.cnm.deepdive.esms.model.entity.Species;
 import edu.cnm.deepdive.esms.model.entity.User;
+import edu.cnm.deepdive.esms.viewmodel.SpeciesViewModel;
 import edu.cnm.deepdive.esms.viewmodel.UserViewModel;
 import org.jetbrains.annotations.NotNull;
 
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements OnItemSelectedListener {
 
   private FragmentMainBinding binding;
   private VPAdapter vpAdapter;
   private final String[] titles = new String[]{"Species", "Team", "Evidence"};
-  private UserViewModel viewModel;
+  private UserViewModel userViewModel;
+  private SpeciesViewModel speciesViewModel;
   private NavController navController;
   private User currentUser;
 
@@ -47,6 +53,7 @@ public class MainFragment extends Fragment {
     binding.viewPager.setAdapter(vpAdapter);
     new TabLayoutMediator(binding.tabLayout, binding.viewPager,
         (tab, position) -> tab.setText(titles[position])).attach();
+    binding.casesSpinner.setOnItemSelectedListener(this);
     return binding.getRoot();
   }
 
@@ -79,7 +86,7 @@ public class MainFragment extends Fragment {
     boolean handled;
     int itemId = item.getItemId();
     if (itemId == R.id.sign_out) {
-      viewModel.signOut();
+      userViewModel.signOut();
       handled = true;
     } else if (itemId == R.id.settings) {
       navController.navigate(NavigationGraphDirections.openSettings());
@@ -93,16 +100,36 @@ public class MainFragment extends Fragment {
     return handled;
   }
 
-
   private void setupViewModel() {
     FragmentActivity activity = getActivity();
-    viewModel = new ViewModelProvider(activity).get(UserViewModel.class);
-    viewModel
+    userViewModel = new ViewModelProvider(activity).get(UserViewModel.class);
+    userViewModel
         .getCurrentUser()
         .observe(getViewLifecycleOwner(), (user) -> {
           currentUser = user;
           activity.invalidateOptionsMenu();
         });
+    speciesViewModel = new ViewModelProvider(activity).get(SpeciesViewModel.class);
+    speciesViewModel
+        .getSpeciesList()
+        .observe(getViewLifecycleOwner(), (species) -> {
+          ArrayAdapter<Species> adapter = new ArrayAdapter<>(activity,
+              android.R.layout.simple_spinner_item, species);
+          adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+          binding.casesSpinner.setAdapter(adapter);
+        });
+    speciesViewModel.fetchSpeciesList();
   }
 
+  @Override
+  public void onItemSelected(AdapterView<?> adapterView, View view, int position, long longId) {
+    Species species = (Species) adapterView.getItemAtPosition(position);
+    speciesViewModel.setSpecies(species);
+  }
+
+  @Override
+  public void onNothingSelected(AdapterView<?> adapterView) {
+
+    speciesViewModel.setSpecies(null);
+  }
 }

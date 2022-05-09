@@ -2,7 +2,6 @@ package edu.cnm.deepdive.esms.model.entity;
 
 import com.google.gson.annotations.Expose;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 

@@ -26,6 +26,7 @@ public class UserViewModel extends AndroidViewModel implements DefaultLifecycleO
   private final GoogleSignInService signInService;
   private final UserRepository userRepository;
   private final MutableLiveData<GoogleSignInAccount> account;
+  private final MutableLiveData<User> currentUser;
   private final MutableLiveData<User> user;
   private final MutableLiveData<List<User>> users;
   private final MutableLiveData<Throwable> throwable;
@@ -36,11 +37,21 @@ public class UserViewModel extends AndroidViewModel implements DefaultLifecycleO
     signInService = GoogleSignInService.getInstance();
     userRepository = new UserRepository(application);
     account = new MutableLiveData<>();
+    currentUser = new MutableLiveData<>();
     user = new MutableLiveData<>();
     throwable = new MutableLiveData<>();
     pending = new CompositeDisposable();
     users = new MutableLiveData<>();
-    refresh();
+    fetchCurrentUser();
+    refreshAccount();
+  }
+
+  public LiveData<User> getCurrentUser() {
+    return currentUser;
+  }
+
+  public LiveData<User> getUser() {
+    return user;
   }
 
   public LiveData<List<User>> getUsers() {
@@ -55,7 +66,7 @@ public class UserViewModel extends AndroidViewModel implements DefaultLifecycleO
     return throwable;
   }
 
-  public void refresh() {
+  public void refreshAccount() {
     throwable.setValue(null);
     Disposable disposable = signInService
         .refresh()
@@ -95,19 +106,18 @@ public class UserViewModel extends AndroidViewModel implements DefaultLifecycleO
     pending.add(disposable);
   }
 
-  public LiveData<User> getUser() {
+  public void fetchCurrentUser() {
     throwable.setValue(null);
     Disposable disposable = userRepository
         .getProfile()
         .subscribe(
-            user::postValue,
+            currentUser::postValue,
             this::postThrowable
         );
     pending.add(disposable);
-    return user;
   }
 
-  public LiveData<List<User>> getAll() {
+  public void fetchUsers() {
     throwable.setValue(null);
     Disposable disposable = userRepository
         .getAll()
@@ -116,13 +126,34 @@ public class UserViewModel extends AndroidViewModel implements DefaultLifecycleO
             this::postThrowable
         );
     pending.add(disposable);
-    return users;
   }
 
-  public void updateUser(User user) {
+  public void updateProfile(User user) {
     throwable.setValue(null);
     Disposable disposable = userRepository
         .updateProfile(user)
+        .subscribe(
+            this.currentUser::postValue,
+            this::postThrowable
+        );
+    pending.add(disposable);
+  }
+
+  public void updateUserRoles(User user) {
+    throwable.setValue(null);
+    Disposable disposable = userRepository
+        .updateRoles(user)
+        .subscribe(
+            this.user::postValue,
+            this::postThrowable
+        );
+    pending.add(disposable);
+  }
+
+  public void updateUserActive(User user) {
+    throwable.setValue(null);
+    Disposable disposable = userRepository
+        .updateActive(user)
         .subscribe(
             this.user::postValue,
             this::postThrowable

@@ -6,7 +6,7 @@
   android:id="@+id/fragment_container_view"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:layout_margin="@dimen/half_dynamic_spacing"
+  android:padding="@dimen/half_static_spacing"
   android:name="edu.cnm.deepdive.esms.controller.AdminFragment">
 
   <androidx.recyclerview.widget.RecyclerView

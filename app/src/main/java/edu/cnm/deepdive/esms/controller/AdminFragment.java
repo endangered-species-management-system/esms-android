@@ -7,12 +7,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.preference.PreferenceFragmentCompat;
-import edu.cnm.deepdive.esms.R;
 import edu.cnm.deepdive.esms.adapter.AdminAdapter;
 import edu.cnm.deepdive.esms.databinding.FragmentAdminBinding;
-import edu.cnm.deepdive.esms.databinding.FragmentCaseBinding;
 import edu.cnm.deepdive.esms.model.entity.User;
 import edu.cnm.deepdive.esms.viewmodel.UserViewModel;
 import java.util.List;
@@ -23,6 +21,7 @@ public class AdminFragment extends Fragment {
   private FragmentAdminBinding binding;
   private UserViewModel viewModel;
   private List<User> users;
+  private User currentUser;
   private AdminAdapter adapter;
 
   @NotNull
@@ -37,14 +36,41 @@ public class AdminFragment extends Fragment {
   public void onViewCreated(@NonNull View view,
       @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+    LifecycleOwner owner = getViewLifecycleOwner();
     viewModel = new ViewModelProvider(this).get(UserViewModel.class);
     viewModel
-        .getAll()
-        .observe(getViewLifecycleOwner(), (users) -> {
-          this.users = users;
-          adapter = new AdminAdapter(getContext(),users);
-          binding.userRoles.setAdapter(adapter);
+        .getCurrentUser()
+        .observe(owner, (user) -> {
+          currentUser = user;
+          displayUsers();
         });
+    viewModel
+        .getUsers()
+        .observe(owner, (users) -> {
+          this.users = users;
+          displayUsers();
+        });
+    viewModel.fetchUsers();
+  }
+
+  private void displayUsers() {
+    if (currentUser != null && users != null) {
+      adapter = new AdminAdapter(getContext(), users, currentUser,
+          (user, role, checked) -> {
+            if (checked) {
+              user.getRoles().add(role);
+            } else {
+              user.getRoles().remove(role);
+            }
+            viewModel.updateUserRoles(user);
+          },
+          (user, checked) -> {
+            user.setActive(checked);
+            viewModel.updateUserActive(user);
+          }
+      );
+      binding.userRoles.setAdapter(adapter);
+    }
   }
 
   @Override

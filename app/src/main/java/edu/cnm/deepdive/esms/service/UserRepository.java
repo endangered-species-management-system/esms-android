@@ -43,6 +43,20 @@ public class UserRepository {
         .flatMap((token) -> serviceProxy.updateProfile(user, token));
   }
 
+  public Single<User> updateRoles(User user) {
+    return signInService
+        .refreshBearerToken()
+        .observeOn(Schedulers.io())
+        .flatMap((token) -> serviceProxy.updateRoles(user.getId(), user.getRoles(), token));
+  }
+
+  public Single<User> updateActive(User user) {
+    return signInService
+        .refreshBearerToken()
+        .observeOn(Schedulers.io())
+        .flatMap((token) -> serviceProxy.updateInactive(user.getId(), !user.isActive(), token));
+  }
+
   /**
    * Refreshes bearertoken for continuous service.
    * @return

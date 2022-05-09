@@ -31,6 +31,12 @@ public interface ESMSServiceProxy {
   @PUT("users/me")
   Single<User> updateProfile(@Body User user, @Header("Authorization") String bearerToken);
 
+  @PUT("users/{id}/roles")
+  Single<User> updateRoles(@Path("id") UUID id, @Body Set<String> roles, @Header("Authorization") String bearerToken);
+
+  @PUT("users/{id}/inactive")
+  Single<User> updateInactive(@Path("id") UUID id, @Body boolean inactive, @Header("Authorization") String bearerToken);
+
  /* @PUT(value = "users/{id}/roles")
   Single<User> setRoles(@Body Set<Role> roles, @Path("id") UUID id,
       @Header("Authorization") String bearerToken);*/

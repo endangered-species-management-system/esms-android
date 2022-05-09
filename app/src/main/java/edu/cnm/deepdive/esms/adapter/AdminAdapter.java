@@ -14,10 +14,17 @@ public class AdminAdapter extends RecyclerView.Adapter<Holder> {
 
   private final LayoutInflater inflater;
   private final List<User> users;
+  private final User currentUser;
+  private final OnRoleToggleListener onRoleToggleListener;
+  private final OnActiveToggleListener onActiveToggleListener;
 
-  public AdminAdapter(Context context, List<User> users) {
+  public AdminAdapter(Context context, List<User> users, User currentUser, OnRoleToggleListener onRoleToggleListener,
+      OnActiveToggleListener onActiveToggleListener) {
     inflater = LayoutInflater.from(context);
     this.users = users;
+    this.currentUser = currentUser;
+    this.onRoleToggleListener = onRoleToggleListener;
+    this.onActiveToggleListener = onActiveToggleListener;
   }
 
   @NonNull
@@ -49,11 +56,31 @@ public class AdminAdapter extends RecyclerView.Adapter<Holder> {
     private void bind(int position) {
       User user = users.get(position);
       binding.displayName.setText(user.getDisplayName());
-      binding.adminRoleBox.setChecked(user.getRoles().contains("ADMINISTRATOR"));
+      boolean admin = user.getRoles().contains("ADMINISTRATOR");
+      binding.adminRoleBox.setChecked(admin);
+      binding.adminRoleBox.setEnabled(!user.getId().equals(currentUser.getId()));
       binding.leadRoleBox.setChecked(user.getRoles().contains("LEAD"));
       binding.researcherRoleBox.setChecked(user.getRoles().contains("RESEARCHER"));
       binding.activeBox.setChecked(user.isActive());
+      binding.activeBox.setEnabled(!user.getId().equals(currentUser.getId()));
+      binding.adminRoleBox.setOnCheckedChangeListener((compoundButton, checked) ->
+          onRoleToggleListener.onRoleToggle(user, "ADMINISTRATOR", checked));
+      binding.leadRoleBox.setOnCheckedChangeListener((compoundButton, checked) ->
+          onRoleToggleListener.onRoleToggle(user, "LEAD", checked));
+      binding.researcherRoleBox.setOnCheckedChangeListener((compoundButton, checked) ->
+          onRoleToggleListener.onRoleToggle(user, "RESEARCHER", checked));
+      binding.activeBox.setOnCheckedChangeListener((compoundButton, checked) ->
+          onActiveToggleListener.onActiveToggle(user, checked));
     }
   }
 
+  public interface OnRoleToggleListener {
+
+    void onRoleToggle(User user, String role, boolean checked);
+  }
+
+  public interface OnActiveToggleListener {
+
+    void onActiveToggle(User user, boolean checked);
+  }
 }

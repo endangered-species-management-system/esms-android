@@ -12,14 +12,17 @@ import edu.cnm.deepdive.esms.model.entity.Species;
 import edu.cnm.deepdive.esms.service.SpeciesRepository;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
+import java.util.Collection;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 
 public class SpeciesViewModel extends AndroidViewModel implements DefaultLifecycleObserver {
 
   private final SpeciesRepository repository;
-  private final MutableLiveData<List<Species>> speciesList;
+  private final PriorityQueue<Species> speciesBackingQueue;
+  private final MutableLiveData<Collection<Species>> speciesList;
   private final MutableLiveData<Species> species;
   private final MutableLiveData<Throwable> throwable;
   private final CompositeDisposable pending;
@@ -28,13 +31,14 @@ public class SpeciesViewModel extends AndroidViewModel implements DefaultLifecyc
       @NonNull @NotNull Application application) {
     super(application);
     repository = new SpeciesRepository(application);
-    speciesList = new MutableLiveData<>();
+    speciesBackingQueue = new PriorityQueue<>();
+    speciesList = new MutableLiveData<>(speciesBackingQueue);
     species = new MutableLiveData<>();
     throwable = new MutableLiveData<>();
     pending = new CompositeDisposable();
   }
 
-  public LiveData<List<Species>> getSpeciesList() {
+  public LiveData<Collection<Species>> getSpeciesList() {
     return speciesList;
   }
 
@@ -55,7 +59,10 @@ public class SpeciesViewModel extends AndroidViewModel implements DefaultLifecyc
     repository
         .getAll()
         .subscribe(
-            speciesList::postValue,
+            (list) -> {
+              speciesBackingQueue.addAll(list);
+              speciesList.postValue(speciesBackingQueue);
+            },
             this::postThrowable,
             pending
         );
@@ -74,10 +81,15 @@ public class SpeciesViewModel extends AndroidViewModel implements DefaultLifecyc
 
   public void saveSpecies(Species species) {
     throwable.setValue(null);
-    Disposable disposable = repository
+    repository
         .saveSpecies(species)
         .subscribe(
-            this.species::postValue,
+            (s) -> {
+              this.species.postValue(s);
+              speciesBackingQueue.remove(s);
+              speciesBackingQueue.add(s);
+              speciesList.postValue(speciesBackingQueue);
+            },
             this::postThrowable,
             pending
         );

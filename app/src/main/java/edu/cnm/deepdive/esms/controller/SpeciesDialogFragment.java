@@ -88,7 +88,7 @@ public class SpeciesDialogFragment extends DialogFragment implements TextWatcher
               binding.name.setText(species.getName());
               binding.summary.setText(species.getSummary());
               binding.phase.setSelection(adapter.getPosition(species.getPhase()));
-              // TODO Populate the view objectrs in binding with the properties of species and display them.
+              // TODO Populate the view objects in binding with the properties of species and display them.
             } else {
               viewModel.fetchSpecies(speciesID);
             }

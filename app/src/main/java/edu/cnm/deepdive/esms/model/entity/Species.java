@@ -1,12 +1,13 @@
 package edu.cnm.deepdive.esms.model.entity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 import java.util.UUID;
 
-public class Species {
+public class Species implements Comparable<Species> {
 
   @Expose
   private UUID id;
@@ -112,5 +113,30 @@ public class Species {
   @Override
   public String toString() {
     return name;
+  }
+
+  @Override
+  public int compareTo(Species species) {
+    return number.compareToIgnoreCase(species.number);
+  }
+
+  @Override
+  public int hashCode() {
+    return (id != null) ? id.hashCode() : 0;
+  }
+
+  @Override
+  public boolean equals(@Nullable Object obj) {
+    boolean comparison;
+    if (this == obj) {
+      comparison = true;
+    } else if (obj instanceof Species) {
+      Species other = (Species) obj;
+      comparison = id != null && other.id != null && id.equals(other.id);
+    } else {
+      comparison = false;
+    }
+
+    return comparison;
   }
 }

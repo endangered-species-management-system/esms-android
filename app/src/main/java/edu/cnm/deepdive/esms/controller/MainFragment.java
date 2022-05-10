@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -26,6 +27,8 @@ import edu.cnm.deepdive.esms.model.entity.Species;
 import edu.cnm.deepdive.esms.model.entity.User;
 import edu.cnm.deepdive.esms.viewmodel.SpeciesViewModel;
 import edu.cnm.deepdive.esms.viewmodel.UserViewModel;
+import java.util.Collection;
+import java.util.LinkedList;
 import org.jetbrains.annotations.NotNull;
 
 public class MainFragment extends Fragment implements OnItemSelectedListener {
@@ -37,6 +40,9 @@ public class MainFragment extends Fragment implements OnItemSelectedListener {
   private SpeciesViewModel speciesViewModel;
   private NavController navController;
   private User currentUser;
+  private Species species;
+  private ArrayAdapter<Species> adapter;
+  private ViewModelProvider provider;
 
   @Override
   public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -54,6 +60,9 @@ public class MainFragment extends Fragment implements OnItemSelectedListener {
     new TabLayoutMediator(binding.tabLayout, binding.viewPager,
         (tab, position) -> tab.setText(titles[position])).attach();
     binding.casesSpinner.setOnItemSelectedListener(this);
+    adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item);
+    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    binding.casesSpinner.setAdapter(adapter);
     return binding.getRoot();
   }
 
@@ -102,23 +111,42 @@ public class MainFragment extends Fragment implements OnItemSelectedListener {
 
   private void setupViewModel() {
     FragmentActivity activity = getActivity();
-    userViewModel = new ViewModelProvider(activity).get(UserViewModel.class);
+    provider = new ViewModelProvider(activity);
+    userViewModel = provider.get(UserViewModel.class);
+    LifecycleOwner owner = getViewLifecycleOwner();
     userViewModel
         .getCurrentUser()
-        .observe(getViewLifecycleOwner(), (user) -> {
+        .observe(owner, (user) -> {
           currentUser = user;
           activity.invalidateOptionsMenu();
         });
-    speciesViewModel = new ViewModelProvider(activity).get(SpeciesViewModel.class);
+    speciesViewModel = provider.get(SpeciesViewModel.class);
+    speciesViewModel
+        .getSpecies()
+        .observe(owner, (species) -> {
+          this.species = species;
+          updateSpinnerSelection();
+        });
     speciesViewModel
         .getSpeciesList()
-        .observe(getViewLifecycleOwner(), (species) -> {
-          ArrayAdapter<Species> adapter = new ArrayAdapter<>(activity,
-              android.R.layout.simple_spinner_item, species);
-          adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-          binding.casesSpinner.setAdapter(adapter);
+        .observe(owner, (speciesIterable) -> {
+          adapter.clear();
+          adapter.addAll(speciesIterable);
+          adapter.notifyDataSetChanged();
+          updateSpinnerSelection();
         });
     speciesViewModel.fetchSpeciesList();
+  }
+
+  private void updateSpinnerSelection() {
+    if (species != null && species.getId() != null && !adapter.isEmpty()) {
+      Species selected = (Species) binding.casesSpinner.getSelectedItem();
+      if (selected != null && !species.getId().equals(selected.getId())) {
+        binding.casesSpinner.setSelection(adapter.getPosition(species));
+      } else {
+        binding.casesSpinner.setSelection(adapter.getPosition(species), true);
+      }
+    }
   }
 
   @Override

@@ -12,6 +12,4 @@
     android:label="Case"
     tools:layout="@layout/fragment_species_case"/>
 
-
-
 </navigation>

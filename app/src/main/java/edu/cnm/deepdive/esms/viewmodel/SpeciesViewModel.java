@@ -11,7 +11,9 @@ import androidx.lifecycle.MutableLiveData;
 import edu.cnm.deepdive.esms.model.entity.Species;
 import edu.cnm.deepdive.esms.service.SpeciesRepository;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
 import java.util.List;
+import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 
 public class SpeciesViewModel extends AndroidViewModel implements DefaultLifecycleObserver {
@@ -54,6 +56,28 @@ public class SpeciesViewModel extends AndroidViewModel implements DefaultLifecyc
         .getAll()
         .subscribe(
             speciesList::postValue,
+            this::postThrowable,
+            pending
+        );
+  }
+
+  public void fetchSpecies(UUID id) {
+    throwable.setValue(null);
+    repository
+        .getSpecies(id)
+        .subscribe(
+            species::postValue,
+            this::postThrowable,
+            pending
+        );
+  }
+
+  public void saveSpecies(Species species) {
+    throwable.setValue(null);
+    Disposable disposable = repository
+        .saveSpecies(species)
+        .subscribe(
+            this.species::postValue,
             this::postThrowable,
             pending
         );

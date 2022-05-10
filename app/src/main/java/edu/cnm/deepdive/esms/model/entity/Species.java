@@ -25,13 +25,16 @@ public class Species {
   private String name;
 
   @Expose
-  private String phase;
+  private Phase phase;
 
   @Expose
   private String summary;
 
   @Expose
   private String detailedDescription;
+
+  @Expose
+  private User leadResearcher;
 
   public UUID getId() {
     return id;
@@ -73,11 +76,11 @@ public class Species {
     this.name = name;
   }
 
-  public String getPhase() {
+  public Phase getPhase() {
     return phase;
   }
 
-  public void setPhase(String phase) {
+  public void setPhase(Phase phase) {
     this.phase = phase;
   }
 
@@ -95,6 +98,14 @@ public class Species {
 
   public void setDetailedDescription(String detailedDescription) {
     this.detailedDescription = detailedDescription;
+  }
+
+  public User getLeadResearcher() {
+    return leadResearcher;
+  }
+
+  public void setLeadResearcher(User leadResearcher) {
+    this.leadResearcher = leadResearcher;
   }
 
   @NonNull

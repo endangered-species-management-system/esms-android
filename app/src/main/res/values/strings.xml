@@ -2,8 +2,8 @@
   <string name="app_name">ESMS</string>
   <!-- TODO: Remove or change this placeholder text -->
   <string name="hello_blank_fragment">Hello blank fragment</string>
-  <string name="note_hint">Note Hint</string>
-  <string name="new_note">New Note</string>
+  <string name="species_hint">Species Hint</string>
+  <string name="new_species">New Species</string>
   <string name="note_fragment">Note Fragment</string>
   <string name="note_type">Note Type</string>
   <string name="radio_button_season_note">Attribute</string>
@@ -37,4 +37,6 @@
   <string name="active">Active</string>
   <string name="lead_role">Lead</string>
   <string name="researcher_role">Researcher</string>
+  <string name="summary_hint">Summary</string>
+  <string name="phase_prompt">Phase</string>
 </resources>

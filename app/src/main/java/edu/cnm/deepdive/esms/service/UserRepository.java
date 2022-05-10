@@ -65,6 +65,5 @@ public class UserRepository {
     return signInService
         .refreshBearerToken()
         .observeOn(Schedulers.io());
-
   }
 }

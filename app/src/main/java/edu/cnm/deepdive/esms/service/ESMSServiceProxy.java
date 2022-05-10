@@ -18,6 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
@@ -42,6 +43,16 @@ public interface ESMSServiceProxy {
 
   @GET("cases")
   Single<List<Species>> getAllCases(@Header("Authorization") String bearerToken);
+
+  @GET("cases/{id}")
+  Single<Species> getSpeciesCase(@Path("id") UUID id, @Header("Authorization") String bearerToken);
+
+  @POST("cases")
+  Single<Species> addSpecies(@Body Species species, @Header("Authorization") String bearerToken);
+
+  @PUT("cases/{id}")
+  Single<Species> updateSpecies(@Path("id") UUID id, @Body Species species,
+      @Header("Authorization") String bearerToken);
 
   static ESMSServiceProxy getInstance() {
     return InstanceHolder.INSTANCE;

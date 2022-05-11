@@ -9,6 +9,7 @@
   tools:context=".controller.TeamFragment">
 
   <TextView
+    android:id="@+id/team_heading"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="@string/team"
@@ -17,7 +18,19 @@
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent"/>
+    app:layout_constraintBottom_toTopOf="@id/members"/>
+
+  <androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/members"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:orientation="vertical"
+    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+    app:layout_constraintTop_toBottomOf="@id/members"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    tools:listitem="@layout/item_team"/>
 
   <com.google.android.material.floatingactionbutton.FloatingActionButton
     android:id="@+id/add_team_member"

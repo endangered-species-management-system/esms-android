@@ -39,4 +39,7 @@
   <string name="researcher_role">Researcher</string>
   <string name="summary_hint">Summary</string>
   <string name="phase_prompt">Phase</string>
+  <string name="member">Member</string>
+  <string name="add_member">Add member</string>
+  <string name="remove_team_member">Remove team member</string>
 </resources>

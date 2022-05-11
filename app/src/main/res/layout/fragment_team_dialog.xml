@@ -33,5 +33,25 @@
     android:contentDescription="@string/remove_team_member"
     android:tooltipText="@string/remove_team_member"/>
 
+  <TextView
+    android:id="@+id/available_users_prompt"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/available_prompt"
+    android:labelFor="@id/available_users_prompt"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintBottom_toTopOf="@id/members_selector"
+    app:layout_constraintBaseline_toBaselineOf="@id/members_selector"
+    android:layout_margin="@dimen/half_dynamic_spacing"/>
+
+  <Spinner
+    android:id="@+id/members_selector"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:prompt="@string/phase_prompt"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/available_users_prompt"
+    app:layout_constraintEnd_toStartOf="@id/save"
+    android:layout_margin="@dimen/half_dynamic_spacing"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

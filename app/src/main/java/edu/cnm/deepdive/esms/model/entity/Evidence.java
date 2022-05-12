@@ -1,11 +1,13 @@
 package edu.cnm.deepdive.esms.model.entity;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.google.gson.annotations.Expose;
 import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 
-public class Evidence {
+public class Evidence implements Comparable<Evidence> {
 
   @Expose
   private UUID id;
@@ -30,6 +32,9 @@ public class Evidence {
 
   @Expose
   private SpeciesCase speciesCase;
+
+  @Expose
+  private User user;
 
   @Expose
   private Set<Attachment> attachments;
@@ -98,11 +103,50 @@ public class Evidence {
     this.speciesCase = speciesCase;
   }
 
+  public User getUser() {
+    return user;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
+  }
+
   public Set<Attachment> getAttachments() {
     return attachments;
   }
 
   public void setAttachments(Set<Attachment> attachments) {
     this.attachments = attachments;
+  }
+
+  @Override
+  public int hashCode() {
+    return (id != null) ? id.hashCode() : 0;
+  }
+
+  @Override
+  public boolean equals(@Nullable Object obj) {
+    boolean comparison;
+
+    if (this == obj) {
+      comparison = true;
+    } else if (obj instanceof Evidence) {
+      Evidence other = (Evidence) obj;
+      comparison = (id != null && id.equals(other.id));
+    } else {
+      comparison = false;
+    }
+    return comparison;
+  }
+
+  @NonNull
+  @Override
+  public String toString() {
+    return number;
+  }
+
+  @Override
+  public int compareTo(Evidence other) {
+    return number.compareToIgnoreCase(other.number);
   }
 }

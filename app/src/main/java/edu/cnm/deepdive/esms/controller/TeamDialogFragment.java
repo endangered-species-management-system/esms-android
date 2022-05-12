@@ -16,6 +16,7 @@ import edu.cnm.deepdive.esms.databinding.FragmentTeamDialogBinding;
 import edu.cnm.deepdive.esms.model.entity.SpeciesCase;
 import edu.cnm.deepdive.esms.model.entity.User;
 import edu.cnm.deepdive.esms.viewmodel.SpeciesViewModel;
+import edu.cnm.deepdive.esms.viewmodel.TeamViewModel;
 import edu.cnm.deepdive.esms.viewmodel.UserViewModel;
 import java.util.HashSet;
 import java.util.List;
@@ -28,6 +29,7 @@ public class TeamDialogFragment extends BottomSheetDialogFragment implements
   private FragmentTeamDialogBinding binding;
   private UserViewModel userViewModel;
   private SpeciesViewModel speciesViewModel;
+  private TeamViewModel teamViewModel;
   private User currentUser;
   private SpeciesCase speciesCase;
   private User lead;
@@ -39,11 +41,7 @@ public class TeamDialogFragment extends BottomSheetDialogFragment implements
       Bundle savedInstanceState) {
     binding = FragmentTeamDialogBinding.inflate(inflater, container, false);
     binding.membersSelector.setOnItemSelectedListener(this);
-    binding.save.setOnClickListener((v) -> {
-      User user = (User) binding.membersSelector.getSelectedItem();
-      speciesViewModel.setTeamMember(speciesCase, user, true);
-      dismiss();
-    });
+    binding.save.setOnClickListener((v) -> addTeamMember());
     binding.cancel.setOnClickListener((v) -> dismiss());
     return binding.getRoot();
   }
@@ -53,6 +51,35 @@ public class TeamDialogFragment extends BottomSheetDialogFragment implements
     super.onViewCreated(view, savedInstanceState);
     ViewModelProvider provider = new ViewModelProvider(getActivity());
     LifecycleOwner owner = getViewLifecycleOwner();
+    setupUserViewModel(provider, owner);
+    setupSpeciesViewModel(provider, owner);
+    setupTeamViewModel(provider, owner);
+  }
+
+  @Override
+  public void onDestroyView() {
+    binding = null;
+    super.onDestroyView();
+  }
+
+  @Override
+  public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+    configureControls();
+  }
+
+  @Override
+  public void onNothingSelected(AdapterView<?> adapterView) {
+    binding.save.setEnabled(false);
+    binding.save.setVisibility(View.INVISIBLE);
+  }
+
+  private void addTeamMember() {
+    User user = (User) binding.membersSelector.getSelectedItem();
+    teamViewModel.setTeamMember(speciesCase.getId(), user, true);
+    dismiss();
+  }
+
+  private void setupUserViewModel(ViewModelProvider provider, LifecycleOwner owner) {
     userViewModel = provider.get(UserViewModel.class);
     userViewModel
         .getUsers()
@@ -66,6 +93,9 @@ public class TeamDialogFragment extends BottomSheetDialogFragment implements
         .observe(owner, (user) -> {
           currentUser = user;
         });
+  }
+
+  private void setupSpeciesViewModel(ViewModelProvider provider, LifecycleOwner owner) {
     speciesViewModel = provider.get(SpeciesViewModel.class);
     speciesViewModel
         .getSpecies()
@@ -74,7 +104,11 @@ public class TeamDialogFragment extends BottomSheetDialogFragment implements
           lead = speciesCase.getLeadResearcher();
           populateSpinner();
         });
-    speciesViewModel
+  }
+
+  private void setupTeamViewModel(ViewModelProvider provider, LifecycleOwner owner) {
+    teamViewModel = provider.get(TeamViewModel.class);
+    teamViewModel
         .getTeam()
         .observe(owner, (team) -> {
           this.team = new HashSet<>(team);
@@ -82,10 +116,9 @@ public class TeamDialogFragment extends BottomSheetDialogFragment implements
         });
   }
 
-  @Override
-  public void onDestroyView() {
-    binding = null;
-    super.onDestroyView();
+  private void configureControls() {
+    binding.save.setEnabled(true);
+    binding.save.setVisibility(View.VISIBLE);
   }
 
   private void populateSpinner() {
@@ -103,15 +136,4 @@ public class TeamDialogFragment extends BottomSheetDialogFragment implements
     }
   }
 
-  @Override
-  public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-    binding.save.setEnabled(true);
-    binding.save.setVisibility(View.VISIBLE);
-  }
-
-  @Override
-  public void onNothingSelected(AdapterView<?> adapterView) {
-    binding.save.setEnabled(false);
-    binding.save.setVisibility(View.INVISIBLE);
-  }
 }

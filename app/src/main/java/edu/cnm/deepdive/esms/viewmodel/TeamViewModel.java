@@ -8,86 +8,68 @@ import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import edu.cnm.deepdive.esms.model.entity.SpeciesCase;
+import edu.cnm.deepdive.esms.model.entity.User;
 import edu.cnm.deepdive.esms.service.SpeciesRepository;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import java.util.Collection;
 import java.util.PriorityQueue;
+import java.util.TreeSet;
 import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 
-public class SpeciesViewModel extends AndroidViewModel implements DefaultLifecycleObserver {
+public class TeamViewModel extends AndroidViewModel implements DefaultLifecycleObserver {
 
   private final SpeciesRepository repository;
-  private final PriorityQueue<SpeciesCase> speciesCaseBackingQueue;
-  private final MutableLiveData<Collection<SpeciesCase>> speciesList;
-  private final MutableLiveData<SpeciesCase> species;
+  private final TreeSet<User> teamBackingSet;
+  private final MutableLiveData<Collection<User>> team;
   private final MutableLiveData<Throwable> throwable;
   private final CompositeDisposable pending;
 
-  public SpeciesViewModel(
+  public TeamViewModel(
       @NonNull @NotNull Application application) {
     super(application);
     repository = new SpeciesRepository(application);
-    speciesCaseBackingQueue = new PriorityQueue<>();
-    speciesList = new MutableLiveData<>(speciesCaseBackingQueue);
-    species = new MutableLiveData<>();
+    teamBackingSet = new TreeSet<>();
+    team = new MutableLiveData<>(teamBackingSet);
     throwable = new MutableLiveData<>();
     pending = new CompositeDisposable();
   }
 
-  public LiveData<Collection<SpeciesCase>> getSpeciesList() {
-    return speciesList;
-  }
-
-  public LiveData<SpeciesCase> getSpecies() {
-    return species;
-  }
-
-  public void setSpecies(SpeciesCase speciesCase) {
-    this.species.setValue(speciesCase);
+  public LiveData<Collection<User>> getTeam() {
+    return team;
   }
 
   public LiveData<Throwable> getThrowable() {
     return throwable;
   }
 
-  public void fetchSpeciesList() {
+  public void fetchTeam(UUID id) {
     throwable.setValue(null);
     repository
-        .getAll()
+        .getTeam(id)
         .subscribe(
-            (list) -> {
-              speciesCaseBackingQueue.clear();
-              speciesCaseBackingQueue.addAll(list);
-              speciesList.postValue(speciesCaseBackingQueue);
+            (members) -> {
+              teamBackingSet.clear();
+              teamBackingSet.addAll(members);
+              team.postValue(teamBackingSet);
             },
             this::postThrowable,
             pending
         );
   }
 
-  public void fetchSpecies(UUID id) {
+  public void setTeamMember(UUID speciesId, User user, boolean inTeam) {
     throwable.setValue(null);
     repository
-        .getSpecies(id)
+        .setTeamMember(speciesId, user.getId(), inTeam)
         .subscribe(
-            species::postValue,
-            this::postThrowable,
-            pending
-        );
-  }
-
-  public void saveSpecies(SpeciesCase speciesCase) {
-    throwable.setValue(null);
-    repository
-        .saveSpecies(speciesCase)
-        .subscribe(
-            (s) -> {
-              this.species.postValue(s);
-              speciesCaseBackingQueue.remove(s);
-              speciesCaseBackingQueue.add(s);
-              speciesList.postValue(speciesCaseBackingQueue);
+            (assigned) -> {
+              if (assigned) {
+                teamBackingSet.add(user);
+              } else {
+                teamBackingSet.remove(user);
+              }
+              team.postValue(teamBackingSet);
             },
             this::postThrowable,
             pending

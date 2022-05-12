@@ -127,6 +127,17 @@ public class UserViewModel extends AndroidViewModel implements DefaultLifecycleO
     pending.add(disposable);
   }
 
+  public void fetchUsers(String role) {
+    throwable.setValue(null);
+    Disposable disposable = userRepository
+        .getAll(role)
+        .subscribe(
+            users::postValue,
+            this::postThrowable
+        );
+    pending.add(disposable);
+  }
+
   public void updateProfile(User user) {
     throwable.setValue(null);
     Disposable disposable = userRepository

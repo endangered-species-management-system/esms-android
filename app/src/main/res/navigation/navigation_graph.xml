@@ -35,7 +35,9 @@
     <action
       android:id="@+id/open_team_dialog"
       app:destination="@id/team_dialog_fragment">
-
+      <argument
+        android:name="species_id"
+        app:argType="java.util.UUID"/>
     </action>
 
   </fragment>
@@ -67,7 +69,9 @@
     android:name="edu.cnm.deepdive.esms.controller.TeamDialogFragment"
     android:label="Team Dialog"
     tools:layout="@layout/fragment_team_dialog">
-
+    <argument
+      android:name="species_id"
+      app:argType="java.util.UUID"/>
   </dialog>
 
 </navigation>

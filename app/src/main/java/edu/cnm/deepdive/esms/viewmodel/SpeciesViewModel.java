@@ -9,6 +9,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import edu.cnm.deepdive.esms.model.entity.Species;
+import edu.cnm.deepdive.esms.model.entity.User;
 import edu.cnm.deepdive.esms.service.SpeciesRepository;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -24,6 +25,8 @@ public class SpeciesViewModel extends AndroidViewModel implements DefaultLifecyc
   private final PriorityQueue<Species> speciesBackingQueue;
   private final MutableLiveData<Collection<Species>> speciesList;
   private final MutableLiveData<Species> species;
+  private final PriorityQueue<User> teamBackingQueue;
+  private final MutableLiveData<Collection<User>> team;
   private final MutableLiveData<Throwable> throwable;
   private final CompositeDisposable pending;
 
@@ -34,6 +37,8 @@ public class SpeciesViewModel extends AndroidViewModel implements DefaultLifecyc
     speciesBackingQueue = new PriorityQueue<>();
     speciesList = new MutableLiveData<>(speciesBackingQueue);
     species = new MutableLiveData<>();
+    teamBackingQueue = new PriorityQueue<>();
+    team = new MutableLiveData<>(teamBackingQueue);
     throwable = new MutableLiveData<>();
     pending = new CompositeDisposable();
   }
@@ -50,6 +55,10 @@ public class SpeciesViewModel extends AndroidViewModel implements DefaultLifecyc
     this.species.setValue(species);
   }
 
+  public LiveData<Collection<User>> getTeam() {
+    return team;
+  }
+
   public LiveData<Throwable> getThrowable() {
     return throwable;
   }
@@ -60,6 +69,7 @@ public class SpeciesViewModel extends AndroidViewModel implements DefaultLifecyc
         .getAll()
         .subscribe(
             (list) -> {
+              speciesBackingQueue.clear();
               speciesBackingQueue.addAll(list);
               speciesList.postValue(speciesBackingQueue);
             },
@@ -79,6 +89,21 @@ public class SpeciesViewModel extends AndroidViewModel implements DefaultLifecyc
         );
   }
 
+  public void fetchTeam(UUID id) {
+    throwable.setValue(null);
+    repository
+        .getTeam(id)
+        .subscribe(
+            (members) -> {
+              teamBackingQueue.clear();
+              teamBackingQueue.addAll(members);
+              team.postValue(teamBackingQueue);
+            },
+            this::postThrowable,
+            pending
+        );
+  }
+
   public void saveSpecies(Species species) {
     throwable.setValue(null);
     repository
@@ -89,6 +114,24 @@ public class SpeciesViewModel extends AndroidViewModel implements DefaultLifecyc
               speciesBackingQueue.remove(s);
               speciesBackingQueue.add(s);
               speciesList.postValue(speciesBackingQueue);
+            },
+            this::postThrowable,
+            pending
+        );
+  }
+
+  public void setTeamMember(Species speciesCase, User user, boolean inTeam) {
+    throwable.setValue(null);
+    repository
+        .setTeamMember(speciesCase.getId(), user.getId(), inTeam)
+        .subscribe(
+            (assigned) -> {
+              if (assigned) {
+                teamBackingQueue.add(user);
+              } else {
+                teamBackingQueue.remove(user);
+              }
+              team.postValue(teamBackingQueue);
             },
             this::postThrowable,
             pending

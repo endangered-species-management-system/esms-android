@@ -2,6 +2,7 @@ package edu.cnm.deepdive.esms.service;
 
 import android.content.Context;
 import edu.cnm.deepdive.esms.model.entity.Species;
+import edu.cnm.deepdive.esms.model.entity.User;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.functions.Function;
@@ -41,6 +42,13 @@ public class SpeciesRepository {
         .flatMap((token) -> serviceProxy.getSpeciesCase(id, token));
   }
 
+  public Single<List<User>> getTeam(UUID id) {
+    return signInService
+        .refreshBearerToken()
+        .observeOn(scheduler)
+        .flatMap((token) -> serviceProxy.getCaseTeam(id, token));
+  }
+
   public Single<Species> saveSpecies(Species species) {
     Function<String, Single<Species>> task = (species.getId() != null)
         ? (token) -> serviceProxy.updateSpecies(species.getId(), species, token)
@@ -49,6 +57,13 @@ public class SpeciesRepository {
         .refreshBearerToken()
         .observeOn(scheduler)
         .flatMap(task);
+  }
+
+  public Single<Boolean> setTeamMember(UUID speciesId, UUID userId, boolean inTeam) {
+    return signInService
+        .refreshBearerToken()
+        .observeOn(scheduler)
+        .flatMap((token) -> serviceProxy.setTeamMember(speciesId, userId, inTeam, token));
   }
 
 }

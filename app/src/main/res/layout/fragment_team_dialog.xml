@@ -4,6 +4,7 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
+  android:padding="@dimen/half_dynamic_spacing"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   tools:context=".controller.TeamDialogFragment">
 
@@ -15,6 +16,7 @@
     android:src="@drawable/ic_baseline_check_24"
     android:background="?android:selectableItemBackgroundBorderless"
     android:tint="#FF00A000"
+    android:visibility="invisible"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     android:contentDescription="@string/add_member"
@@ -39,10 +41,10 @@
     android:layout_height="wrap_content"
     android:text="@string/available_prompt"
     android:labelFor="@id/available_users_prompt"
+    app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintBottom_toTopOf="@id/members_selector"
-    app:layout_constraintBaseline_toBaselineOf="@id/members_selector"
-    android:layout_margin="@dimen/half_dynamic_spacing"/>
+    android:layout_margin="@dimen/half_dynamic_spacing"
+    android:layout_marginBottom="0dp"/>
 
   <Spinner
     android:id="@+id/members_selector"

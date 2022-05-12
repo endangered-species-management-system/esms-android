@@ -21,11 +21,16 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ESMSServiceProxy {
 
   @GET("users")
   Single<List<User>> getUsers(@Header("Authorization") String bearerToken);
+
+  @GET("users")
+  Single<List<User>> getUsers(@Query("role") String role,
+      @Header("Authorization") String bearerToken);
 
   @GET("users/me")
   Single<User> getProfile(@Header("Authorization") String bearerToken);
@@ -47,12 +52,19 @@ public interface ESMSServiceProxy {
   @GET("cases/{id}")
   Single<Species> getSpeciesCase(@Path("id") UUID id, @Header("Authorization") String bearerToken);
 
+  @GET("cases/{id}/team")
+  Single<List<User>> getCaseTeam(@Path("id") UUID id, @Header("Authorization") String bearerToken);
+
   @POST("cases")
   Single<Species> addSpecies(@Body Species species, @Header("Authorization") String bearerToken);
 
   @PUT("cases/{id}")
   Single<Species> updateSpecies(@Path("id") UUID id, @Body Species species,
       @Header("Authorization") String bearerToken);
+
+  @PUT("cases/{caseId}/team/{userId}")
+  Single<Boolean> setTeamMember(@Path("caseId") UUID caseId, @Path("userId") UUID userId,
+      @Body boolean inTeam, @Header("Authorization") String bearerToken);
 
   static ESMSServiceProxy getInstance() {
     return InstanceHolder.INSTANCE;

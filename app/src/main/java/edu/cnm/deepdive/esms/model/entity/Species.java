@@ -5,6 +5,8 @@ import androidx.annotation.Nullable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.util.Date;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.UUID;
 
 public class Species implements Comparable<Species> {
@@ -36,6 +38,9 @@ public class Species implements Comparable<Species> {
 
   @Expose
   private User leadResearcher;
+
+  @Expose
+  private Set<User> assigned;
 
   public UUID getId() {
     return id;
@@ -107,6 +112,14 @@ public class Species implements Comparable<Species> {
 
   public void setLeadResearcher(User leadResearcher) {
     this.leadResearcher = leadResearcher;
+  }
+
+  public Set<User> getAssigned() {
+    return assigned;
+  }
+
+  public void setAssigned(Set<User> assigned) {
+    this.assigned = assigned;
   }
 
   @NonNull

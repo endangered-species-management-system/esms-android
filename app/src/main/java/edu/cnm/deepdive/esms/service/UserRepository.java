@@ -25,8 +25,16 @@ public class UserRepository {
    * @return
    */
   public Single<List<User>> getAll() {
-    return refreshToken()
+    return signInService
+        .refreshBearerToken()
         .flatMap(serviceProxy::getUsers);
+  }
+
+  public Single<List<User>> getAll(String role) {
+    return signInService
+        .refreshBearerToken()
+        .observeOn(Schedulers.io())
+        .flatMap(bearerToken -> serviceProxy.getUsers(role, bearerToken));
   }
 
   public Single<User> getProfile() {
@@ -57,13 +65,4 @@ public class UserRepository {
         .flatMap((token) -> serviceProxy.updateInactive(user.getId(), !user.isActive(), token));
   }
 
-  /**
-   * Refreshes bearertoken for continuous service.
-   * @return
-   */
-  private Single<String> refreshToken() {
-    return signInService
-        .refreshBearerToken()
-        .observeOn(Schedulers.io());
-  }
 }

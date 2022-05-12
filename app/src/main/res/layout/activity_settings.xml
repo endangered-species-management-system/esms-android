@@ -5,5 +5,5 @@
   android:id="@+id/fragment_container_view"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:name="edu.cnm.deepdive.esms.controller.SettingsActivity$SettingsFragment"
+  android:name="edu.cnm.deepdive.esms.controller.SettingsFragment"
   tools:viewBindingIgnore="true"/>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:padding="@dimen/half_dynamic_spacing"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  tools:context=".controller.TeamDialogFragment">
+
+  <ImageButton
+    android:id="@+id/save"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/half_dynamic_spacing"
+    android:src="@drawable/ic_baseline_check_24"
+    android:background="?android:selectableItemBackgroundBorderless"
+    android:tint="#FF00A000"
+    android:visibility="invisible"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:contentDescription="@string/add_member"
+    android:tooltipText="@string/add_team_member_tooltip"/>
+
+  <ImageButton
+    android:id="@+id/cancel"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/half_dynamic_spacing"
+    android:src="@drawable/ic_baseline_delete_24"
+    android:background="?android:selectableItemBackgroundBorderless"
+    android:tint="#FFFF0000"
+    app:layout_constraintTop_toBottomOf="@+id/save"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:contentDescription="@string/remove_team_member"
+    android:tooltipText="@string/remove_team_member"/>
+
+  <TextView
+    android:id="@+id/available_users_prompt"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/available_prompt"
+    android:labelFor="@id/available_users_prompt"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    android:layout_margin="@dimen/half_dynamic_spacing"
+    android:layout_marginBottom="0dp"/>
+
+  <Spinner
+    android:id="@+id/members_selector"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:prompt="@string/phase_prompt"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/available_users_prompt"
+    app:layout_constraintEnd_toStartOf="@id/save"
+    android:layout_margin="@dimen/half_dynamic_spacing"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

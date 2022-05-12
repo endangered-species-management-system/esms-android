@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/navigation_graph"
+  app:startDestination="@id/navigation_main_frag">
+
+  <action
+    android:id="@+id/open_admin_menu"
+    app:destination="@id/nav_admin_menu"
+    app:popUpTo="@id/navigation_main_frag"/>
+
+  <action
+    android:id="@+id/open_settings"
+    app:destination="@id/nav_settings"
+    app:popUpTo="@id/navigation_main_frag"/>
+
+  <fragment
+    android:id="@+id/navigation_main_frag"
+    android:name="edu.cnm.deepdive.esms.controller.MainFragment"
+    android:label="ESMS"
+    tools:layout="@layout/fragment_main">
+
+    <action
+      android:id="@+id/open_species_dialog"
+      app:destination="@id/species_dialog_fragment">
+      <argument
+        android:name="species_id"
+        app:argType="java.util.UUID"
+        android:defaultValue="@null"
+        app:nullable="true"/>
+    </action>
+
+    <action
+      android:id="@+id/open_team_dialog"
+      app:destination="@id/team_dialog_fragment">
+      <argument
+        android:name="species_id"
+        app:argType="java.util.UUID"/>
+    </action>
+
+  </fragment>
+
+  <fragment
+    android:id="@+id/nav_settings"
+    android:name="edu.cnm.deepdive.esms.controller.SettingsFragment"
+    android:label="@string/settings"/>
+
+  <fragment
+    android:id="@+id/nav_admin_menu"
+    android:label="@string/user_admin_settings"
+    android:name="edu.cnm.deepdive.esms.controller.AdminFragment"/>
+
+  <dialog
+    android:id="@+id/species_dialog_fragment"
+    android:name="edu.cnm.deepdive.esms.controller.SpeciesDialogFragment"
+    android:label="Species Dialog"
+    tools:layout="@layout/fragment_species_dialog">
+    <argument
+      android:name="species_id"
+      app:argType="java.util.UUID"
+      android:defaultValue="@null"
+      app:nullable="true"/>
+  </dialog>
+
+  <dialog
+    android:id="@+id/team_dialog_fragment"
+    android:name="edu.cnm.deepdive.esms.controller.TeamDialogFragment"
+    android:label="Team Dialog"
+    tools:layout="@layout/fragment_team_dialog">
+    <argument
+      android:name="species_id"
+      app:argType="java.util.UUID"/>
+  </dialog>
+
+</navigation>

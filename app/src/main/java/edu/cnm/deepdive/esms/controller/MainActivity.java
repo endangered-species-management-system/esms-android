@@ -2,47 +2,41 @@ package edu.cnm.deepdive.esms.controller;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.material.tabs.TabLayoutMediator;
 import edu.cnm.deepdive.esms.R;
-import edu.cnm.deepdive.esms.adapter.VPAdapter;
 import edu.cnm.deepdive.esms.databinding.ActivityMainBinding;
-import edu.cnm.deepdive.esms.viewmodel.LoginViewModel;
+import edu.cnm.deepdive.esms.viewmodel.UserViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
   private ActivityMainBinding binding;
-  private VPAdapter vpAdapter;
+  private NavController navController;
   private AppBarConfiguration appBarConfiguration;
-  private final String[] titles = new String[]{"Unknown", "Team", "Evidence"};
-  private LoginViewModel viewModel;
+  private UserViewModel viewModel;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     binding = ActivityMainBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
-//    getSupportActionBar().hide();
-    vpAdapter = new VPAdapter(this);
-    binding.viewPager.setAdapter(vpAdapter);
-    new TabLayoutMediator(binding.tabLayout, binding.viewPager,
-        (tab, position) -> tab.setText(titles[position])).attach();
     setupViewModel();
+    setupNavigation();
   }
 
   private void setupViewModel() {
-    viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+    viewModel = new ViewModelProvider(this).get(UserViewModel.class);
     getLifecycle().addObserver(viewModel);
     viewModel
         .getAccount()
         .observe(this, this::handleAccount);
+    viewModel.fetchCurrentUser();
   }
 
   private void handleAccount(GoogleSignInAccount account) {
@@ -59,31 +53,15 @@ public class MainActivity extends AppCompatActivity {
   }
 
   @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    super.onCreateOptionsMenu(menu);
-    getMenuInflater().inflate(R.menu.main_options, menu);
-    return true;
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-    boolean handled;
-    int itemId = item.getItemId();
-    if (itemId == R.id.settings) {
-      Intent intent = new Intent(this, SettingsActivity.class);
-      startActivity(intent);
-      handled = true;
-    } else if (itemId == R.id.sign_out) {
-      viewModel.signOut();
-      handled = true;
-    } else {
-      handled = super.onOptionsItemSelected(item);
-    }
-    return handled;
-  }
-
-  @Override
   public boolean onSupportNavigateUp() {
-    return super.onSupportNavigateUp();
+    return NavigationUI.navigateUp(navController, appBarConfiguration)
+        || super.onSupportNavigateUp();
+  }
+
+  private void setupNavigation() {
+    appBarConfiguration = new AppBarConfiguration.Builder(R.id.navigation_main_frag)
+        .build();
+    navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
+    NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
   }
 }

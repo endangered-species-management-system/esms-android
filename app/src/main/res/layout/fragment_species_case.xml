@@ -6,13 +6,13 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:background="?attr/colorSurface"
-  tools:context=".controller.TeamFragment">
+  tools:context=".controller.SpeciesCaseFragment">
 
   <TextView
-    android:id="@+id/team_heading"
+    android:id="@+id/placeholder_species"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="@string/team"
+    android:text="@string/speciesCase"
     android:textSize="40sp"
     android:textColor="?attr/colorSecondary"
     app:layout_constraintTop_toTopOf="parent"
@@ -20,28 +20,28 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintBottom_toBottomOf="parent"/>
 
-  <androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/members"
-    android:layout_width="0dp"
-    android:layout_height="0dp"
-    android:orientation="vertical"
-    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    tools:listitem="@layout/item_team"/>
-
   <com.google.android.material.floatingactionbutton.FloatingActionButton
-    android:id="@+id/add_team_member"
+    android:id="@+id/edit_species"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:src="@drawable/ic_add"
+    android:src="@drawable/ic_baseline_edit_24"
     android:visibility="gone"
     app:useCompatPadding="true"
     app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintBottom_toTopOf="@id/add_species"
+    android:tooltipText="@string/add_species_tooltip"
+    android:contentDescription="@string/add_species_tooltip"/>
+
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:id="@+id/add_species"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@drawable/ic_add"
+    app:useCompatPadding="true"
+    app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintBottom_toBottomOf="parent"
-    android:tooltipText="@string/add_team_member_tooltip"
-    android:contentDescription="@string/add_team_member_tooltip"/>
+    android:tooltipText="@string/add_species_tooltip"
+    android:contentDescription="@string/add_species_tooltip"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

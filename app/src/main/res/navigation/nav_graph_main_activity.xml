@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/nav_graph_main_activity"
+  app:startDestination="@id/navigation_case">
+
+  <fragment
+    android:id="@+id/navigation_case"
+    android:name="edu.cnm.deepdive.esms.controller.SpeciesCaseFragment"
+    android:label="Case"
+    tools:layout="@layout/fragment_species_case"/>
+
+</navigation>

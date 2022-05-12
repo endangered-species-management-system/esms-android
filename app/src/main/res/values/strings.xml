@@ -43,4 +43,5 @@
   <string name="add_member">Add member</string>
   <string name="remove_team_member">Remove team member</string>
   <string name="available_prompt">Available prompt</string>
+  <string name="new_evidence_note">New Note</string>
 </resources>

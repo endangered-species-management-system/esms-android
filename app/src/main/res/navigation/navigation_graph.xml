@@ -40,6 +40,14 @@
         app:argType="java.util.UUID"/>
     </action>
 
+    <action
+      android:id="@+id/open_evidence_dialog"
+      app:destination="@id/evidence_dialog_fragment">
+<!--      <argument
+        android:name="species_id"
+        app:argType="java.util.UUID"/>-->
+    </action>
+
   </fragment>
 
   <fragment
@@ -72,6 +80,16 @@
     <argument
       android:name="species_id"
       app:argType="java.util.UUID"/>
+  </dialog>
+
+  <dialog
+    android:id="@+id/evidence_dialog_fragment"
+    android:name="edu.cnm.deepdive.esms.controller.EvidenceDialogFragment"
+    android:label="Evidence Dialog"
+    tools:layout="@layout/fragment_evidence_dialog">
+ <!--   <argument
+      android:name="species_id"
+      app:argType="java.util.UUID"/>-->
   </dialog>
 
 </navigation>

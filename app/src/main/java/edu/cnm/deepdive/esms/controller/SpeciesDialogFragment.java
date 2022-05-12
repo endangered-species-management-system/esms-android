@@ -18,7 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import edu.cnm.deepdive.esms.R;
 import edu.cnm.deepdive.esms.databinding.FragmentSpeciesDialogBinding;
 import edu.cnm.deepdive.esms.model.entity.Phase;
-import edu.cnm.deepdive.esms.model.entity.Species;
+import edu.cnm.deepdive.esms.model.entity.SpeciesCase;
 import edu.cnm.deepdive.esms.viewmodel.SpeciesViewModel;
 import java.util.UUID;
 
@@ -28,7 +28,7 @@ public class SpeciesDialogFragment extends DialogFragment implements TextWatcher
   private FragmentSpeciesDialogBinding binding;
   private AlertDialog alertDialog;
   private UUID speciesID;
-  private Species species;
+  private SpeciesCase speciesCase;
   private ArrayAdapter<Phase> adapter;
 
   @Override
@@ -84,7 +84,7 @@ public class SpeciesDialogFragment extends DialogFragment implements TextWatcher
           .getSpecies()
           .observe(getViewLifecycleOwner(), (species) -> {
             if (species.getId().equals(speciesID)) {
-              this.species = species;
+              this.speciesCase = species;
               binding.name.setText(species.getName());
               binding.summary.setText(species.getSummary());
               binding.phase.setSelection(adapter.getPosition(species.getPhase()));
@@ -94,16 +94,16 @@ public class SpeciesDialogFragment extends DialogFragment implements TextWatcher
             }
           });
     } else {
-      species = new Species();
+      speciesCase = new SpeciesCase();
     }
   }
 
   private void saveSpecies() {
-    species.setName(binding.name.getText().toString().trim());
-    species.setSummary(binding.summary.getText().toString());
-    species.setPhase((Phase) binding.phase.getSelectedItem());
+    speciesCase.setName(binding.name.getText().toString().trim());
+    speciesCase.setSummary(binding.summary.getText().toString());
+    speciesCase.setPhase((Phase) binding.phase.getSelectedItem());
     // TODO Populate additional content as needed.
-    viewModel.saveSpecies(species);
+    viewModel.saveSpecies(speciesCase);
   }
 
   @Override

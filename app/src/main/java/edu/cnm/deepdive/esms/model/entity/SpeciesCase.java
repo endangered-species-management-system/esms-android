@@ -5,11 +5,10 @@ import androidx.annotation.Nullable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.util.Date;
-import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class Species implements Comparable<Species> {
+public class SpeciesCase implements Comparable<SpeciesCase> {
 
   @Expose
   private UUID id;
@@ -129,8 +128,8 @@ public class Species implements Comparable<Species> {
   }
 
   @Override
-  public int compareTo(Species species) {
-    return number.compareToIgnoreCase(species.number);
+  public int compareTo(SpeciesCase speciesCase) {
+    return number.compareToIgnoreCase(speciesCase.number);
   }
 
   @Override
@@ -143,8 +142,8 @@ public class Species implements Comparable<Species> {
     boolean comparison;
     if (this == obj) {
       comparison = true;
-    } else if (obj instanceof Species) {
-      Species other = (Species) obj;
+    } else if (obj instanceof SpeciesCase) {
+      SpeciesCase other = (SpeciesCase) obj;
       comparison = id != null && other.id != null && id.equals(other.id);
     } else {
       comparison = false;

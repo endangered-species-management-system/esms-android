@@ -3,7 +3,7 @@ package edu.cnm.deepdive.esms.service;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import edu.cnm.deepdive.esms.BuildConfig;
-import edu.cnm.deepdive.esms.model.entity.Species;
+import edu.cnm.deepdive.esms.model.entity.SpeciesCase;
 import edu.cnm.deepdive.esms.model.entity.User;
 import io.reactivex.rxjava3.core.Single;
 import java.util.List;
@@ -47,19 +47,19 @@ public interface ESMSServiceProxy {
       @Header("Authorization") String bearerToken);
 
   @GET("cases")
-  Single<List<Species>> getAllCases(@Header("Authorization") String bearerToken);
+  Single<List<SpeciesCase>> getAllCases(@Header("Authorization") String bearerToken);
 
   @GET("cases/{id}")
-  Single<Species> getSpeciesCase(@Path("id") UUID id, @Header("Authorization") String bearerToken);
+  Single<SpeciesCase> getSpeciesCase(@Path("id") UUID id, @Header("Authorization") String bearerToken);
 
   @GET("cases/{id}/team")
   Single<List<User>> getCaseTeam(@Path("id") UUID id, @Header("Authorization") String bearerToken);
 
   @POST("cases")
-  Single<Species> addSpecies(@Body Species species, @Header("Authorization") String bearerToken);
+  Single<SpeciesCase> addSpecies(@Body SpeciesCase speciesCase, @Header("Authorization") String bearerToken);
 
   @PUT("cases/{id}")
-  Single<Species> updateSpecies(@Path("id") UUID id, @Body Species species,
+  Single<SpeciesCase> updateSpecies(@Path("id") UUID id, @Body SpeciesCase speciesCase,
       @Header("Authorization") String bearerToken);
 
   @PUT("cases/{caseId}/team/{userId}")

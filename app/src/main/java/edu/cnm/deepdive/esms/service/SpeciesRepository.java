@@ -1,7 +1,7 @@
 package edu.cnm.deepdive.esms.service;
 
 import android.content.Context;
-import edu.cnm.deepdive.esms.model.entity.Species;
+import edu.cnm.deepdive.esms.model.entity.SpeciesCase;
 import edu.cnm.deepdive.esms.model.entity.User;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.core.Single;
@@ -28,14 +28,14 @@ public class SpeciesRepository {
     scheduler = Schedulers.from(pool);
   }
 
-  public Single<List<Species>> getAll() {
+  public Single<List<SpeciesCase>> getAll() {
     return signInService
         .refreshBearerToken()
         .observeOn(scheduler)
         .flatMap(serviceProxy::getAllCases);
   }
 
-  public Single<Species> getSpecies(UUID id) {
+  public Single<SpeciesCase> getSpecies(UUID id) {
     return signInService
         .refreshBearerToken()
         .observeOn(scheduler)
@@ -49,10 +49,10 @@ public class SpeciesRepository {
         .flatMap((token) -> serviceProxy.getCaseTeam(id, token));
   }
 
-  public Single<Species> saveSpecies(Species species) {
-    Function<String, Single<Species>> task = (species.getId() != null)
-        ? (token) -> serviceProxy.updateSpecies(species.getId(), species, token)
-        : (token) -> serviceProxy.addSpecies(species, token);
+  public Single<SpeciesCase> saveSpecies(SpeciesCase speciesCase) {
+    Function<String, Single<SpeciesCase>> task = (speciesCase.getId() != null)
+        ? (token) -> serviceProxy.updateSpecies(speciesCase.getId(), speciesCase, token)
+        : (token) -> serviceProxy.addSpecies(speciesCase, token);
     return signInService
         .refreshBearerToken()
         .observeOn(scheduler)

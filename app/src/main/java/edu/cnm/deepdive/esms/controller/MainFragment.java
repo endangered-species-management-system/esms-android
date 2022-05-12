@@ -23,12 +23,10 @@ import edu.cnm.deepdive.esms.NavigationGraphDirections;
 import edu.cnm.deepdive.esms.R;
 import edu.cnm.deepdive.esms.adapter.VPAdapter;
 import edu.cnm.deepdive.esms.databinding.FragmentMainBinding;
-import edu.cnm.deepdive.esms.model.entity.Species;
+import edu.cnm.deepdive.esms.model.entity.SpeciesCase;
 import edu.cnm.deepdive.esms.model.entity.User;
 import edu.cnm.deepdive.esms.viewmodel.SpeciesViewModel;
 import edu.cnm.deepdive.esms.viewmodel.UserViewModel;
-import java.util.Collection;
-import java.util.LinkedList;
 import org.jetbrains.annotations.NotNull;
 
 public class MainFragment extends Fragment implements OnItemSelectedListener {
@@ -40,8 +38,8 @@ public class MainFragment extends Fragment implements OnItemSelectedListener {
   private SpeciesViewModel speciesViewModel;
   private NavController navController;
   private User currentUser;
-  private Species species;
-  private ArrayAdapter<Species> adapter;
+  private SpeciesCase speciesCase;
+  private ArrayAdapter<SpeciesCase> adapter;
   private ViewModelProvider provider;
 
   @Override
@@ -124,7 +122,7 @@ public class MainFragment extends Fragment implements OnItemSelectedListener {
     speciesViewModel
         .getSpecies()
         .observe(owner, (species) -> {
-          this.species = species;
+          this.speciesCase = species;
           updateSpinnerSelection();
         });
     speciesViewModel
@@ -139,20 +137,20 @@ public class MainFragment extends Fragment implements OnItemSelectedListener {
   }
 
   private void updateSpinnerSelection() {
-    if (species != null && species.getId() != null && !adapter.isEmpty()) {
-      Species selected = (Species) binding.casesSpinner.getSelectedItem();
-      if (selected != null && !species.getId().equals(selected.getId())) {
-        binding.casesSpinner.setSelection(adapter.getPosition(species));
+    if (speciesCase != null && speciesCase.getId() != null && !adapter.isEmpty()) {
+      SpeciesCase selected = (SpeciesCase) binding.casesSpinner.getSelectedItem();
+      if (selected != null && !speciesCase.getId().equals(selected.getId())) {
+        binding.casesSpinner.setSelection(adapter.getPosition(speciesCase));
       } else {
-        binding.casesSpinner.setSelection(adapter.getPosition(species), true);
+        binding.casesSpinner.setSelection(adapter.getPosition(speciesCase), true);
       }
     }
   }
 
   @Override
   public void onItemSelected(AdapterView<?> adapterView, View view, int position, long longId) {
-    Species species = (Species) adapterView.getItemAtPosition(position);
-    speciesViewModel.setSpecies(species);
+    SpeciesCase speciesCase = (SpeciesCase) adapterView.getItemAtPosition(position);
+    speciesViewModel.setSpecies(speciesCase);
   }
 
   @Override

@@ -11,13 +11,11 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-import edu.cnm.deepdive.esms.NavigationGraphDirections;
 import edu.cnm.deepdive.esms.databinding.FragmentSpeciesCaseBinding;
-import edu.cnm.deepdive.esms.model.entity.Species;
+import edu.cnm.deepdive.esms.model.entity.SpeciesCase;
 import edu.cnm.deepdive.esms.model.entity.User;
 import edu.cnm.deepdive.esms.viewmodel.SpeciesViewModel;
 import edu.cnm.deepdive.esms.viewmodel.UserViewModel;
-import org.jetbrains.annotations.NotNull;
 
 public class SpeciesCaseFragment extends Fragment {
 
@@ -25,7 +23,7 @@ public class SpeciesCaseFragment extends Fragment {
   private SpeciesViewModel speciesViewModel;
   private UserViewModel userViewModel;
   private User currentUser;
-  private Species species;
+  private SpeciesCase speciesCase;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,7 +54,7 @@ public class SpeciesCaseFragment extends Fragment {
     speciesViewModel
         .getSpecies()
         .observe(owner, (species) -> {
-          this.species = species;
+          this.speciesCase = species;
           configureEditButton();
           // TODO Populate view objects on the screen based on species.
           binding.placeholderSpecies.setText(species.getNumber());
@@ -65,12 +63,12 @@ public class SpeciesCaseFragment extends Fragment {
   }
 
   private void configureEditButton() {
-    if (currentUser != null && species != null) {
-      if (currentUser.getId().equals(species.getLeadResearcher().getId())) {
+    if (currentUser != null && speciesCase != null) {
+      if (currentUser.getId().equals(speciesCase.getLeadResearcher().getId())) {
         binding.editSpecies.setVisibility(View.VISIBLE);
         binding.editSpecies.setOnClickListener((v) -> Navigation
             .findNavController(binding.getRoot())
-            .navigate(MainFragmentDirections.openSpeciesDialog().setSpeciesId(species.getId())));
+            .navigate(MainFragmentDirections.openSpeciesDialog().setSpeciesId(speciesCase.getId())));
       } else {
         binding.editSpecies.setVisibility(View.GONE);
       }

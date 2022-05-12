@@ -8,13 +8,11 @@ import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import edu.cnm.deepdive.esms.model.entity.Species;
+import edu.cnm.deepdive.esms.model.entity.SpeciesCase;
 import edu.cnm.deepdive.esms.model.entity.User;
 import edu.cnm.deepdive.esms.service.SpeciesRepository;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import io.reactivex.rxjava3.disposables.Disposable;
 import java.util.Collection;
-import java.util.List;
 import java.util.PriorityQueue;
 import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
@@ -22,9 +20,9 @@ import org.jetbrains.annotations.NotNull;
 public class SpeciesViewModel extends AndroidViewModel implements DefaultLifecycleObserver {
 
   private final SpeciesRepository repository;
-  private final PriorityQueue<Species> speciesBackingQueue;
-  private final MutableLiveData<Collection<Species>> speciesList;
-  private final MutableLiveData<Species> species;
+  private final PriorityQueue<SpeciesCase> speciesCaseBackingQueue;
+  private final MutableLiveData<Collection<SpeciesCase>> speciesList;
+  private final MutableLiveData<SpeciesCase> species;
   private final PriorityQueue<User> teamBackingQueue;
   private final MutableLiveData<Collection<User>> team;
   private final MutableLiveData<Throwable> throwable;
@@ -34,8 +32,8 @@ public class SpeciesViewModel extends AndroidViewModel implements DefaultLifecyc
       @NonNull @NotNull Application application) {
     super(application);
     repository = new SpeciesRepository(application);
-    speciesBackingQueue = new PriorityQueue<>();
-    speciesList = new MutableLiveData<>(speciesBackingQueue);
+    speciesCaseBackingQueue = new PriorityQueue<>();
+    speciesList = new MutableLiveData<>(speciesCaseBackingQueue);
     species = new MutableLiveData<>();
     teamBackingQueue = new PriorityQueue<>();
     team = new MutableLiveData<>(teamBackingQueue);
@@ -43,16 +41,16 @@ public class SpeciesViewModel extends AndroidViewModel implements DefaultLifecyc
     pending = new CompositeDisposable();
   }
 
-  public LiveData<Collection<Species>> getSpeciesList() {
+  public LiveData<Collection<SpeciesCase>> getSpeciesList() {
     return speciesList;
   }
 
-  public LiveData<Species> getSpecies() {
+  public LiveData<SpeciesCase> getSpecies() {
     return species;
   }
 
-  public void setSpecies(Species species) {
-    this.species.setValue(species);
+  public void setSpecies(SpeciesCase speciesCase) {
+    this.species.setValue(speciesCase);
   }
 
   public LiveData<Collection<User>> getTeam() {
@@ -69,9 +67,9 @@ public class SpeciesViewModel extends AndroidViewModel implements DefaultLifecyc
         .getAll()
         .subscribe(
             (list) -> {
-              speciesBackingQueue.clear();
-              speciesBackingQueue.addAll(list);
-              speciesList.postValue(speciesBackingQueue);
+              speciesCaseBackingQueue.clear();
+              speciesCaseBackingQueue.addAll(list);
+              speciesList.postValue(speciesCaseBackingQueue);
             },
             this::postThrowable,
             pending
@@ -104,23 +102,23 @@ public class SpeciesViewModel extends AndroidViewModel implements DefaultLifecyc
         );
   }
 
-  public void saveSpecies(Species species) {
+  public void saveSpecies(SpeciesCase speciesCase) {
     throwable.setValue(null);
     repository
-        .saveSpecies(species)
+        .saveSpecies(speciesCase)
         .subscribe(
             (s) -> {
               this.species.postValue(s);
-              speciesBackingQueue.remove(s);
-              speciesBackingQueue.add(s);
-              speciesList.postValue(speciesBackingQueue);
+              speciesCaseBackingQueue.remove(s);
+              speciesCaseBackingQueue.add(s);
+              speciesList.postValue(speciesCaseBackingQueue);
             },
             this::postThrowable,
             pending
         );
   }
 
-  public void setTeamMember(Species speciesCase, User user, boolean inTeam) {
+  public void setTeamMember(SpeciesCase speciesCase, User user, boolean inTeam) {
     throwable.setValue(null);
     repository
         .setTeamMember(speciesCase.getId(), user.getId(), inTeam)

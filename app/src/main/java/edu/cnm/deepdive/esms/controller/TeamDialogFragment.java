@@ -13,12 +13,11 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import edu.cnm.deepdive.esms.databinding.FragmentTeamDialogBinding;
-import edu.cnm.deepdive.esms.model.entity.Species;
+import edu.cnm.deepdive.esms.model.entity.SpeciesCase;
 import edu.cnm.deepdive.esms.model.entity.User;
 import edu.cnm.deepdive.esms.viewmodel.SpeciesViewModel;
 import edu.cnm.deepdive.esms.viewmodel.UserViewModel;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -30,7 +29,7 @@ public class TeamDialogFragment extends BottomSheetDialogFragment implements
   private UserViewModel userViewModel;
   private SpeciesViewModel speciesViewModel;
   private User currentUser;
-  private Species species;
+  private SpeciesCase speciesCase;
   private User lead;
   private Set<User> team;
   private List<User> users;
@@ -42,7 +41,7 @@ public class TeamDialogFragment extends BottomSheetDialogFragment implements
     binding.membersSelector.setOnItemSelectedListener(this);
     binding.save.setOnClickListener((v) -> {
       User user = (User) binding.membersSelector.getSelectedItem();
-      speciesViewModel.setTeamMember(species, user, true);
+      speciesViewModel.setTeamMember(speciesCase, user, true);
       dismiss();
     });
     binding.cancel.setOnClickListener((v) -> dismiss());
@@ -71,7 +70,7 @@ public class TeamDialogFragment extends BottomSheetDialogFragment implements
     speciesViewModel
         .getSpecies()
         .observe(owner, (speciesCase) -> {
-          this.species = speciesCase;
+          this.speciesCase = speciesCase;
           lead = speciesCase.getLeadResearcher();
           populateSpinner();
         });

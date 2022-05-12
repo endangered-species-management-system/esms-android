@@ -11,9 +11,8 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import edu.cnm.deepdive.esms.adapter.TeamAdapter;
-import edu.cnm.deepdive.esms.databinding.FragmentSpeciesCaseBinding;
 import edu.cnm.deepdive.esms.databinding.FragmentTeamBinding;
-import edu.cnm.deepdive.esms.model.entity.Species;
+import edu.cnm.deepdive.esms.model.entity.SpeciesCase;
 import edu.cnm.deepdive.esms.model.entity.User;
 import edu.cnm.deepdive.esms.viewmodel.SpeciesViewModel;
 import edu.cnm.deepdive.esms.viewmodel.UserViewModel;
@@ -25,7 +24,7 @@ public class TeamFragment extends Fragment {
   private UserViewModel userViewModel;
   private SpeciesViewModel speciesViewModel;
   private User currentUser;
-  private Species species;
+  private SpeciesCase speciesCase;
   private Collection<User> team;
 
   @Override
@@ -51,10 +50,10 @@ public class TeamFragment extends Fragment {
     speciesViewModel
         .getSpecies()
         .observe(owner, (speciesCase) -> {
-          species = speciesCase;
+          this.speciesCase = speciesCase;
           binding.addTeamMember.setVisibility(View.GONE);
           binding.members.setAdapter(null);
-          speciesViewModel.fetchTeam(species.getId());
+          speciesViewModel.fetchTeam(this.speciesCase.getId());
           configureTeamControls();
         });
     speciesViewModel
@@ -68,10 +67,10 @@ public class TeamFragment extends Fragment {
 
   private void displayTeam() {
     if (currentUser != null && team != null) {
-      if (currentUser.getId().equals(species.getLeadResearcher().getId())) {
+      if (currentUser.getId().equals(speciesCase.getLeadResearcher().getId())) {
         TeamAdapter adapter = new TeamAdapter(getContext(), team,
-            species.getLeadResearcher().equals(currentUser), (user) -> {
-          speciesViewModel.setTeamMember(species, user, false);
+            speciesCase.getLeadResearcher().equals(currentUser), (user) -> {
+          speciesViewModel.setTeamMember(speciesCase, user, false);
         });
         binding.members.setAdapter(adapter);
       }
@@ -79,13 +78,13 @@ public class TeamFragment extends Fragment {
   }
 
   private void configureTeamControls() {
-    if (currentUser != null && species != null) {
-      boolean teamControlsEnabled = currentUser.getId().equals(species.getLeadResearcher().getId());
+    if (currentUser != null && speciesCase != null) {
+      boolean teamControlsEnabled = currentUser.getId().equals(speciesCase.getLeadResearcher().getId());
       if (teamControlsEnabled) {
         binding.addTeamMember.setVisibility(View.VISIBLE);
         binding.addTeamMember.setOnClickListener((v) -> Navigation
             .findNavController(binding.getRoot())
-            .navigate(MainFragmentDirections.openTeamDialog(species.getId()))
+            .navigate(MainFragmentDirections.openTeamDialog(speciesCase.getId()))
         );
       }
 

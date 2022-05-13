@@ -3,6 +3,5 @@
   <style name="TextAppearance.AppCompat.Widget.TextView.SpinnerItem.SpeciesCase"
     parent="TextAppearance.Material3.ActionBar.Title">
     <item name="android:textColor">?attr/colorOnPrimary</item>
-    <item name="background">?attr/colorPrimary</item>
   </style>
 </resources>

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
   android:id="@android:id/text1"
   style="@style/TextAppearance.AppCompat.Widget.TextView.SpinnerItem.SpeciesCase"
+  android:background="@drawable/species_case_background"
   android:singleLine="true"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
+  android:padding="@dimen/half_dynamic_spacing"
   android:ellipsize="marquee"
   android:textAlignment="inherit"
-  android:drawableEnd="@drawable/ic_species_case_drop_down"
-  android:background="?attr/colorPrimary"
-  android:drawablePadding="@dimen/half_dynamic_spacing"/>
+  tools:text="Dummy Code"/>

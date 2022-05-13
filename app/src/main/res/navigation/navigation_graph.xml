@@ -44,8 +44,10 @@
       android:id="@+id/open_evidence_dialog"
       app:destination="@id/evidence_dialog_fragment">
       <argument
-        android:name="species_id"
-        app:argType="java.util.UUID"/>
+        android:name="evidence_id"
+        app:argType="java.util.UUID"
+        android:defaultValue="@null"
+        app:nullable="true"/>
     </action>
 
   </fragment>
@@ -88,8 +90,10 @@
     android:label="Evidence Dialog"
     tools:layout="@layout/fragment_evidence_dialog">
     <argument
-      android:name="species_id"
-      app:argType="java.util.UUID"/>
+      android:name="evidence_id"
+      app:argType="java.util.UUID"
+      app:nullable="true"
+      android:defaultValue="@null"/>
   </dialog>
 
 </navigation>

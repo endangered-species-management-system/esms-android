@@ -58,7 +58,7 @@ public class MainFragment extends Fragment implements OnItemSelectedListener {
     new TabLayoutMediator(binding.tabLayout, binding.viewPager,
         (tab, position) -> tab.setText(titles[position])).attach();
     binding.casesSpinner.setOnItemSelectedListener(this);
-    adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item);
+    adapter = new ArrayAdapter<>(getContext(), R.layout.item_species_case_spinner);
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     binding.casesSpinner.setAdapter(adapter);
     return binding.getRoot();

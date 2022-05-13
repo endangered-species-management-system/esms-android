@@ -5,16 +5,15 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View.OnClickListener;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AlertDialog.Builder;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import edu.cnm.deepdive.esms.R;
 import edu.cnm.deepdive.esms.databinding.FragmentEvidenceDialogBinding;
@@ -26,14 +25,14 @@ import edu.cnm.deepdive.esms.viewmodel.SpeciesViewModel;
 import edu.cnm.deepdive.esms.viewmodel.UserViewModel;
 import java.util.UUID;
 
-public class EvidenceDialogFragment extends DialogFragment implements TextWatcher, OnClickListener {
+public class EvidenceDialogFragment extends DialogFragment implements TextWatcher {
 
   private EvidenceViewModel evidenceViewModel;
-  private Evidence note;
+  private UserViewModel userViewModel;
+  private SpeciesViewModel speciesViewModel;
+  private Evidence evidence;
   private UUID evidenceId;
-  private User researcher;
-  private User lead;
-  private UUID speciesId;
+  private User currentUser;
   private SpeciesCase speciesCase;
   FragmentEvidenceDialogBinding binding;
   private AlertDialog alertDialog;
@@ -42,8 +41,8 @@ public class EvidenceDialogFragment extends DialogFragment implements TextWatche
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     if (getArguments() != null) {
-      SpeciesDialogFragmentArgs args = SpeciesDialogFragmentArgs.fromBundle(getArguments());
-      speciesId = args.getSpeciesId();
+      EvidenceDialogFragmentArgs args = EvidenceDialogFragmentArgs.fromBundle(getArguments());
+      evidenceId = args.getEvidenceId();
     }
   }
 
@@ -53,15 +52,15 @@ public class EvidenceDialogFragment extends DialogFragment implements TextWatche
     binding = FragmentEvidenceDialogBinding.inflate(LayoutInflater.from(getContext()));
 
     alertDialog = new Builder(getContext())
-        .setTitle(R.string.new_evidence_note)
+        .setTitle(R.string.new_evidence_title)
         .setView(binding.getRoot())
         .setNeutralButton(android.R.string.cancel, (dlg, which) -> {
         })
-        .setPositiveButton(android.R.string.ok, (dlg, which) -> saveNote())
+        .setPositiveButton(android.R.string.ok, (dlg, which) -> saveEvidence())
         .create();
     alertDialog.setOnShowListener((dlg) -> {
+      binding.name.addTextChangedListener(this);
       binding.note.addTextChangedListener(this);
-      // TODO Add name and location
       checkSubmitConditions();
     });
     return alertDialog;
@@ -77,22 +76,12 @@ public class EvidenceDialogFragment extends DialogFragment implements TextWatche
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    evidenceViewModel = new ViewModelProvider(getActivity()).get(EvidenceViewModel.class);
-    if (speciesId != null) {
-      evidenceViewModel
-          .getEvidence()
-          .observe(getViewLifecycleOwner(), (ev) -> {
-            if (ev.getId().equals(evidenceId)) {
-              this.note = ev;
-              binding.note.setText(ev.getNote());
-              // TODO Populate the view objects in binding with the properties of species and display them.
-            } else {
-              evidenceViewModel.fetchEvidence(ev.getSpeciesCase().getId(), evidenceId);
-            }
-          });
-    } else {
-      note = new Evidence();
-    }
+    ViewModelProvider provider = new ViewModelProvider(getActivity());
+    LifecycleOwner owner = getViewLifecycleOwner();
+    setupUserViewModel(provider, owner);
+    setupSpeciesViewModel(provider, owner);
+    setupEvidenceViewModel(provider, owner);
+    // TODO Connect to viewmodel for attachments
   }
 
   @Override
@@ -110,21 +99,74 @@ public class EvidenceDialogFragment extends DialogFragment implements TextWatche
     checkSubmitConditions();
   }
 
-  @Override
-  public void onClick(View view) {
-
-  }
-
   private void checkSubmitConditions() {
     alertDialog
         .getButton(DialogInterface.BUTTON_POSITIVE)
         .setEnabled(
-            !binding.note.getText().toString().trim().isEmpty()
-        ); // TODO Look at all necessary fields
+            speciesCase != null
+                && !binding.name.getText().toString().trim().isEmpty()
+                && !binding.note.getText().toString().trim().isEmpty()
+        );
   }
 
-  private void saveNote() {
-    note = new Evidence();
-
+  private void saveEvidence() {
+    evidence.setName(binding.name.getText().toString().trim());
+    evidence.setNote(binding.note.getText().toString().trim());
+    String location = binding.location.getText().toString().trim();
+    evidence.setLocation(location.isEmpty() ? null : location);
+    if (evidence.getId() == null) {
+      evidenceViewModel.addEvidence(speciesCase.getId(), evidence);
+    }
+    // TODO Save attachments
   }
+
+  private void setupUserViewModel(ViewModelProvider provider, LifecycleOwner owner) {
+    userViewModel = provider.get(UserViewModel.class);
+    userViewModel
+        .getCurrentUser()
+        .observe(owner, (user) -> {
+          currentUser = user;
+          // TODO Configure controls for adding attachments
+        });
+  }
+
+  private void setupSpeciesViewModel(ViewModelProvider provider, LifecycleOwner owner) {
+    speciesViewModel = provider.get(SpeciesViewModel.class);
+    speciesViewModel
+        .getSpecies()
+        .observe(owner, (species) -> {
+          speciesCase = species;
+          fetchEvidence();
+          // TODO Configure controls for adding attachments
+        });
+  }
+
+  private void setupEvidenceViewModel(ViewModelProvider provider, LifecycleOwner owner) {
+    evidenceViewModel = provider.get(EvidenceViewModel.class);
+    if (evidenceId != null) {
+      evidenceViewModel
+          .getEvidence()
+          .observe(owner, (ev) -> {
+            this.evidence = ev;
+            binding.name.setEnabled(false);
+            binding.name.setText(ev.getName());
+            binding.note.setEnabled(
+                false); // Remove this line if lead researcher is allowed to edit this.
+            binding.note.setText(ev.getNote());
+            binding.location.setEnabled(
+                false); // Remove this line if lead researcher is allowed to edit this.
+            binding.location.setText(ev.getLocation());
+          });
+      fetchEvidence();
+    } else {
+      evidence = new Evidence();
+    }
+  }
+
+  private void fetchEvidence() {
+    if (speciesCase != null && evidenceId != null) {
+      evidenceViewModel.fetchEvidence(speciesCase.getId(), evidenceId);
+    }
+  }
+
 }

@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import edu.cnm.deepdive.esms.adapter.EvidenceAdapter;
 import edu.cnm.deepdive.esms.databinding.FragmentEvidenceBinding;
 import edu.cnm.deepdive.esms.model.entity.Evidence;
 import edu.cnm.deepdive.esms.model.entity.SpeciesCase;
@@ -31,14 +33,14 @@ public class EvidenceFragment extends Fragment {
   private SpeciesCase speciesCase;
   private Collection<User> team;
   private Collection<Evidence> evidences;
+  private NavController navController;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     binding = FragmentEvidenceBinding.inflate(inflater, container, false);
-    binding.addEvidence.setOnClickListener((v) -> Navigation
-        .findNavController(binding.getRoot())
-        .navigate(MainFragmentDirections.openEvidenceDialog(speciesCase.getId()))
+    binding.addEvidence.setOnClickListener((v) -> navController
+        .navigate(MainFragmentDirections.openEvidenceDialog())
     );
     return binding.getRoot();
   }
@@ -52,6 +54,12 @@ public class EvidenceFragment extends Fragment {
     setupSpeciesViewModel(provider, owner);
     setupTeamViewModel(provider, owner);
     setupEvidenceViewModel(provider, owner);
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+    navController = Navigation.findNavController(binding.getRoot());
   }
 
   @Override
@@ -116,8 +124,19 @@ public class EvidenceFragment extends Fragment {
 
   private void displayEvidences() {
     if (currentUser != null && evidences != null) {
-      // TODO Create the recyclerview adapter pasing the context, the deletable flag and the
-      //  collection of evidences; attach adapter to the recyclerview.
+      if (currentUser.getId().equals(speciesCase.getLeadResearcher().getId())) {
+        boolean deletable = speciesCase.getLeadResearcher().equals(currentUser);
+        EvidenceAdapter.OnRemoveClickListener onRemoveClickListener = deletable
+            ? (evidence) -> evidenceViewModel.deleteEvidence(speciesCase.getId(), evidence)
+            : (evidence) -> {
+            };
+        EvidenceAdapter.OnClickListener onClickListener = (evidence) ->
+            navController.navigate(
+                MainFragmentDirections.openEvidenceDialog().setEvidenceId(evidence.getId()));
+        EvidenceAdapter adapter = new EvidenceAdapter(getContext(), evidences, deletable,
+            onClickListener, onRemoveClickListener);
+        binding.evidencesRecyclerview.setAdapter(adapter);
+      }
     }
   }
 }

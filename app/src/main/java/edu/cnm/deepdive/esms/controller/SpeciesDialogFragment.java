@@ -114,7 +114,7 @@ public class SpeciesDialogFragment extends DialogFragment implements TextWatcher
 
   @Override
   public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-    // Do nothing
+    checkSubmitConditions();
   }
 
   @Override

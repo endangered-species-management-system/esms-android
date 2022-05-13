@@ -43,6 +43,9 @@
   <string name="add_member">Add member</string>
   <string name="remove_team_member">Remove team member</string>
   <string name="available_prompt">Available prompt</string>
-  <string name="new_evidence_note">New Note</string>
-  <string name="note">Note</string>
+  <string name="new_evidence_title">New Evidence</string>
+  <string name="clear_evidence_click_on_x">Clear evidence click on x</string>
+  <string name="note">Evidence Note</string>
+  <string name="evidence_location">Evidence Location</string>
+  <string name="name">Evidence Name</string>
 </resources>

@@ -48,4 +48,8 @@
   <string name="note">Evidence Note</string>
   <string name="evidence_location">Evidence Location</string>
   <string name="name">Evidence Name</string>
+  <string name="upload_resource">Upload resource</string>
+  <string name="evidence_title">Evidence title</string>
+  <string name="resource_title">Resource title</string>
+  <string name="resource_description">Resource description</string>
 </resources>

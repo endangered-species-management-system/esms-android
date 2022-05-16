@@ -1,6 +1,7 @@
 package edu.cnm.deepdive.esms.viewmodel;
 
 import android.app.Application;
+import android.net.Uri;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -8,6 +9,7 @@ import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import edu.cnm.deepdive.esms.model.entity.Attachment;
 import edu.cnm.deepdive.esms.model.entity.Evidence;
 import edu.cnm.deepdive.esms.model.entity.User;
 import edu.cnm.deepdive.esms.service.SpeciesRepository;
@@ -23,6 +25,7 @@ public class EvidenceViewModel extends AndroidViewModel implements DefaultLifecy
   private final PriorityQueue<Evidence> evidencesBackingQueue;
   private final MutableLiveData<Collection<Evidence>> evidences;
   private final MutableLiveData<Evidence> evidence;
+  private final MutableLiveData<Attachment> attachment;
   private final MutableLiveData<Throwable> throwable;
   private final CompositeDisposable pending;
 
@@ -33,6 +36,7 @@ public class EvidenceViewModel extends AndroidViewModel implements DefaultLifecy
     evidencesBackingQueue = new PriorityQueue<>();
     evidences = new MutableLiveData<>(evidencesBackingQueue);
     evidence = new MutableLiveData<>();
+    attachment = new MutableLiveData<>();
     throwable = new MutableLiveData<>();
     pending = new CompositeDisposable();
   }
@@ -47,6 +51,10 @@ public class EvidenceViewModel extends AndroidViewModel implements DefaultLifecy
 
   public void setEvidence(Evidence evidence) {
     this.evidence.setValue(evidence);
+  }
+
+  public LiveData<Attachment> getAttachment() {
+    return attachment;
   }
 
   public LiveData<Throwable> getThrowable() {
@@ -107,6 +115,30 @@ public class EvidenceViewModel extends AndroidViewModel implements DefaultLifecy
             pending
         );
   }
+
+/*  public void store(UUID speciesCaseId, UUID evidenceId, Uri uri, String title, String description) {
+    throwable.postValue(null);
+    pending.add(
+        repository
+            .addAttachment(speciesCaseId, evidenceId, uri, title, description)
+            .subscribe(
+                (image) -> loadImages(), // TODO explore updating list in place without refreshing.
+                this::postThrowable
+            )
+    );
+  }*/
+
+/*  public void loadAttachments() {
+    throwable.postValue(null);
+    pending.add(
+        repository.getAll()
+            .subscribe(
+                images::postValue,
+                throwable::postValue
+            )
+    );
+  }*/
+
 
   @Override
   public void onStop(@NonNull LifecycleOwner owner) {

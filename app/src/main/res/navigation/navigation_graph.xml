@@ -50,6 +50,16 @@
         app:nullable="true"/>
     </action>
 
+    <action
+      android:id="@+id/open_upload_dialog"
+      app:destination="@id/upload_attachment_dialog_fragment">
+      <argument
+        android:name="evidence_id"
+        app:argType="java.util.UUID"
+        android:defaultValue="@null"
+        app:nullable="true"/>
+    </action>
+
   </fragment>
 
   <fragment
@@ -89,6 +99,18 @@
     android:name="edu.cnm.deepdive.esms.controller.EvidenceDialogFragment"
     android:label="Evidence Dialog"
     tools:layout="@layout/fragment_evidence_dialog">
+    <argument
+      android:name="evidence_id"
+      app:argType="java.util.UUID"
+      app:nullable="true"
+      android:defaultValue="@null"/>
+  </dialog>
+
+  <dialog
+    android:id="@+id/upload_attachment_dialog_fragment"
+    android:name="edu.cnm.deepdive.esms.controller.UploadAttachmentDialogFragment"
+    android:label="Upload Dialog"
+    tools:layout="@layout/fragment_upload_attachment_dialog">
     <argument
       android:name="evidence_id"
       app:argType="java.util.UUID"

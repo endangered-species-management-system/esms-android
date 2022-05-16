@@ -3,6 +3,7 @@ package edu.cnm.deepdive.esms.service;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import edu.cnm.deepdive.esms.BuildConfig;
+import edu.cnm.deepdive.esms.model.entity.Attachment;
 import edu.cnm.deepdive.esms.model.entity.Evidence;
 import edu.cnm.deepdive.esms.model.entity.SpeciesCase;
 import edu.cnm.deepdive.esms.model.entity.User;
@@ -11,7 +12,9 @@ import io.reactivex.rxjava3.core.Single;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.logging.HttpLoggingInterceptor.Level;
 import retrofit2.Retrofit;
@@ -21,8 +24,10 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -85,6 +90,24 @@ public interface ESMSServiceProxy {
 
   @DELETE("cases/{caseId}/evidences/{evidenceId}")
   Completable deleteEvidence(@Path("caseId") UUID caseId, @Path("evidenceId") UUID evidenceId,
+      @Header("Authorization") String bearerToken);
+
+  @Multipart
+  @POST("cases/{speciesCaseId}/evidences/{evidenceId}/attachments")
+  Single<Attachment> post(@Path("speciesCaseId") UUID speciesCaseId,
+      @Path("evidenceId") UUID evidenceId, @Header("Authorization") String bearerToken,
+      @Part MultipartBody.Part file, @Part("title") RequestBody title);
+
+  @Multipart
+  @POST("cases/{speciesCaseId}/evidences/{evidenceId}/attachments")
+  Single<Attachment> post(@Path("speciesCaseId") UUID speciesCaseId,
+      @Path("evidenceId") UUID evidenceId, @Header("Authorization") String bearerToken,
+      @Part MultipartBody.Part file, @Part("title") RequestBody title,
+      @Part("description") RequestBody description);
+
+  @GET("cases/{speciesCaseId}/evidences/{evidenceId}/attachments")
+  Single<List<Attachment>> getAttachments(@Path("speciesCaseId") UUID speciesCaseId,
+      @Path("evidenceId") UUID evidenceId,
       @Header("Authorization") String bearerToken);
 
   static ESMSServiceProxy getInstance() {

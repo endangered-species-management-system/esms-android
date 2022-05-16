@@ -15,12 +15,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AlertDialog.Builder;
 import androidx.fragment.app.DialogFragment;
 import edu.cnm.deepdive.esms.R;
-import edu.cnm.deepdive.esms.databinding.FragmentAttachmentUploadBinding;
+import edu.cnm.deepdive.esms.databinding.FragmentUploadAttachmentDialogBinding;
 import edu.cnm.deepdive.esms.model.entity.Evidence;
 
-public class AttachmentUploadFragment extends DialogFragment implements TextWatcher {
+public class UploadAttachmentDialogFragment extends DialogFragment implements TextWatcher {
 
-  FragmentAttachmentUploadBinding binding;
+  FragmentUploadAttachmentDialogBinding binding;
   private Uri uri;
   private AlertDialog alertDialog;
   private Evidence evidence;
@@ -35,7 +35,7 @@ public class AttachmentUploadFragment extends DialogFragment implements TextWatc
   @Override
   public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
     binding =
-        FragmentAttachmentUploadBinding.inflate(LayoutInflater.from(getContext()), null, false);
+        FragmentUploadAttachmentDialogBinding.inflate(LayoutInflater.from(getContext()), null, false);
     alertDialog = new Builder(getContext())
         .setIcon(R.drawable.ic_upload)
         .setTitle(R.string.upload_resource)
@@ -61,15 +61,11 @@ public class AttachmentUploadFragment extends DialogFragment implements TextWatc
         );
   }
 
-  private void upload() {
-
-  }
-
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     // Inflate the layout for this fragment
-    return inflater.inflate(R.layout.fragment_attachment_upload, container, false);
+    return inflater.inflate(R.layout.fragment_upload_attachment_dialog, container, false);
   }
 
   @Override
@@ -86,4 +82,13 @@ public class AttachmentUploadFragment extends DialogFragment implements TextWatc
   public void afterTextChanged(Editable editable) {
 
   }
-}
+
+  @SuppressWarnings("ConstantConditions")
+  private void upload() {
+    String title = binding.resourceTitle.getText().toString().trim();
+    String description = binding.resourceDescription.getText().toString().trim();
+
+    }
+//    imageViewModel.store(galleryId, uri, title, (description.isEmpty() ? null : description));
+  }
+

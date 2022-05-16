@@ -52,4 +52,5 @@
   <string name="evidence_title">Evidence title</string>
   <string name="resource_title">Resource title</string>
   <string name="resource_description">Resource description</string>
+  <string name="add_attachment">Add attachment</string>
 </resources>

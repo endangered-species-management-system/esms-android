@@ -86,6 +86,7 @@ public class SpeciesDialogFragment extends DialogFragment implements TextWatcher
             if (species.getId().equals(speciesID)) {
               this.speciesCase = species;
               binding.name.setText(species.getName());
+              binding.name.setEnabled(false);
               binding.summary.setText(species.getSummary());
               binding.phase.setSelection(adapter.getPosition(species.getPhase()));
               // TODO Populate the view objects in binding with the properties of species and display them.
@@ -113,7 +114,7 @@ public class SpeciesDialogFragment extends DialogFragment implements TextWatcher
 
   @Override
   public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-    // Do nothing
+    checkSubmitConditions();
   }
 
   @Override

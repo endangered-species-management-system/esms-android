@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:paddingEnd="@dimen/half_dynamic_spacing"
+  android:paddingTop="@dimen/half_dynamic_spacing"
+  android:paddingBottom="@dimen/half_dynamic_spacing">
+  <item>
+    <shape
+      android:shape="rectangle">
+      <solid
+        android:color="?attr/colorPrimary"/>
+    </shape>
+  </item>
+  <item
+    android:drawable="@drawable/ic_species_case_drop_down"
+    android:width="24dp"
+    android:height="24dp"
+
+    android:gravity="center_vertical|end"/>
+</layer-list>

@@ -3,8 +3,10 @@ package edu.cnm.deepdive.esms.service;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import edu.cnm.deepdive.esms.BuildConfig;
+import edu.cnm.deepdive.esms.model.entity.Evidence;
 import edu.cnm.deepdive.esms.model.entity.SpeciesCase;
 import edu.cnm.deepdive.esms.model.entity.User;
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Single;
 import java.util.List;
 import java.util.Set;
@@ -16,6 +18,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -50,13 +53,15 @@ public interface ESMSServiceProxy {
   Single<List<SpeciesCase>> getAllCases(@Header("Authorization") String bearerToken);
 
   @GET("cases/{id}")
-  Single<SpeciesCase> getSpeciesCase(@Path("id") UUID id, @Header("Authorization") String bearerToken);
+  Single<SpeciesCase> getSpeciesCase(@Path("id") UUID id,
+      @Header("Authorization") String bearerToken);
 
   @GET("cases/{id}/team")
   Single<List<User>> getCaseTeam(@Path("id") UUID id, @Header("Authorization") String bearerToken);
 
   @POST("cases")
-  Single<SpeciesCase> addSpecies(@Body SpeciesCase speciesCase, @Header("Authorization") String bearerToken);
+  Single<SpeciesCase> addSpecies(@Body SpeciesCase speciesCase,
+      @Header("Authorization") String bearerToken);
 
   @PUT("cases/{id}")
   Single<SpeciesCase> updateSpecies(@Path("id") UUID id, @Body SpeciesCase speciesCase,
@@ -65,6 +70,22 @@ public interface ESMSServiceProxy {
   @PUT("cases/{caseId}/team/{userId}")
   Single<Boolean> setTeamMember(@Path("caseId") UUID caseId, @Path("userId") UUID userId,
       @Body boolean inTeam, @Header("Authorization") String bearerToken);
+
+  @POST("cases/{caseId}/evidences")
+  Single<Evidence> addEvidence(@Path("caseId") UUID caseId, @Body Evidence evidence,
+      @Header("Authorization") String bearerToken);
+
+  @GET("cases/{caseId}/evidences")
+  Single<List<Evidence>> getEvidences(@Path("caseId") UUID caseId,
+      @Header("Authorization") String bearerToken);
+
+  @GET("cases/{caseId}/evidences/{evidenceId}")
+  Single<Evidence> getEvidence(@Path("caseId") UUID caseId, @Path("evidenceId") UUID evidenceId,
+      @Header("Authorization") String bearerToken);
+
+  @DELETE("cases/{caseId}/evidences/{evidenceId}")
+  Completable deleteEvidence(@Path("caseId") UUID caseId, @Path("evidenceId") UUID evidenceId,
+      @Header("Authorization") String bearerToken);
 
   static ESMSServiceProxy getInstance() {
     return InstanceHolder.INSTANCE;

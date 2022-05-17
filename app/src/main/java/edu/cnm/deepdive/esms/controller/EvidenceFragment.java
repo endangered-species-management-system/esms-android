@@ -21,6 +21,7 @@ import edu.cnm.deepdive.esms.viewmodel.EvidenceViewModel;
 import edu.cnm.deepdive.esms.viewmodel.SpeciesViewModel;
 import edu.cnm.deepdive.esms.viewmodel.TeamViewModel;
 import edu.cnm.deepdive.esms.viewmodel.UserViewModel;
+import java.net.URI;
 import java.util.Collection;
 
 public class EvidenceFragment extends Fragment {
@@ -136,13 +137,13 @@ public class EvidenceFragment extends Fragment {
         EvidenceAdapter.OnClickListener onClickListener = (evidence) ->
             getNavController().navigate(
                 MainFragmentDirections.openEvidenceDialog().setEvidenceId(evidence.getId()));
-        EvidenceAdapter.OnAttachClickListener onAttachClickListener = (evidence) ->
+        /*EvidenceAdapter.OnAttachClickListener onAttachClickListener = (species,evidence) ->
             getNavController().navigate(
-                MainFragmentDirections.openUploadDialog().setEvidenceId(evidence.getId())
-            );
+                MainFragmentDirections.openUploadDialog(species).setEvidenceId(evidence.getId())
+            ); // FIXME Add needed arguments
         EvidenceAdapter adapter = new EvidenceAdapter(getContext(), evidences, deletable,
             onClickListener, onRemoveClickListener, onAttachClickListener);
-        binding.evidencesRecyclerview.setAdapter(adapter);
+        binding.evidencesRecyclerview.setAdapter(adapter);*/
       }
     }
   }

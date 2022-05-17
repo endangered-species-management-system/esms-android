@@ -14,28 +14,39 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AlertDialog.Builder;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
+import com.squareup.picasso.Picasso;
 import edu.cnm.deepdive.esms.R;
 import edu.cnm.deepdive.esms.databinding.FragmentUploadAttachmentDialogBinding;
 import edu.cnm.deepdive.esms.model.entity.Evidence;
+import edu.cnm.deepdive.esms.viewmodel.EvidenceViewModel;
+import edu.cnm.deepdive.esms.viewmodel.SpeciesViewModel;
+import java.util.UUID;
 
 public class UploadAttachmentDialogFragment extends DialogFragment implements TextWatcher {
 
   FragmentUploadAttachmentDialogBinding binding;
   private Uri uri;
   private AlertDialog alertDialog;
+  private UUID evidenceId;
   private Evidence evidence;
+  private EvidenceViewModel evidenceViewModel;
+  private SpeciesViewModel speciesViewModel;
+  private UUID speciesCaseId;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
+    uri = UploadAttachmentDialogFragmentArgs.fromBundle(getArguments()).getContentUri();
+    evidenceId = UploadAttachmentDialogFragmentArgs.fromBundle(getArguments()).getEvidenceId();
   }
 
   @NonNull
   @Override
   public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
     binding =
-        FragmentUploadAttachmentDialogBinding.inflate(LayoutInflater.from(getContext()), null, false);
+        FragmentUploadAttachmentDialogBinding.inflate(LayoutInflater.from(getContext()), null,
+            false);
     alertDialog = new Builder(getContext())
         .setIcon(R.drawable.ic_upload)
         .setTitle(R.string.upload_resource)
@@ -51,21 +62,27 @@ public class UploadAttachmentDialogFragment extends DialogFragment implements Te
     return alertDialog;
   }
 
-  private void checkSubmitConditions() {
-    alertDialog
-        .getButton(DialogInterface.BUTTON_POSITIVE)
-        .setEnabled(
-            evidence != null
-                && !binding.resourceTitle.getText().toString().trim().isEmpty()
-                && !binding.resourceDescription.getText().toString().trim().isEmpty()
-        );
-  }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    // Inflate the layout for this fragment
-    return inflater.inflate(R.layout.fragment_upload_attachment_dialog, container, false);
+    return binding.getRoot();
+  }
+
+  @Override
+  public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+    Picasso.get()
+        .load(uri)
+        .into(binding.image);
+    binding.resourceTitle.addTextChangedListener(this);
+      binding.resourceDescription.addTextChangedListener(this);
+    //noinspection ConstantConditions
+    evidenceViewModel = new ViewModelProvider(getActivity()).get(EvidenceViewModel.class);
+    speciesViewModel = new ViewModelProvider(getActivity()).get(SpeciesViewModel.class);
+    speciesViewModel.getSpecies().observe(getViewLifecycleOwner(), (speciesCase) -> {
+      this.speciesCaseId = speciesCase.getId();
+    });
   }
 
   @Override
@@ -80,15 +97,25 @@ public class UploadAttachmentDialogFragment extends DialogFragment implements Te
 
   @Override
   public void afterTextChanged(Editable editable) {
+    checkSubmitConditions();
+  }
 
+  private void checkSubmitConditions() {
+    alertDialog
+        .getButton(DialogInterface.BUTTON_POSITIVE)
+        .setEnabled(
+            evidence != null
+                && !binding.resourceTitle.getText().toString().trim().isEmpty()
+                && !binding.resourceDescription.getText().toString().trim().isEmpty()
+        );
   }
 
   @SuppressWarnings("ConstantConditions")
   private void upload() {
     String title = binding.resourceTitle.getText().toString().trim();
     String description = binding.resourceDescription.getText().toString().trim();
-
-    }
-//    imageViewModel.store(galleryId, uri, title, (description.isEmpty() ? null : description));
+    evidenceViewModel.store(speciesCaseId, evidenceId, uri, title,
+        (description.isEmpty() ? null : description));
   }
+}
 

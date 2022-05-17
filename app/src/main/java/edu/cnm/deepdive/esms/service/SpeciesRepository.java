@@ -14,6 +14,7 @@ import edu.cnm.deepdive.esms.model.entity.User;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.core.SingleSource;
 import io.reactivex.rxjava3.functions.Function;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import java.io.File;
@@ -48,7 +49,7 @@ public class SpeciesRepository {
     multipartFormType = MediaType.parse("multipart/form-data");
   }
 
-  public Single<List<SpeciesCase>> getAll() {
+  public Single<List<SpeciesCase>> getSpeciesCases() {
     return preamble()
         .flatMap(serviceProxy::getAllCases);
   }
@@ -98,7 +99,7 @@ public class SpeciesRepository {
   }
 
   @SuppressWarnings("BlockingMethodInNonBlockingContext")
-  public Single<Attachment> addAttachment(UUID speciesCaseId, UUID evidenceId, Uri uri, String title,
+  public Single<Attachment> addAttachment(UUID speciesCaseId,UUID evidenceId, Uri uri, String title,
       String description) {
     File[] filesCreated = new File[1];
     return preamble()
@@ -121,10 +122,10 @@ public class SpeciesRepository {
             RequestBody titlePart = RequestBody.create(title, multipartFormType);
             if (description != null) {
               RequestBody descriptionPart = RequestBody.create(description, multipartFormType);
-              return serviceProxy.post(speciesCaseId, evidenceId, token, filePart, titlePart,
+              return serviceProxy.post(speciesCaseId,evidenceId, token, filePart, titlePart,
                   descriptionPart);
             } else {
-              return serviceProxy.post(speciesCaseId, evidenceId, token, filePart, titlePart);
+              return serviceProxy.post(speciesCaseId,evidenceId, token, filePart, titlePart);
             }
           }
         })
@@ -140,11 +141,11 @@ public class SpeciesRepository {
         });
   }
 
-/*  public Single<List<Attachment>> getAll() {
-    return signInService.refreshBearerToken()
-        .observeOn(Schedulers.io())
-        .flatMap(serviceProxy::getAttachments);
-  }*/
+  public Single<List<Attachment>> getAttachments(UUID speciesCaseId, UUID evidenceId) {
+    return preamble()
+        .flatMap((token) -> serviceProxy.getAttachments(speciesCaseId, evidenceId, token));
+
+  }
 
   @NonNull
   private Single<String> preamble() {

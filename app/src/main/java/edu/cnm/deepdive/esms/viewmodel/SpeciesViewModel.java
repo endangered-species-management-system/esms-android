@@ -55,7 +55,7 @@ public class SpeciesViewModel extends AndroidViewModel implements DefaultLifecyc
   public void fetchSpeciesList() {
     throwable.setValue(null);
     repository
-        .getAll()
+        .getSpeciesCases()
         .subscribe(
             (list) -> {
               speciesCaseBackingQueue.clear();

@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.cnm.deepdive.esms.adapter.EvidenceAdapter.Holder;
 import edu.cnm.deepdive.esms.databinding.ItemEvidenceBinding;
-import edu.cnm.deepdive.esms.model.entity.Attachment;
 import edu.cnm.deepdive.esms.model.entity.Evidence;
 import java.text.DateFormat;
 import java.util.Collection;
@@ -71,7 +70,8 @@ public class EvidenceAdapter extends RecyclerView.Adapter<Holder> {
       binding.created.setText(dateFormat.format(evidence.getCreated()));
       binding.getRoot().setOnClickListener((v) -> onClickListener.onClick(evidence));
       binding.clear.setOnClickListener((v) -> onRemoveClickListener.onRemoveClick(evidence));
-      binding.addAttachment.setOnClickListener((v) -> onAttachClickListener.onAttach(evidence));
+      binding.addAttachment.setOnClickListener(
+          (v) -> onAttachClickListener.onAttach(evidence,v));
     }
   }
 
@@ -87,6 +87,6 @@ public class EvidenceAdapter extends RecyclerView.Adapter<Holder> {
 
   public interface OnAttachClickListener {
 
-    void onAttach(Evidence evidence);
+    void onAttach(Evidence evidence, View view);
   }
 }

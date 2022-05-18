@@ -1,7 +1,10 @@
 package edu.cnm.deepdive.esms.controller;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -12,8 +15,12 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import edu.cnm.deepdive.esms.R;
 import edu.cnm.deepdive.esms.adapter.EvidenceAdapter;
+import edu.cnm.deepdive.esms.controller.MainFragmentDirections.OpenUploadDialog;
 import edu.cnm.deepdive.esms.databinding.FragmentEvidenceBinding;
+import edu.cnm.deepdive.esms.databinding.FragmentUploadAttachmentDialogBinding;
+import edu.cnm.deepdive.esms.databinding.ItemEvidenceBinding;
 import edu.cnm.deepdive.esms.model.entity.Evidence;
 import edu.cnm.deepdive.esms.model.entity.SpeciesCase;
 import edu.cnm.deepdive.esms.model.entity.User;
@@ -21,7 +28,6 @@ import edu.cnm.deepdive.esms.viewmodel.EvidenceViewModel;
 import edu.cnm.deepdive.esms.viewmodel.SpeciesViewModel;
 import edu.cnm.deepdive.esms.viewmodel.TeamViewModel;
 import edu.cnm.deepdive.esms.viewmodel.UserViewModel;
-import java.net.URI;
 import java.util.Collection;
 
 public class EvidenceFragment extends Fragment {
@@ -37,6 +43,22 @@ public class EvidenceFragment extends Fragment {
   private Collection<User> team;
   private Collection<Evidence> evidences;
   private NavController navController;
+  private ActivityResultLauncher<Intent> launcher;
+  private ItemEvidenceBinding itemEvidenceBinding;
+  private EvidenceAdapter evidenceAdapter;
+
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    launcher = registerForActivityResult(new StartActivityForResult(),
+        result -> {
+          if (result.getResultCode() == Activity.RESULT_OK) {
+            OpenUploadDialog action = MainFragmentDirections.openUploadDialog(
+                result.getData().getData());
+            Navigation.findNavController(binding.getRoot()).navigate(action);
+          }
+        });
+  }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,6 +67,8 @@ public class EvidenceFragment extends Fragment {
     binding.addEvidence.setOnClickListener((v) -> getNavController()
         .navigate(MainFragmentDirections.openEvidenceDialog())
     );
+    itemEvidenceBinding = ItemEvidenceBinding.inflate(inflater, container, false);
+    itemEvidenceBinding.addAttachment.setOnClickListener((v) -> pickResource());
     return binding.getRoot();
   }
 
@@ -59,7 +83,7 @@ public class EvidenceFragment extends Fragment {
     setupEvidenceViewModel(provider, owner);
   }
 
-  private NavController getNavController(){
+  private NavController getNavController() {
     if (navController == null) {
       navController = Navigation.findNavController(binding.getRoot());
     }
@@ -128,7 +152,7 @@ public class EvidenceFragment extends Fragment {
 
   private void displayEvidences() {
     if (currentUser != null && evidences != null) {
-      if (!currentUser.getRoles().isEmpty()){
+      if (!currentUser.getRoles().isEmpty()) {
         boolean deletable = speciesCase.getLeadResearcher().equals(currentUser);
         EvidenceAdapter.OnRemoveClickListener onRemoveClickListener = deletable
             ? (evidence) -> evidenceViewModel.deleteEvidence(speciesCase.getId(), evidence)
@@ -137,13 +161,11 @@ public class EvidenceFragment extends Fragment {
         EvidenceAdapter.OnClickListener onClickListener = (evidence) ->
             getNavController().navigate(
                 MainFragmentDirections.openEvidenceDialog().setEvidenceId(evidence.getId()));
-        /*EvidenceAdapter.OnAttachClickListener onAttachClickListener = (species,evidence) ->
-            getNavController().navigate(
-                MainFragmentDirections.openUploadDialog(species).setEvidenceId(evidence.getId())
-            ); // FIXME Add needed arguments
+        EvidenceAdapter.OnAttachClickListener onAttachClickListener = (evidence, v) ->
+            pickResource();
         EvidenceAdapter adapter = new EvidenceAdapter(getContext(), evidences, deletable,
             onClickListener, onRemoveClickListener, onAttachClickListener);
-        binding.evidencesRecyclerview.setAdapter(adapter);*/
+        binding.evidencesRecyclerview.setAdapter(adapter);
       }
     }
   }
@@ -151,9 +173,8 @@ public class EvidenceFragment extends Fragment {
   private void pickResource() {
     Intent intent = new Intent();
     intent.setType("*/*");
-    intent.putExtra(Intent.EXTRA_MIME_TYPES,new String[]{"image/*", "text/*", "application/*"});
+    intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"image/*", "text/*", "application/*"});
     intent.setAction(Intent.ACTION_GET_CONTENT);
-    startActivityForResult(Intent.createChooser(intent, "Choose image to upload"),
-        PICK_RESOURCE_REQUEST);
+    launcher.launch(intent);
   }
 }

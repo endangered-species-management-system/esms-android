@@ -38,7 +38,7 @@ public class UploadAttachmentDialogFragment extends DialogFragment implements Te
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     uri = UploadAttachmentDialogFragmentArgs.fromBundle(getArguments()).getContentUri();
-    evidenceId = UploadAttachmentDialogFragmentArgs.fromBundle(getArguments()).getEvidenceId();
+//    evidenceId = UploadAttachmentDialogFragmentArgs.fromBundle(getArguments()).getEvidenceId();
   }
 
   @NonNull

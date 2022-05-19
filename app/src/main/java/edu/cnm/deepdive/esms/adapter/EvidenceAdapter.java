@@ -6,8 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import edu.cnm.deepdive.esms.R;
 import edu.cnm.deepdive.esms.adapter.EvidenceAdapter.Holder;
 import edu.cnm.deepdive.esms.databinding.ItemEvidenceBinding;
+import edu.cnm.deepdive.esms.model.entity.Attachment;
 import edu.cnm.deepdive.esms.model.entity.Evidence;
 import java.text.DateFormat;
 import java.util.Collection;
@@ -71,7 +73,25 @@ public class EvidenceAdapter extends RecyclerView.Adapter<Holder> {
       binding.getRoot().setOnClickListener((v) -> onClickListener.onClick(evidence));
       binding.clear.setOnClickListener((v) -> onRemoveClickListener.onRemoveClick(evidence));
       binding.addAttachment.setOnClickListener(
-          (v) -> onAttachClickListener.onAttach(evidence,v));
+          (v) -> onAttachClickListener.onAttach(evidence, v));
+      binding.attachmentsContainer.removeAllViews();
+      if (evidence.getAttachments().isEmpty()) {
+        binding.attachmentsContainer.setVisibility(View.GONE);
+        // TODO Hide the expand the button.
+        showAttachments(false);
+      } else {
+        for (Attachment attachment : evidence.getAttachments()) {
+          // TODO Inflate the layout for a single attachment row to a binding object attachmentBinding
+
+          // TODO Set attachmentBinding field contents from attachment
+          // TODO  binding.attachments.addView(attachmentBinding.getRoot());
+
+        }
+      }
+    }
+    private void showAttachments(boolean collapsed) {
+      binding.more.setVisibility(collapsed ? View.VISIBLE : View.GONE);
+      binding.less.setVisibility(collapsed ? View.GONE : View.VISIBLE);
     }
   }
 

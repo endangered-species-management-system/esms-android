@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.google.gson.annotations.Expose;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 public class Evidence implements Comparable<Evidence> {
@@ -37,7 +37,7 @@ public class Evidence implements Comparable<Evidence> {
   private User user;
 
   @Expose
-  private Set<Attachment> attachments;
+  private List<Attachment> attachments;
 
   public UUID getId() {
     return id;
@@ -111,11 +111,11 @@ public class Evidence implements Comparable<Evidence> {
     this.user = user;
   }
 
-  public Set<Attachment> getAttachments() {
+  public List<Attachment> getAttachments() {
     return attachments;
   }
 
-  public void setAttachments(Set<Attachment> attachments) {
+  public void setAttachments(List<Attachment> attachments) {
     this.attachments = attachments;
   }
 

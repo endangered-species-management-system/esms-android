@@ -53,11 +53,11 @@
     <action
       android:id="@+id/open_upload_dialog"
       app:destination="@id/upload_attachment_dialog_fragment">
-      <!--<argument
+      <argument
         android:name="evidence_id"
         app:argType="java.util.UUID"
         android:defaultValue="@null"
-        app:nullable="true"/>-->
+        app:nullable="true"/>
       <argument
         android:name="content_uri"
         app:argType="android.net.Uri"/>
@@ -114,11 +114,11 @@
     android:name="edu.cnm.deepdive.esms.controller.UploadAttachmentDialogFragment"
     android:label="Upload Dialog"
     tools:layout="@layout/fragment_upload_attachment_dialog">
-    <!--<argument
+    <argument
       android:name="evidence_id"
       app:argType="java.util.UUID"
       app:nullable="true"
-      android:defaultValue="@null"/>-->
+      android:defaultValue="@null"/>
     <argument
       android:name="content_uri"
       app:argType="android.net.Uri"/>

@@ -138,7 +138,7 @@ public class EvidenceViewModel extends AndroidViewModel implements DefaultLifecy
   }
 
   public void loadAttachments(UUID speciesCaseId, UUID evidenceId) {
-    throwable.setValue(null);
+    throwable.postValue(null);
     repository
         .getAttachments(speciesCaseId, evidenceId)
         .subscribe(

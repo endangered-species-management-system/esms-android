@@ -2,6 +2,7 @@ package edu.cnm.deepdive.esms.controller;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
@@ -9,6 +10,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -26,18 +28,22 @@ import java.util.UUID;
 public class UploadAttachmentDialogFragment extends DialogFragment implements TextWatcher {
 
   FragmentUploadAttachmentDialogBinding binding;
-  private Uri uri;
   private AlertDialog alertDialog;
+  private Uri uri;
+  private UUID speciesCaseId;
   private UUID evidenceId;
-  private Evidence evidence;
   private EvidenceViewModel evidenceViewModel;
   private SpeciesViewModel speciesViewModel;
-  private UUID speciesCaseId;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    uri = UploadAttachmentDialogFragmentArgs.fromBundle(getArguments()).getContentUri();
+    UploadAttachmentDialogFragmentArgs args = UploadAttachmentDialogFragmentArgs.fromBundle(
+        getArguments());
+    if (getArguments() != null) {
+      uri = args.getContentUri();
+      evidenceId = args.getEvidenceId();
+    }
   }
 
   @NonNull
@@ -61,7 +67,6 @@ public class UploadAttachmentDialogFragment extends DialogFragment implements Te
     return alertDialog;
   }
 
-
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -74,9 +79,8 @@ public class UploadAttachmentDialogFragment extends DialogFragment implements Te
     Picasso.get()
         .load(uri)
         .into(binding.image);
-    binding.resourceTitle.addTextChangedListener(this);
-      binding.resourceDescription.addTextChangedListener(this);
     //noinspection ConstantConditions
+    evidenceViewModel = new ViewModelProvider(getActivity()).get(EvidenceViewModel.class);
     evidenceViewModel = new ViewModelProvider(getActivity()).get(EvidenceViewModel.class);
     speciesViewModel = new ViewModelProvider(getActivity()).get(SpeciesViewModel.class);
     speciesViewModel.getSpecies().observe(getViewLifecycleOwner(), (speciesCase) -> {
@@ -85,13 +89,10 @@ public class UploadAttachmentDialogFragment extends DialogFragment implements Te
   }
 
   @Override
-  public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-  }
+  public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
   @Override
   public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
   }
 
   @Override
@@ -103,7 +104,7 @@ public class UploadAttachmentDialogFragment extends DialogFragment implements Te
     alertDialog
         .getButton(DialogInterface.BUTTON_POSITIVE)
         .setEnabled(
-            evidence != null
+            evidenceId != null
                 && !binding.resourceTitle.getText().toString().trim().isEmpty()
                 && !binding.resourceDescription.getText().toString().trim().isEmpty()
         );

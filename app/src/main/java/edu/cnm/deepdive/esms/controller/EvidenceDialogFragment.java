@@ -118,6 +118,8 @@ public class EvidenceDialogFragment extends DialogFragment implements TextWatche
       evidenceViewModel.addEvidence(speciesCase.getId(), evidence);
     }
     // TODO Save attachments
+    evidenceViewModel
+        .loadAttachments(speciesCase.getId(),evidenceId);
   }
 
   private void setupUserViewModel(ViewModelProvider provider, LifecycleOwner owner) {

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.cnm.deepdive.esms.R;
@@ -73,26 +74,36 @@ public class EvidenceAdapter extends RecyclerView.Adapter<Holder> {
       binding.getRoot().setOnClickListener((v) -> onClickListener.onClick(evidence));
       binding.clear.setOnClickListener((v) -> onRemoveClickListener.onRemoveClick(evidence));
       binding.addAttachment.setOnClickListener(
-          (v) -> onAttachClickListener.onAttach(evidence, v));
+          (v) -> onAttachClickListener.onAttach(evidence));
       binding.attachmentsContainer.removeAllViews();
       if (evidence.getAttachments().isEmpty()) {
         binding.attachmentsContainer.setVisibility(View.GONE);
-        // TODO Hide the expand the button.
-        showAttachments(false);
+        binding.more.setVisibility(View.GONE);
+        binding.less.setVisibility(View.GONE);
       } else {
+        showAttachments(true);
         for (Attachment attachment : evidence.getAttachments()) {
           // TODO Inflate the layout for a single attachment row to a binding object attachmentBinding
-
+          ViewGroup viewGroup =
+              (ViewGroup) inflater.inflate(R.layout.item_attachment, binding.attachmentsContainer,
+                  false);
+          TextView attachmentTitle = viewGroup.findViewById(R.id.attachment_title);
+          attachmentTitle.setText(attachment.getTitle());
+          TextView attachmentDescription = viewGroup.findViewById(R.id.attachment_description);
+          attachmentDescription.setText(attachment.getDescription());
+          binding.attachmentsContainer.addView(viewGroup);
           // TODO Set attachmentBinding field contents from attachment
           // TODO  binding.attachments.addView(attachmentBinding.getRoot());
 
         }
       }
     }
+
     private void showAttachments(boolean collapsed) {
       binding.more.setVisibility(collapsed ? View.VISIBLE : View.GONE);
       binding.less.setVisibility(collapsed ? View.GONE : View.VISIBLE);
     }
+
   }
 
   public interface OnRemoveClickListener {
@@ -107,6 +118,8 @@ public class EvidenceAdapter extends RecyclerView.Adapter<Holder> {
 
   public interface OnAttachClickListener {
 
-    void onAttach(Evidence evidence, View view);
+    void onAttach(Evidence evidence);
   }
+
 }
+

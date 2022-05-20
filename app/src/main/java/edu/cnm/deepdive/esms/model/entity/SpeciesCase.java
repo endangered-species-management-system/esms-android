@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -40,6 +41,9 @@ public class SpeciesCase implements Comparable<SpeciesCase> {
 
   @Expose
   private Set<User> assigned;
+
+  @Expose
+  private List<Evidence> evidences;
 
   public UUID getId() {
     return id;
@@ -119,6 +123,14 @@ public class SpeciesCase implements Comparable<SpeciesCase> {
 
   public void setAssigned(Set<User> assigned) {
     this.assigned = assigned;
+  }
+
+  public List<Evidence> getEvidences() {
+    return evidences;
+  }
+
+  public void setEvidences(List<Evidence> evidences) {
+    this.evidences = evidences;
   }
 
   @NonNull

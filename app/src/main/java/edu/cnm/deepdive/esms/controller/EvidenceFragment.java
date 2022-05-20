@@ -3,23 +3,21 @@ package edu.cnm.deepdive.esms.controller;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import edu.cnm.deepdive.esms.R;
 import edu.cnm.deepdive.esms.adapter.EvidenceAdapter;
 import edu.cnm.deepdive.esms.controller.MainFragmentDirections.OpenUploadDialog;
 import edu.cnm.deepdive.esms.databinding.FragmentEvidenceBinding;
-import edu.cnm.deepdive.esms.databinding.FragmentUploadAttachmentDialogBinding;
 import edu.cnm.deepdive.esms.databinding.ItemEvidenceBinding;
 import edu.cnm.deepdive.esms.model.entity.Evidence;
 import edu.cnm.deepdive.esms.model.entity.SpeciesCase;
@@ -45,7 +43,7 @@ public class EvidenceFragment extends Fragment {
   private NavController navController;
   private ActivityResultLauncher<Intent> launcher;
   private ItemEvidenceBinding itemEvidenceBinding;
-  private EvidenceAdapter evidenceAdapter;
+  private Evidence evidence;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,7 +52,7 @@ public class EvidenceFragment extends Fragment {
         result -> {
           if (result.getResultCode() == Activity.RESULT_OK) {
             OpenUploadDialog action = MainFragmentDirections.openUploadDialog(
-                result.getData().getData());
+                result.getData().getData()).setEvidenceId(evidence.getId());
             Navigation.findNavController(binding.getRoot()).navigate(action);
           }
         });
@@ -161,8 +159,10 @@ public class EvidenceFragment extends Fragment {
         EvidenceAdapter.OnClickListener onClickListener = (evidence) ->
             getNavController().navigate(
                 MainFragmentDirections.openEvidenceDialog().setEvidenceId(evidence.getId()));
-        EvidenceAdapter.OnAttachClickListener onAttachClickListener = (evidence, v) ->
-            pickResource();
+        EvidenceAdapter.OnAttachClickListener onAttachClickListener = (evidence) -> {
+          this.evidence = evidence;
+          pickResource();
+        };
         EvidenceAdapter adapter = new EvidenceAdapter(getContext(), evidences, deletable,
             onClickListener, onRemoveClickListener, onAttachClickListener);
         binding.evidencesRecyclerview.setAdapter(adapter);
@@ -177,4 +177,5 @@ public class EvidenceFragment extends Fragment {
     intent.setAction(Intent.ACTION_GET_CONTENT);
     launcher.launch(intent);
   }
+
 }

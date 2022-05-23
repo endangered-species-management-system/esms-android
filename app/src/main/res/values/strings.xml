@@ -53,4 +53,6 @@
   <string name="resource_title">Resource title</string>
   <string name="resource_description">Resource description</string>
   <string name="add_attachment">Add attachment</string>
+  <string name="expands_to_show_attachments">Expands to show attachments</string>
+  <string name="collapse_attachments">Collapse attachments</string>
 </resources>

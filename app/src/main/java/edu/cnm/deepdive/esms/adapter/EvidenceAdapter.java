@@ -64,6 +64,8 @@ public class EvidenceAdapter extends RecyclerView.Adapter<Holder> {
     public Holder(@NonNull ItemEvidenceBinding binding) {
       super(binding.getRoot());
       this.binding = binding;
+      binding.more.setOnClickListener((v) -> showAttachments(false));
+      binding.less.setOnClickListener((v) -> showAttachments(true));
     }
 
     private void bind(int position) {
@@ -76,14 +78,8 @@ public class EvidenceAdapter extends RecyclerView.Adapter<Holder> {
       binding.addAttachment.setOnClickListener(
           (v) -> onAttachClickListener.onAttach(evidence));
       binding.attachmentsContainer.removeAllViews();
-      if (evidence.getAttachments().isEmpty()) {
-        binding.attachmentsContainer.setVisibility(View.GONE);
-        binding.more.setVisibility(View.GONE);
-        binding.less.setVisibility(View.GONE);
-      } else {
-        showAttachments(true);
+      if (!evidence.getAttachments().isEmpty()) {
         for (Attachment attachment : evidence.getAttachments()) {
-          // TODO Inflate the layout for a single attachment row to a binding object attachmentBinding
           ViewGroup viewGroup =
               (ViewGroup) inflater.inflate(R.layout.item_attachment, binding.attachmentsContainer,
                   false);
@@ -92,16 +88,19 @@ public class EvidenceAdapter extends RecyclerView.Adapter<Holder> {
           TextView attachmentDescription = viewGroup.findViewById(R.id.attachment_description);
           attachmentDescription.setText(attachment.getDescription());
           binding.attachmentsContainer.addView(viewGroup);
-          // TODO Set attachmentBinding field contents from attachment
-          // TODO  binding.attachments.addView(attachmentBinding.getRoot());
-
+          showAttachments(true);
         }
+      } else {
+        binding.attachmentsContainer.setVisibility(View.GONE);
+        binding.less.setVisibility(View.GONE);
+        binding.more.setVisibility(View.GONE);
       }
     }
 
     private void showAttachments(boolean collapsed) {
       binding.more.setVisibility(collapsed ? View.VISIBLE : View.GONE);
       binding.less.setVisibility(collapsed ? View.GONE : View.VISIBLE);
+      binding.attachmentsContainer.setVisibility(collapsed ? View.GONE : View.VISIBLE);
     }
 
   }
@@ -121,5 +120,9 @@ public class EvidenceAdapter extends RecyclerView.Adapter<Holder> {
     void onAttach(Evidence evidence);
   }
 
+  public interface OnExpandClickListener {
+
+    void onExpandClick(Evidence evidence);
+  }
 }
 

@@ -139,7 +139,6 @@ public class EvidenceDialogFragment extends DialogFragment implements TextWatche
         .observe(owner, (species) -> {
           speciesCase = species;
           fetchEvidence();
-          // TODO Configure controls for adding attachments
         });
   }
 

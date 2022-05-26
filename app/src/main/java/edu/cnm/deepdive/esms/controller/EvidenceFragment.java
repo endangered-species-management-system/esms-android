@@ -19,6 +19,7 @@ import edu.cnm.deepdive.esms.adapter.EvidenceAdapter;
 import edu.cnm.deepdive.esms.controller.MainFragmentDirections.OpenUploadDialog;
 import edu.cnm.deepdive.esms.databinding.FragmentEvidenceBinding;
 import edu.cnm.deepdive.esms.databinding.ItemEvidenceBinding;
+import edu.cnm.deepdive.esms.model.entity.Attachment;
 import edu.cnm.deepdive.esms.model.entity.Evidence;
 import edu.cnm.deepdive.esms.model.entity.SpeciesCase;
 import edu.cnm.deepdive.esms.model.entity.User;
@@ -44,6 +45,7 @@ public class EvidenceFragment extends Fragment {
   private ActivityResultLauncher<Intent> launcher;
   private ItemEvidenceBinding itemEvidenceBinding;
   private Evidence evidence;
+  private Attachment attachment;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -163,8 +165,10 @@ public class EvidenceFragment extends Fragment {
           this.evidence = evidence;
           pickResource();
         };
+        EvidenceAdapter.OnAttachmentItemClickListener onAttachmentItemClickListener = (evidence, attachment)->
+            this.attachment = attachment;
         EvidenceAdapter adapter = new EvidenceAdapter(getContext(), evidences, deletable,
-            onClickListener, onRemoveClickListener, onAttachClickListener);
+            onClickListener, onRemoveClickListener, onAttachClickListener, onAttachmentItemClickListener);
         binding.evidencesRecyclerview.setAdapter(adapter);
       }
     }

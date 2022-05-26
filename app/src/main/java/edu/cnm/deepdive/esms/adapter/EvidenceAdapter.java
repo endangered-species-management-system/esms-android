@@ -1,14 +1,14 @@
 package edu.cnm.deepdive.esms.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import edu.cnm.deepdive.esms.R;
 import edu.cnm.deepdive.esms.adapter.EvidenceAdapter.Holder;
+import edu.cnm.deepdive.esms.databinding.ItemAttachmentBinding;
 import edu.cnm.deepdive.esms.databinding.ItemEvidenceBinding;
 import edu.cnm.deepdive.esms.model.entity.Attachment;
 import edu.cnm.deepdive.esms.model.entity.Evidence;
@@ -22,6 +22,7 @@ public class EvidenceAdapter extends RecyclerView.Adapter<Holder> {
   private final LayoutInflater inflater;
   private final List<Evidence> evidences;
   private final boolean lead;
+  Context context;
   private final OnClickListener onClickListener;
   private final OnRemoveClickListener onRemoveClickListener;
   private final OnAttachClickListener onAttachClickListener;
@@ -29,13 +30,16 @@ public class EvidenceAdapter extends RecyclerView.Adapter<Holder> {
 
   public EvidenceAdapter(Context context, Collection<Evidence> evidences, boolean lead,
       OnClickListener onClickListener, OnRemoveClickListener onRemoveClickListener,
-      OnAttachClickListener onAttachClickListener) {
+      OnAttachClickListener onAttachClickListener,
+      OnAttachmentItemClickListener onAttachmentItemClickListener) {
     inflater = LayoutInflater.from(context);
     this.evidences = new LinkedList<>(evidences);
     this.lead = lead;
     this.onClickListener = onClickListener;
     this.onRemoveClickListener = onRemoveClickListener;
     this.onAttachClickListener = onAttachClickListener;
+//    this.onAttachmentItemClickListener = onAttachmentItemClickListener;
+    this.context = context;
     dateFormat = android.text.format.DateFormat.getDateFormat(context);
   }
 
@@ -60,10 +64,12 @@ public class EvidenceAdapter extends RecyclerView.Adapter<Holder> {
   class Holder extends RecyclerView.ViewHolder {
 
     private final ItemEvidenceBinding binding;
+    private OnAttachmentItemClickListener onAttachmentItemClickListener;
 
     public Holder(@NonNull ItemEvidenceBinding binding) {
       super(binding.getRoot());
       this.binding = binding;
+      binding.getRoot();
       binding.more.setOnClickListener((v) -> showAttachments(false));
       binding.less.setOnClickListener((v) -> showAttachments(true));
     }
@@ -80,14 +86,12 @@ public class EvidenceAdapter extends RecyclerView.Adapter<Holder> {
       binding.attachmentsContainer.removeAllViews();
       if (!evidence.getAttachments().isEmpty()) {
         for (Attachment attachment : evidence.getAttachments()) {
-          ViewGroup viewGroup =
-              (ViewGroup) inflater.inflate(R.layout.item_attachment, binding.attachmentsContainer,
-                  false);
-          TextView attachmentTitle = viewGroup.findViewById(R.id.attachment_title);
-          attachmentTitle.setText(attachment.getTitle());
-          TextView attachmentDescription = viewGroup.findViewById(R.id.attachment_description);
-          attachmentDescription.setText(attachment.getDescription());
-          binding.attachmentsContainer.addView(viewGroup);
+          ItemAttachmentBinding attachmentBinding = ItemAttachmentBinding.inflate(inflater,
+              binding.attachmentsContainer, false);
+          attachmentBinding.getRoot().setOnClickListener((v) -> Log.d(getClass().getName(), attachment.getDescription()));
+          attachmentBinding.attachmentTitle.setText(attachment.getTitle());
+          attachmentBinding.attachmentDescription.setText(attachment.getDescription());
+          binding.attachmentsContainer.addView(attachmentBinding.getRoot());
           showAttachments(true);
         }
       } else {
@@ -103,6 +107,11 @@ public class EvidenceAdapter extends RecyclerView.Adapter<Holder> {
       binding.attachmentsContainer.setVisibility(collapsed ? View.GONE : View.VISIBLE);
     }
 
+
+/*    @Override
+    public void onAttachmentItemClick(Evidence evidence, View view) {
+      on
+    }*/
   }
 
   public interface OnRemoveClickListener {
@@ -120,9 +129,9 @@ public class EvidenceAdapter extends RecyclerView.Adapter<Holder> {
     void onAttach(Evidence evidence);
   }
 
-  public interface OnExpandClickListener {
+  public interface OnAttachmentItemClickListener {
 
-    void onExpandClick(Evidence evidence);
+    void onAttachmentItemClick(Evidence evidence, Attachment attachment);
   }
 }
 

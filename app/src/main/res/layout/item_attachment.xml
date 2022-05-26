@@ -6,21 +6,22 @@
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
   android:gravity="center"
-  tools:viewBindingIgnore="true"
-  tools:ignore="UseCompoundDrawables">
+  tools:ignore="UseCompoundDrawables"
+  android:clickable="true"
+  android:focusable="true">
 
   <TextView
     android:id="@+id/attachment_title"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/half_static_spacing"
+    android:layout_margin="@dimen/half_dynamic_spacing"
     tools:text="Attachment Title"/>
 
   <TextView
     android:id="@+id/attachment_description"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/half_static_spacing"
+    android:layout_margin="@dimen/half_dynamic_spacing"
     tools:text="Attachment Description"/>
 
 </LinearLayout>

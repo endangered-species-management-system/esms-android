@@ -87,7 +87,6 @@ public class SpeciesRepository {
         .flatMap((token) -> serviceProxy.getEvidences(speciesId, token));
   }
 
-
   public Single<Evidence> getEvidence(UUID speciesId, UUID evidenceId) {
     return preamble()
         .flatMap((token) -> serviceProxy.getEvidence(speciesId, evidenceId, token));
@@ -99,7 +98,8 @@ public class SpeciesRepository {
   }
 
   @SuppressWarnings("BlockingMethodInNonBlockingContext")
-  public Single<Attachment> addAttachment(UUID speciesCaseId,UUID evidenceId, Uri uri, String title,
+  public Single<Attachment> addAttachment(UUID speciesCaseId, UUID evidenceId, Uri uri,
+      String title,
       String description) {
     File[] filesCreated = new File[1];
     return preamble()
@@ -122,10 +122,10 @@ public class SpeciesRepository {
             RequestBody titlePart = RequestBody.create(title, multipartFormType);
             if (description != null) {
               RequestBody descriptionPart = RequestBody.create(description, multipartFormType);
-              return serviceProxy.post(speciesCaseId,evidenceId, token, filePart, titlePart,
+              return serviceProxy.post(speciesCaseId, evidenceId, token, filePart, titlePart,
                   descriptionPart);
             } else {
-              return serviceProxy.post(speciesCaseId,evidenceId, token, filePart, titlePart);
+              return serviceProxy.post(speciesCaseId, evidenceId, token, filePart, titlePart);
             }
           }
         })
@@ -144,7 +144,11 @@ public class SpeciesRepository {
   public Single<List<Attachment>> getAttachments(UUID speciesCaseId, UUID evidenceId) {
     return preamble()
         .flatMap((token) -> serviceProxy.getAttachments(speciesCaseId, evidenceId, token));
+  }
 
+  public Single<Attachment> getAttachment(UUID speciesCaseId, UUID evidenceId, UUID attachmentId) {
+    return preamble()
+        .flatMap((token) -> serviceProxy.getAttachment(speciesCaseId, evidenceId, attachmentId, token));
   }
 
   @NonNull

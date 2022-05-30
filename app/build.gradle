@@ -21,6 +21,7 @@ android {
 
         buildConfigField 'String', 'BASE_URL', quoted(getProperty(propertyFile, 'base_url'))
         buildConfigField 'String', 'CLIENT_ID', quoted(getProperty(propertyFile, 'client_id'))
+        buildConfigField 'String', 'CONTENT_FORMAT', quoted(getProperty(propertyFile, 'content_format'))
     }
 
     buildTypes {

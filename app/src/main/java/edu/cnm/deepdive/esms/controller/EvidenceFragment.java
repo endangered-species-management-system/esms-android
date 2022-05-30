@@ -165,8 +165,9 @@ public class EvidenceFragment extends Fragment {
           this.evidence = evidence;
           pickResource();
         };
-        EvidenceAdapter.OnAttachmentItemClickListener onAttachmentItemClickListener = (evidence, attachment)->
-            this.attachment = attachment;
+        EvidenceAdapter.OnAttachmentItemClickListener onAttachmentItemClickListener = (attachment)->
+            getNavController().navigate(
+                MainFragmentDirections.openAttachmentDialog().setAttachmentId(attachment.getId()));
         EvidenceAdapter adapter = new EvidenceAdapter(getContext(), evidences, deletable,
             onClickListener, onRemoveClickListener, onAttachClickListener, onAttachmentItemClickListener);
         binding.evidencesRecyclerview.setAdapter(adapter);

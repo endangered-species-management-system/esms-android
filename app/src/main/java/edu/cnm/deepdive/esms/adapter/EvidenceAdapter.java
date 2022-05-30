@@ -6,8 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.cnm.deepdive.esms.adapter.EvidenceAdapter.Holder;
+import edu.cnm.deepdive.esms.controller.MainFragmentDirections;
 import edu.cnm.deepdive.esms.databinding.ItemAttachmentBinding;
 import edu.cnm.deepdive.esms.databinding.ItemEvidenceBinding;
 import edu.cnm.deepdive.esms.model.entity.Attachment;
@@ -16,6 +19,7 @@ import java.text.DateFormat;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+
 
 public class EvidenceAdapter extends RecyclerView.Adapter<Holder> {
 
@@ -26,6 +30,8 @@ public class EvidenceAdapter extends RecyclerView.Adapter<Holder> {
   private final OnClickListener onClickListener;
   private final OnRemoveClickListener onRemoveClickListener;
   private final OnAttachClickListener onAttachClickListener;
+  private final OnAttachmentItemClickListener onAttachmentItemClickListener;
+  private NavController navController;
   private final DateFormat dateFormat;
 
   public EvidenceAdapter(Context context, Collection<Evidence> evidences, boolean lead,
@@ -38,7 +44,7 @@ public class EvidenceAdapter extends RecyclerView.Adapter<Holder> {
     this.onClickListener = onClickListener;
     this.onRemoveClickListener = onRemoveClickListener;
     this.onAttachClickListener = onAttachClickListener;
-//    this.onAttachmentItemClickListener = onAttachmentItemClickListener;
+    this.onAttachmentItemClickListener = onAttachmentItemClickListener;
     this.context = context;
     dateFormat = android.text.format.DateFormat.getDateFormat(context);
   }
@@ -88,10 +94,14 @@ public class EvidenceAdapter extends RecyclerView.Adapter<Holder> {
         for (Attachment attachment : evidence.getAttachments()) {
           ItemAttachmentBinding attachmentBinding = ItemAttachmentBinding.inflate(inflater,
               binding.attachmentsContainer, false);
-          attachmentBinding.getRoot().setOnClickListener((v) -> Log.d(getClass().getName(), attachment.getDescription()));
           attachmentBinding.attachmentTitle.setText(attachment.getTitle());
           attachmentBinding.attachmentDescription.setText(attachment.getDescription());
           binding.attachmentsContainer.addView(attachmentBinding.getRoot());
+          attachmentBinding.getRoot()
+              .setOnClickListener(
+                  (v) -> getNavController().navigate(
+                      MainFragmentDirections.openAttachmentDialog()
+                          .setAttachmentId(attachment.getId())));
           showAttachments(true);
         }
       } else {
@@ -107,6 +117,12 @@ public class EvidenceAdapter extends RecyclerView.Adapter<Holder> {
       binding.attachmentsContainer.setVisibility(collapsed ? View.GONE : View.VISIBLE);
     }
 
+    private NavController getNavController() {
+      if (navController == null) {
+        navController = Navigation.findNavController(binding.getRoot());
+      }
+      return navController;
+    }
 
 /*    @Override
     public void onAttachmentItemClick(Evidence evidence, View view) {
@@ -131,7 +147,8 @@ public class EvidenceAdapter extends RecyclerView.Adapter<Holder> {
 
   public interface OnAttachmentItemClickListener {
 
-    void onAttachmentItemClick(Evidence evidence, Attachment attachment);
+    void onAttachmentItemClick(Attachment attachment);
   }
+
 }
 

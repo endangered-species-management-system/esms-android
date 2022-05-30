@@ -55,4 +55,11 @@
   <string name="add_attachment">Add attachment</string>
   <string name="expands_to_show_attachments">Expands to show attachments</string>
   <string name="collapse_attachments">Collapse attachments</string>
+  <string name="displays_attached_resource">Displays attached resource</string>
+  <string name="resource_id">Resource ID</string>
+  <string name="mime_type">Resource Type</string>
+  <string name="resource_path">Resource Path</string>
+  <string name="date_time">Date &amp; Time</string>
+  <string name="attachment_description">Attachment Description</string>
+  <string name="attachment_detail">Attachment Detail</string>
 </resources>

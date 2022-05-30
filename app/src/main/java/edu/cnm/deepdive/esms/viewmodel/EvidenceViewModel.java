@@ -148,6 +148,17 @@ public class EvidenceViewModel extends AndroidViewModel implements DefaultLifecy
         );
   }
 
+  public void fetchAttachment(UUID speciesId, UUID evidenceId, UUID attachmentId) {
+    throwable.setValue(null);
+    repository
+        .getAttachment(speciesId, evidenceId, attachmentId)
+        .subscribe(
+            attachment::postValue,
+            this::postThrowable,
+            pending
+        );
+  }
+
   @Override
   public void onStop(@NonNull LifecycleOwner owner) {
     DefaultLifecycleObserver.super.onStop(owner);

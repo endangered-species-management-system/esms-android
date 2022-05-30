@@ -110,6 +110,12 @@ public interface ESMSServiceProxy {
       @Path("evidenceId") UUID evidenceId,
       @Header("Authorization") String bearerToken);
 
+  @GET("cases/{speciesCaseId}/evidences/{evidenceId}/attachments/{attachmentId}")
+  Single<Attachment> getAttachment(@Path("speciesCaseId") UUID caseId,
+      @Path("evidenceId") UUID evidenceId, @Path("attachmentId") UUID attachmentId,
+      @Header("Authorization") String bearerToken);
+
+
   static ESMSServiceProxy getInstance() {
     return InstanceHolder.INSTANCE;
   }

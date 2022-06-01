@@ -14,6 +14,7 @@ import edu.cnm.deepdive.esms.model.entity.Evidence;
 import edu.cnm.deepdive.esms.model.entity.User;
 import edu.cnm.deepdive.esms.service.SpeciesRepository;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.functions.Consumer;
 import java.util.Collection;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -26,8 +27,8 @@ public class EvidenceViewModel extends AndroidViewModel implements DefaultLifecy
   private final PriorityQueue<Evidence> evidencesBackingQueue;
   private final MutableLiveData<Collection<Evidence>> evidences;
   private final MutableLiveData<Evidence> evidence;
-  private final MutableLiveData<Attachment> attachment;
   private final MutableLiveData<List<Attachment>> attachments;
+  private final MutableLiveData<Attachment> attachment;
   private final MutableLiveData<Throwable> throwable;
   private final CompositeDisposable pending;
 

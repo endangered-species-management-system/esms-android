@@ -101,7 +101,9 @@ public class EvidenceAdapter extends RecyclerView.Adapter<Holder> {
               .setOnClickListener(
                   (v) -> getNavController().navigate(
                       MainFragmentDirections.openAttachmentDialog()
-                          .setAttachmentId(attachment.getId())));
+                          .setAttachmentId(attachment.getId())
+                          .setEvidenceId(evidence.getId())
+                          .setSpeciesCaseId(evidence.getSpeciesCase().getId())));
           showAttachments(true);
         }
       } else {

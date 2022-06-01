@@ -32,7 +32,6 @@ public class EvidenceDialogFragment extends DialogFragment implements TextWatche
   private SpeciesViewModel speciesViewModel;
   private Evidence evidence;
   private UUID evidenceId;
-  private User currentUser;
   private SpeciesCase speciesCase;
   FragmentEvidenceDialogBinding binding;
   private AlertDialog alertDialog;
@@ -117,7 +116,6 @@ public class EvidenceDialogFragment extends DialogFragment implements TextWatche
     if (evidence.getId() == null) {
       evidenceViewModel.addEvidence(speciesCase.getId(), evidence);
     }
-    // TODO Save attachments
     evidenceViewModel
         .loadAttachments(speciesCase.getId(),evidenceId);
   }
@@ -127,7 +125,6 @@ public class EvidenceDialogFragment extends DialogFragment implements TextWatche
     userViewModel
         .getCurrentUser()
         .observe(owner, (user) -> {
-          currentUser = user;
           // TODO Configure controls for adding attachments
         });
   }

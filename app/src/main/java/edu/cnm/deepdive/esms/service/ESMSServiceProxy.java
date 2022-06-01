@@ -111,7 +111,7 @@ public interface ESMSServiceProxy {
       @Header("Authorization") String bearerToken);
 
   @GET("cases/{speciesCaseId}/evidences/{evidenceId}/attachments/{attachmentId}")
-  Single<Attachment> getAttachment(@Path("speciesCaseId") UUID caseId,
+  Single<Attachment> getAttachment(@Path("speciesCaseId") UUID speciesCaseId,
       @Path("evidenceId") UUID evidenceId, @Path("attachmentId") UUID attachmentId,
       @Header("Authorization") String bearerToken);
 

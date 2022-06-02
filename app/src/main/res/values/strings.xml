@@ -60,6 +60,7 @@
   <string name="mime_type">Resource Type</string>
   <string name="resource_path">Resource Path</string>
   <string name="date_time">Date &amp; Time</string>
+  <string name="attachment_title">Attachment Title</string>
   <string name="attachment_description">Attachment Description</string>
   <string name="attachment_detail">Attachment Detail</string>
 </resources>

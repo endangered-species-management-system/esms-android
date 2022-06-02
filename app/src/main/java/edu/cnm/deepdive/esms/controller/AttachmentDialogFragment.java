@@ -26,7 +26,7 @@ public class AttachmentDialogFragment extends DialogFragment {
 
   private AlertDialog alertDialog;
   private UUID attachmentId;
-  private Attachment attachment;
+  public Attachment attachment;
   private FragmentAttachmentDialogBinding binding;
   private EvidenceViewModel evidenceViewModel;
   private Evidence evidence;
@@ -51,22 +51,8 @@ public class AttachmentDialogFragment extends DialogFragment {
   @Override
   public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
     binding = FragmentAttachmentDialogBinding.inflate(LayoutInflater.from(getContext()));
-    /*if (this.attachment.getPath() != null) {
-      Picasso.get().load(String.format(BuildConfig.CONTENT_FORMAT, attachment.getPath()))
-          .into(binding.resourceDetail);
-    }
-    binding.imageDescription.setText(
-        (attachment.getDescription()) != null ? attachment.getDescription() : "N/A");
-    binding.resourceId.setText((attachment.getId() != null) ? "Id: " + attachment.getId() : "N/A");
-    binding.imageType.setText(
-        (attachment.getMimeType() != null) ? "Image type: " + attachment.getMimeType() : "N/A");
-    binding.imageUrl.setText(
-        (attachment.getPath() != null) ? "Url: " + attachment.getPath() : "N/A");
-    binding.imageDatetime.setText(
-        (attachment.getCreated() != null) ? "Created date: " + attachment.getCreated() : "N/A");*/
-
-    alertDialog = new Builder(getContext())
-        .setTitle((attachment.getTitle() != null) ? attachment.getTitle() : "Untitled")
+    alertDialog = new Builder(
+        getContext())
         .setView(binding.getRoot())
         .setPositiveButton("close", (dlg, which) -> {
         })
@@ -85,10 +71,9 @@ public class AttachmentDialogFragment extends DialogFragment {
     super.onViewCreated(view, savedInstanceState);
     ViewModelProvider provider = new ViewModelProvider(getActivity());
     LifecycleOwner owner = getViewLifecycleOwner();
-    /*setupSpeciesViewModel(provider, owner);
+    setupSpeciesViewModel(provider, owner);
     setupEvidenceViewModel(provider, owner);
-    */
-    fetchAttachment();
+
     setupAttachmentViewModel(provider, owner);
   }
 
@@ -121,15 +106,32 @@ public class AttachmentDialogFragment extends DialogFragment {
           .getAttachment()
           .observe(owner, (attachment) -> {
             this.attachment = attachment;
-            binding.imageDescription.setText(attachment.getTitle());
+            dialogBinding(attachment);
             fetchAttachment();
           });
     }
   }
 
+  private void dialogBinding(Attachment attachment) {
+    if (attachment.getPath() != null) {
+      Picasso.get().load(String.format(BuildConfig.CONTENT_FORMAT, attachment.getPath()))
+          .into(binding.resourceDetail);
+    }
+    binding.imageTitle.setText((attachment.getTitle() != null) ? attachment.getTitle() : "Untitled");
+    binding.imageDescription.setText(
+        (attachment.getDescription()) != null ? attachment.getDescription() : "N/A");
+    binding.resourceId.setText((attachment.getId() != null) ? "Id: " + attachment.getId() : "N/A");
+    binding.imageType.setText(
+        (attachment.getMimeType() != null) ? "Image type: " + attachment.getMimeType() : "N/A");
+    binding.imageUrl.setText(
+        (attachment.getPath() != null) ? "Url: " + attachment.getPath() : "N/A");
+    binding.imageDatetime.setText(
+        (attachment.getCreated() != null) ? "Created date: " + attachment.getCreated() : "N/A");
+  }
+
   private void fetchAttachment() {
-    if (speciesCaseId != null && evidenceId != null && attachmentId != null) {
-      evidenceViewModel.fetchAttachment(speciesCaseId, evidenceId, attachmentId);
+    if (speciesCase != null && evidenceId != null && attachmentId != null) {
+      evidenceViewModel.fetchAttachment(speciesCase.getId(), evidenceId, attachmentId);
     }
   }
 

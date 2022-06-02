@@ -15,13 +15,22 @@
       android:id="@+id/resource_detail"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:src="@drawable/ic_upload"
+      android:src="@mipmap/ic_roadrunner_launcher"
       android:scaleType="centerInside"
       android:adjustViewBounds="true"
       android:contentDescription="@string/displays_attached_resource"
       android:layout_margin="@dimen/half_static_spacing"
       android:padding="@dimen/half_static_spacing"
-      app:layout_constraintBottom_toTopOf="@id/image_description"/>
+      app:layout_constraintBottom_toTopOf="@id/image_title"/>
+
+    <TextView
+      android:id="@+id/image_title"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/half_static_spacing"
+      android:text="@string/attachment_title"
+      app:layout_constraintTop_toBottomOf="@id/resource_detail"
+      app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
       android:id="@+id/image_description"
@@ -29,7 +38,7 @@
       android:layout_height="wrap_content"
       android:layout_margin="@dimen/half_static_spacing"
       android:text="@string/attachment_description"
-      app:layout_constraintTop_toBottomOf="@id/resource_detail"
+      app:layout_constraintTop_toBottomOf="@id/image_title"
       app:layout_constraintStart_toStartOf="parent"/>
 
     <LinearLayout

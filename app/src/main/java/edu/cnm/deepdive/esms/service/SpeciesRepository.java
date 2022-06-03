@@ -28,6 +28,8 @@ import java.util.concurrent.Executors;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Response;
 
 public class SpeciesRepository {
 
@@ -148,8 +150,19 @@ public class SpeciesRepository {
 
   public Single<Attachment> getAttachment(UUID speciesCaseId, UUID evidenceId, UUID attachmentId) {
     return preamble()
-        .flatMap((token) -> serviceProxy.getAttachment(speciesCaseId, evidenceId, attachmentId, token));
+        .flatMap(
+            (token) -> serviceProxy.getAttachment(speciesCaseId, evidenceId, attachmentId, token));
   }
+
+  public Single<Response<ResponseBody>> getAttachmentContent(UUID speciesCaseId, UUID evidenceId,
+      UUID attachmentId) {
+    return preamble()
+        .flatMap(
+            (token) -> serviceProxy.getAttachmentContent(speciesCaseId, evidenceId, attachmentId,
+                token));
+
+  }
+
 
   @NonNull
   private Single<String> preamble() {

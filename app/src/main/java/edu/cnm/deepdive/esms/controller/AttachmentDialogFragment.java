@@ -71,32 +71,7 @@ public class AttachmentDialogFragment extends DialogFragment {
     super.onViewCreated(view, savedInstanceState);
     ViewModelProvider provider = new ViewModelProvider(getActivity());
     LifecycleOwner owner = getViewLifecycleOwner();
-    setupSpeciesViewModel(provider, owner);
-    setupEvidenceViewModel(provider, owner);
-
     setupAttachmentViewModel(provider, owner);
-  }
-
-  private void setupSpeciesViewModel(ViewModelProvider provider, LifecycleOwner owner) {
-    speciesViewModel = provider.get(SpeciesViewModel.class);
-    speciesViewModel
-        .getSpecies()
-        .observe(owner, (speciesCase) -> {
-          this.speciesCase = speciesCase;
-          fetchAttachment();
-        });
-  }
-
-  private void setupEvidenceViewModel(ViewModelProvider provider, LifecycleOwner owner) {
-    evidenceViewModel = provider.get(EvidenceViewModel.class);
-    if (evidenceId != null) {
-      evidenceViewModel
-          .getEvidence()
-          .observe(owner, (ev) -> {
-            this.evidence = ev;
-          });
-      fetchAttachment();
-    }
   }
 
   private void setupAttachmentViewModel(ViewModelProvider provider, LifecycleOwner owner) {
@@ -107,17 +82,19 @@ public class AttachmentDialogFragment extends DialogFragment {
           .observe(owner, (attachment) -> {
             this.attachment = attachment;
             dialogBinding(attachment);
-            fetchAttachment();
           });
+      fetchAttachment();
     }
   }
 
   private void dialogBinding(Attachment attachment) {
     if (attachment.getPath() != null) {
-      Picasso.get().load(String.format(BuildConfig.CONTENT_FORMAT, attachment.getPath()))
+      Picasso.get().load(String.format(BuildConfig.CONTENT_FORMAT,
+              BuildConfig.BASE_URL, speciesCaseId, evidenceId, attachment.getId()))
           .into(binding.resourceDetail);
     }
-    binding.imageTitle.setText((attachment.getTitle() != null) ? attachment.getTitle() : "Untitled");
+    binding.imageTitle.setText(
+        (attachment.getTitle() != null) ? attachment.getTitle() : "Untitled");
     binding.imageDescription.setText(
         (attachment.getDescription()) != null ? attachment.getDescription() : "N/A");
     binding.resourceId.setText((attachment.getId() != null) ? "Id: " + attachment.getId() : "N/A");
@@ -130,8 +107,8 @@ public class AttachmentDialogFragment extends DialogFragment {
   }
 
   private void fetchAttachment() {
-    if (speciesCase != null && evidenceId != null && attachmentId != null) {
-      evidenceViewModel.fetchAttachment(speciesCase.getId(), evidenceId, attachmentId);
+    if (speciesCaseId != null && evidenceId != null && attachmentId != null) {
+      evidenceViewModel.fetchAttachment(speciesCaseId, evidenceId, attachmentId);
     }
   }
 

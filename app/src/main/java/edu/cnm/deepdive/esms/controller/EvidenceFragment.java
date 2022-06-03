@@ -165,11 +165,15 @@ public class EvidenceFragment extends Fragment {
           this.evidence = evidence;
           pickResource();
         };
-        EvidenceAdapter.OnAttachmentItemClickListener onAttachmentItemClickListener = (attachment)->
+        EvidenceAdapter.OnAttachmentItemClickListener onAttachmentItemClickListener = (evidence, attachment) ->
             getNavController().navigate(
-                MainFragmentDirections.openAttachmentDialog().setAttachmentId(attachment.getId()));
+                MainFragmentDirections.openAttachmentDialog()
+                    .setAttachmentId(attachment.getId())
+                    .setEvidenceId(evidence.getId())
+                    .setSpeciesCaseId(evidence.getSpeciesCase().getId()));
         EvidenceAdapter adapter = new EvidenceAdapter(getContext(), evidences, deletable,
-            onClickListener, onRemoveClickListener, onAttachClickListener, onAttachmentItemClickListener);
+            onClickListener, onRemoveClickListener, onAttachClickListener,
+            onAttachmentItemClickListener);
         binding.evidencesRecyclerview.setAdapter(adapter);
       }
     }

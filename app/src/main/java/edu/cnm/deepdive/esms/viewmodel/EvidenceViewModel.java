@@ -9,16 +9,22 @@ import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import com.squareup.picasso.Downloader;
+import com.squareup.picasso.Picasso;
 import edu.cnm.deepdive.esms.model.entity.Attachment;
 import edu.cnm.deepdive.esms.model.entity.Evidence;
 import edu.cnm.deepdive.esms.model.entity.User;
 import edu.cnm.deepdive.esms.service.SpeciesRepository;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.functions.Consumer;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.UUID;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 import org.jetbrains.annotations.NotNull;
 
 public class EvidenceViewModel extends AndroidViewModel implements DefaultLifecycleObserver {
@@ -29,6 +35,7 @@ public class EvidenceViewModel extends AndroidViewModel implements DefaultLifecy
   private final MutableLiveData<Evidence> evidence;
   private final MutableLiveData<List<Attachment>> attachments;
   private final MutableLiveData<Attachment> attachment;
+  private final MutableLiveData<Picasso> piccaso;
   private final MutableLiveData<Throwable> throwable;
   private final CompositeDisposable pending;
 
@@ -41,6 +48,7 @@ public class EvidenceViewModel extends AndroidViewModel implements DefaultLifecy
     evidence = new MutableLiveData<>();
     attachment = new MutableLiveData<>();
     attachments = new MutableLiveData<>();
+    piccaso = new MutableLiveData<>();
     throwable = new MutableLiveData<>();
     pending = new CompositeDisposable();
   }
@@ -155,6 +163,30 @@ public class EvidenceViewModel extends AndroidViewModel implements DefaultLifecy
         .getAttachment(speciesId, evidenceId, attachmentId)
         .subscribe(
             attachment::postValue,
+            this::postThrowable,
+            pending
+        );
+    repository
+        .getAttachmentContent(speciesId, evidenceId, attachmentId)
+        .subscribe(
+            (response) -> {
+              Downloader downloader = new Downloader() {
+                @NonNull
+                @Override
+                public Response load(@NonNull Request request) throws IOException {
+                  return response;
+                }
+
+                @Override
+                public void shutdown() {
+                  response.body().close();
+                }
+              };
+              Picasso picasso = new Picasso.Builder(getApplication())
+                  .downloader(downloader)
+                  .build();
+              this.piccaso.postValue(picasso);
+            },
             this::postThrowable,
             pending
         );

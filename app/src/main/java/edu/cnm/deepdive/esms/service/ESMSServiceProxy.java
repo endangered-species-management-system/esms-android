@@ -15,8 +15,10 @@ import java.util.UUID;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.logging.HttpLoggingInterceptor.Level;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -115,6 +117,10 @@ public interface ESMSServiceProxy {
       @Path("evidenceId") UUID evidenceId, @Path("attachmentId") UUID attachmentId,
       @Header("Authorization") String bearerToken);
 
+@GET("cases/{speciesCaseId}/evidences/{evidenceId}/attachments/{attachmentId}/content")
+Single<Response<ResponseBody>> getAttachmentContent(@Path("speciesCaseId") UUID speciesCaseId,
+    @Path("evidenceId") UUID evidenceId, @Path("attachmentId") UUID attachmentId,
+    @Header("Authorization") String bearerToken);
 
   static ESMSServiceProxy getInstance() {
     return InstanceHolder.INSTANCE;

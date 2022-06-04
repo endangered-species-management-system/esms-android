@@ -82,7 +82,8 @@ public class AttachmentDialogFragment extends DialogFragment {
           .observe(owner, (attachment) -> {
             this.attachment = attachment;
             // TODO Check the mimetype in the attachment to see what is being fetched. If bitmap type, then
-            // if something else
+            //  otherwise setup a contentUri to download file into public local storage. Another
+            //  viewmodel method will be needed
             evidenceViewModel
                 .getBitMap()
                 .observe(owner, binding.resourceDetail::setImageBitmap);

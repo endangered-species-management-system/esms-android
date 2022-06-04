@@ -70,7 +70,6 @@ public class EvidenceAdapter extends RecyclerView.Adapter<Holder> {
   class Holder extends RecyclerView.ViewHolder {
 
     private final ItemEvidenceBinding binding;
-    private OnAttachmentItemClickListener onAttachmentItemClickListener;
 
     public Holder(@NonNull ItemEvidenceBinding binding) {
       super(binding.getRoot());
@@ -99,11 +98,7 @@ public class EvidenceAdapter extends RecyclerView.Adapter<Holder> {
           binding.attachmentsContainer.addView(attachmentBinding.getRoot());
           attachmentBinding.getRoot()
               .setOnClickListener(
-                  (v) -> getNavController().navigate(
-                      MainFragmentDirections.openAttachmentDialog()
-                          .setAttachmentId(attachment.getId())
-                          .setEvidenceId(evidence.getId())
-                          .setSpeciesCaseId(evidence.getSpeciesCase().getId())));
+                  (v) -> onAttachmentItemClickListener.onAttachmentItemClick(evidence, attachment));
           showAttachments(true);
         }
       } else {
@@ -149,7 +144,7 @@ public class EvidenceAdapter extends RecyclerView.Adapter<Holder> {
 
   public interface OnAttachmentItemClickListener {
 
-    void onAttachmentItemClick(Attachment attachment);
+    void onAttachmentItemClick(Evidence evidence, Attachment attachment);
   }
 
 }

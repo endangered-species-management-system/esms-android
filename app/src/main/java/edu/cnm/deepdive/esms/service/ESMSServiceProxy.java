@@ -15,8 +15,10 @@ import java.util.UUID;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.logging.HttpLoggingInterceptor.Level;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -30,6 +32,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Streaming;
 
 public interface ESMSServiceProxy {
 
@@ -115,6 +118,11 @@ public interface ESMSServiceProxy {
       @Path("evidenceId") UUID evidenceId, @Path("attachmentId") UUID attachmentId,
       @Header("Authorization") String bearerToken);
 
+  @GET("cases/{speciesCaseId}/evidences/{evidenceId}/attachments/{attachmentId}/content")
+  @Streaming
+  Single<ResponseBody> getAttachmentContent(@Path("speciesCaseId") UUID speciesCaseId,
+      @Path("evidenceId") UUID evidenceId, @Path("attachmentId") UUID attachmentId,
+      @Header("Authorization") String bearerToken);
 
   static ESMSServiceProxy getInstance() {
     return InstanceHolder.INSTANCE;
@@ -130,7 +138,7 @@ public interface ESMSServiceProxy {
           .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
           .create();
       HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-      interceptor.setLevel(Level.BODY);
+      interceptor.setLevel(Level.HEADERS);
       OkHttpClient client = new OkHttpClient.Builder()
           .addInterceptor(interceptor)
           .build();

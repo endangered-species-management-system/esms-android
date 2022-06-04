@@ -1,12 +1,18 @@
 package edu.cnm.deepdive.esms;
 
 import android.app.Application;
+import androidx.annotation.NonNull;
 import com.facebook.stetho.Stetho;
+import com.squareup.picasso.Downloader;
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 import edu.cnm.deepdive.esms.service.GoogleSignInService;
+import java.io.IOException;
 import okhttp3.Interceptor.Chain;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import org.jetbrains.annotations.NotNull;
 
 public class ESMSApplication extends Application {
 
@@ -15,7 +21,7 @@ public class ESMSApplication extends Application {
   @Override
   public void onCreate() {
     super.onCreate();
-    setupPicasso();
+//    setupPicasso();
     Stetho.initializeWithDefaults(this);
     GoogleSignInService.setContext(this);
   }
@@ -37,4 +43,5 @@ public class ESMSApplication extends Application {
             .build()
     );
   }
+
 }

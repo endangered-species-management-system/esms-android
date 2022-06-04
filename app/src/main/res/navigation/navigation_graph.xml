@@ -50,6 +50,39 @@
         app:nullable="true"/>
     </action>
 
+    <action
+      android:id="@+id/open_attachment_dialog"
+      app:destination="@id/attachment_dialog_fragment">
+      <argument
+        android:name="speciesCase_id"
+        app:argType="java.util.UUID"
+        app:nullable="true"
+        android:defaultValue="@null"/>
+      <argument
+        android:name="evidence_id"
+        app:argType="java.util.UUID"
+        android:defaultValue="@null"
+        app:nullable="true"/>
+      <argument
+        android:name="attachment_id"
+        app:argType="java.util.UUID"
+        android:defaultValue="@null"
+        app:nullable="true"/>
+    </action>
+
+    <action
+      android:id="@+id/open_upload_dialog"
+      app:destination="@id/upload_attachment_dialog_fragment">
+      <argument
+        android:name="evidence_id"
+        app:argType="java.util.UUID"
+        android:defaultValue="@null"
+        app:nullable="true"/>
+      <argument
+        android:name="content_uri"
+        app:argType="android.net.Uri"/>
+    </action>
+
   </fragment>
 
   <fragment
@@ -94,6 +127,43 @@
       app:argType="java.util.UUID"
       app:nullable="true"
       android:defaultValue="@null"/>
+  </dialog>
+
+  <dialog
+    android:id="@+id/attachment_dialog_fragment"
+    android:name="edu.cnm.deepdive.esms.controller.AttachmentDialogFragment"
+    android:label="Attachment Dialog"
+    tools:layout="@layout/fragment_attachment_dialog">
+    <argument
+      android:name="speciesCase_id"
+      app:argType="java.util.UUID"
+      app:nullable="true"
+      android:defaultValue="@null"/>
+    <argument
+      android:name="evidence_id"
+      app:argType="java.util.UUID"
+      android:defaultValue="@null"
+      app:nullable="true"/>
+    <argument
+      android:name="attachment_id"
+      app:argType="java.util.UUID"
+      app:nullable="true"
+      android:defaultValue="@null"/>
+  </dialog>
+
+  <dialog
+    android:id="@+id/upload_attachment_dialog_fragment"
+    android:name="edu.cnm.deepdive.esms.controller.UploadAttachmentDialogFragment"
+    android:label="Upload Dialog"
+    tools:layout="@layout/fragment_upload_attachment_dialog">
+    <argument
+      android:name="evidence_id"
+      app:argType="java.util.UUID"
+      app:nullable="true"
+      android:defaultValue="@null"/>
+    <argument
+      android:name="content_uri"
+      app:argType="android.net.Uri"/>
   </dialog>
 
 </navigation>

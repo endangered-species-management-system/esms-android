@@ -13,6 +13,12 @@ public class Attachment {
   private Date created;
 
   @Expose
+  private String title;
+
+  @Expose
+  private String description;
+
+  @Expose
   private String name;
 
   @Expose
@@ -41,6 +47,22 @@ public class Attachment {
 
   public void setCreated(Date created) {
     this.created = created;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   public String getName() {

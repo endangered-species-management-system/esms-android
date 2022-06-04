@@ -3,11 +3,14 @@ package edu.cnm.deepdive.esms.model.entity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.google.gson.annotations.Expose;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
-public class Evidence implements Comparable<Evidence> {
+public class Evidence implements Comparable<Evidence>, Serializable {
 
   @Expose
   private UUID id;
@@ -37,7 +40,7 @@ public class Evidence implements Comparable<Evidence> {
   private User user;
 
   @Expose
-  private Set<Attachment> attachments;
+  private List<Attachment> attachments = new ArrayList<>();
 
   public UUID getId() {
     return id;
@@ -111,11 +114,11 @@ public class Evidence implements Comparable<Evidence> {
     this.user = user;
   }
 
-  public Set<Attachment> getAttachments() {
+  public List<Attachment> getAttachments() {
     return attachments;
   }
 
-  public void setAttachments(Set<Attachment> attachments) {
+  public void setAttachments(List<Attachment> attachments) {
     this.attachments = attachments;
   }
 

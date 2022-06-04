@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  tools:context=".controller.AttachmentDialogFragment">
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+      android:id="@+id/resource_detail"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:src="@mipmap/ic_roadrunner_launcher"
+      android:scaleType="centerInside"
+      android:adjustViewBounds="true"
+      android:contentDescription="@string/displays_attached_resource"
+      android:layout_margin="@dimen/half_static_spacing"
+      android:padding="@dimen/half_static_spacing"
+      app:layout_constraintBottom_toTopOf="@id/image_title"/>
+
+    <TextView
+      android:id="@+id/image_title"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/half_static_spacing"
+      android:text="@string/attachment_title"
+      app:layout_constraintTop_toBottomOf="@id/resource_detail"
+      app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+      android:id="@+id/image_description"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/half_static_spacing"
+      android:text="@string/attachment_description"
+      app:layout_constraintTop_toBottomOf="@id/image_title"
+      app:layout_constraintStart_toStartOf="parent"/>
+
+    <LinearLayout
+      android:id="@+id/detail_linear_layout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:layout_constraintTop_toBottomOf="@id/image_description"
+      android:orientation="vertical"
+      android:padding="@dimen/image_details_separator"
+      android:layout_margin="@dimen/half_static_spacing">
+
+      <TextView
+        android:id="@+id/resource_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/resource_id"/>
+
+      <TextView
+        android:id="@+id/image_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mime_type"/>
+
+      <TextView
+        android:id="@+id/image_url"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/resource_path"/>
+
+      <TextView
+        android:id="@+id/image_datetime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/date_time"/>
+
+    </LinearLayout>
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

@@ -21,6 +21,7 @@ android {
 
         buildConfigField 'String', 'BASE_URL', quoted(getProperty(propertyFile, 'base_url'))
         buildConfigField 'String', 'CLIENT_ID', quoted(getProperty(propertyFile, 'client_id'))
+        buildConfigField 'String', 'CONTENT_FORMAT', quoted(getProperty(propertyFile, 'content_format'))
     }
 
     buildTypes {
@@ -51,7 +52,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
 
     // Material Design components
-    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'com.google.android.material:material:1.6.0'
 
     // Navigation libraries
     implementation 'androidx.fragment:fragment:1.4.1'

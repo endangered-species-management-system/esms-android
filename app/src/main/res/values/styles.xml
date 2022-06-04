@@ -4,4 +4,10 @@
     parent="TextAppearance.Material3.ActionBar.Title">
     <item name="android:textColor">?attr/colorOnPrimary</item>
   </style>
+
+  <style name="Resource_Attribute" parent="Theme.AppCompat">
+    <item name="android:layout_margin">@dimen/half_dynamic_spacing</item>
+    <item name="android:textColor">?attr/color</item>
+    <item name="android:textSize">15sp</item>
+  </style>
 </resources>

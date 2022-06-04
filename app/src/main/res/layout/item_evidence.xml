@@ -29,6 +29,16 @@
       app:layout_constraintTop_toTopOf="@id/clear"
       app:layout_constraintBottom_toBottomOf="@id/clear"/>
 
+    <TextView
+      android:id="@+id/user_name"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/half_static_spacing"
+      android:layout_marginTop="0dp"
+      tools:text="John Doe Researcher"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/name"/>
+
     <ImageButton
       android:id="@+id/clear"
       android:layout_width="wrap_content"
@@ -42,15 +52,18 @@
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintEnd_toEndOf="parent"/>
 
-    <TextView
-      android:id="@+id/user_name"
+    <ImageButton
+      android:id="@+id/add_attachment"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_margin="@dimen/half_static_spacing"
-      android:layout_marginTop="0dp"
-      tools:text="John Doe Researcher"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/name"/>
+      android:src="@drawable/ic_upload"
+      android:tint="@color/teal_700"
+      android:contentDescription="@string/add_attachment"
+      android:background="?android:selectableItemBackgroundBorderless"
+      android:padding="@dimen/half_dynamic_spacing"
+      app:layout_constraintTop_toBottomOf="@id/clear"
+      app:layout_constraintStart_toStartOf="@id/clear"
+      app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
       android:id="@+id/created"
@@ -61,5 +74,42 @@
       tools:text="05/13/2022"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/user_name"/>
+
+    <ImageButton
+      android:id="@+id/more"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="4dp"
+      android:visibility="gone"
+      android:background="@color/white"
+      android:src="@drawable/ic_expand_more"
+      app:layout_constraintTop_toBottomOf="@id/add_attachment"
+      app:layout_constraintStart_toStartOf="@id/add_attachment"
+      app:layout_constraintEnd_toEndOf="parent"
+      android:contentDescription="@string/expands_to_show_attachments"/>
+
+    <ImageButton
+      android:id="@+id/less"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="4dp"
+      android:visibility="gone"
+      android:src="@drawable/ic_expand_less"
+      android:background="@color/white"
+      app:layout_constraintTop_toBottomOf="@id/add_attachment"
+      app:layout_constraintStart_toStartOf="@id/add_attachment"
+      app:layout_constraintEnd_toEndOf="parent"
+      android:contentDescription="@string/collapse_attachments"/>
+
+    <LinearLayout
+      android:id="@+id/attachments_container"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:visibility="gone"
+      android:orientation="vertical"
+      app:layout_constraintTop_toBottomOf="@id/less"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"/>
+
   </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

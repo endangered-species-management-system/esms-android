@@ -32,6 +32,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Streaming;
 
 public interface ESMSServiceProxy {
 
@@ -117,10 +118,11 @@ public interface ESMSServiceProxy {
       @Path("evidenceId") UUID evidenceId, @Path("attachmentId") UUID attachmentId,
       @Header("Authorization") String bearerToken);
 
-@GET("cases/{speciesCaseId}/evidences/{evidenceId}/attachments/{attachmentId}/content")
-Single<Response<ResponseBody>> getAttachmentContent(@Path("speciesCaseId") UUID speciesCaseId,
-    @Path("evidenceId") UUID evidenceId, @Path("attachmentId") UUID attachmentId,
-    @Header("Authorization") String bearerToken);
+  @GET("cases/{speciesCaseId}/evidences/{evidenceId}/attachments/{attachmentId}/content")
+  @Streaming
+  Single<ResponseBody> getAttachmentContent(@Path("speciesCaseId") UUID speciesCaseId,
+      @Path("evidenceId") UUID evidenceId, @Path("attachmentId") UUID attachmentId,
+      @Header("Authorization") String bearerToken);
 
   static ESMSServiceProxy getInstance() {
     return InstanceHolder.INSTANCE;
@@ -136,7 +138,7 @@ Single<Response<ResponseBody>> getAttachmentContent(@Path("speciesCaseId") UUID 
           .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
           .create();
       HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-      interceptor.setLevel(Level.BODY);
+      interceptor.setLevel(Level.HEADERS);
       OkHttpClient client = new OkHttpClient.Builder()
           .addInterceptor(interceptor)
           .build();

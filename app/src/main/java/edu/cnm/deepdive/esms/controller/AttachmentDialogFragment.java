@@ -81,6 +81,13 @@ public class AttachmentDialogFragment extends DialogFragment {
           .getAttachment()
           .observe(owner, (attachment) -> {
             this.attachment = attachment;
+            // TODO Check the mimetype in the attachment to see what is being fetched. If bitmap type, then
+            // if something else
+            evidenceViewModel
+                .getBitMap()
+                .observe(owner, binding.resourceDetail::setImageBitmap);
+            evidenceViewModel
+                .fetchAttachmentBitmap(speciesCaseId, evidenceId, attachmentId);
             dialogBinding(attachment);
           });
       fetchAttachment();

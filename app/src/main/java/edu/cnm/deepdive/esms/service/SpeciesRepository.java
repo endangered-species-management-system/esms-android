@@ -154,7 +154,7 @@ public class SpeciesRepository {
             (token) -> serviceProxy.getAttachment(speciesCaseId, evidenceId, attachmentId, token));
   }
 
-  public Single<Response<ResponseBody>> getAttachmentContent(UUID speciesCaseId, UUID evidenceId,
+  public Single<ResponseBody> getAttachmentContent(UUID speciesCaseId, UUID evidenceId,
       UUID attachmentId) {
     return preamble()
         .flatMap(

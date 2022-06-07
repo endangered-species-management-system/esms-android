@@ -11,29 +11,23 @@ import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import com.squareup.picasso.Downloader;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestHandler;
 import edu.cnm.deepdive.esms.model.entity.Attachment;
 import edu.cnm.deepdive.esms.model.entity.Evidence;
-import edu.cnm.deepdive.esms.model.entity.User;
+import edu.cnm.deepdive.esms.service.AttachmentRepository;
 import edu.cnm.deepdive.esms.service.SpeciesRepository;
+import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import io.reactivex.rxjava3.functions.Consumer;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.UUID;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
 import org.jetbrains.annotations.NotNull;
 
 public class EvidenceViewModel extends AndroidViewModel implements DefaultLifecycleObserver {
 
-  private final SpeciesRepository repository;
+  private final SpeciesRepository speciesRepository;
+  private final AttachmentRepository attachmentRepository;
   private final PriorityQueue<Evidence> evidencesBackingQueue;
   private final MutableLiveData<Collection<Evidence>> evidences;
   private final MutableLiveData<Evidence> evidence;
@@ -46,7 +40,8 @@ public class EvidenceViewModel extends AndroidViewModel implements DefaultLifecy
   public EvidenceViewModel(
       @NonNull @NotNull Application application) {
     super(application);
-    repository = new SpeciesRepository(application);
+    speciesRepository = new SpeciesRepository(application);
+    attachmentRepository = new AttachmentRepository(application);
     evidencesBackingQueue = new PriorityQueue<>();
     evidences = new MutableLiveData<>(evidencesBackingQueue);
     evidence = new MutableLiveData<>();
@@ -87,7 +82,7 @@ public class EvidenceViewModel extends AndroidViewModel implements DefaultLifecy
 
   public void fetchEvidences(UUID id) {
     throwable.setValue(null);
-    repository
+    speciesRepository
         .getEvidences(id)
         .subscribe(
             (evidences) -> {
@@ -102,7 +97,7 @@ public class EvidenceViewModel extends AndroidViewModel implements DefaultLifecy
 
   public void fetchEvidence(UUID speciesId, UUID evidenceId) {
     throwable.setValue(null);
-    repository
+    speciesRepository
         .getEvidence(speciesId, evidenceId)
         .subscribe(
             evidence::postValue,
@@ -113,7 +108,7 @@ public class EvidenceViewModel extends AndroidViewModel implements DefaultLifecy
 
   public void addEvidence(UUID speciesId, Evidence evidence) {
     throwable.setValue(null);
-    repository
+    speciesRepository
         .addEvidence(speciesId, evidence)
         .subscribe(
             (ev) -> {
@@ -128,7 +123,7 @@ public class EvidenceViewModel extends AndroidViewModel implements DefaultLifecy
 
   public void deleteEvidence(UUID speciesId, Evidence evidence) {
     throwable.setValue(null);
-    repository
+    speciesRepository
         .deleteEvidence(speciesId, evidence.getId())
         .subscribe(
             () -> {
@@ -144,7 +139,7 @@ public class EvidenceViewModel extends AndroidViewModel implements DefaultLifecy
       String description) {
     throwable.postValue(null);
     pending.add(
-        repository
+        speciesRepository
             .addAttachment(speciesCaseId, evidenceId, uri, title, description)
             .subscribe(
                 (attachment) -> loadAttachments(speciesCaseId, evidenceId),
@@ -154,9 +149,22 @@ public class EvidenceViewModel extends AndroidViewModel implements DefaultLifecy
     );
   }
 
+  public void storeAttachment(Attachment attachment, Uri uri) {
+    throwable.setValue(null);
+    pending.add((
+        (uri != null)
+            ? attachmentRepository.storePrivateFile(uri)
+            : Single.just((String) null))
+        .subscribe(
+            (d) -> {/* TODO explore showing user success*/ },
+            throwable::postValue
+        )
+    );
+  }
+
   public void loadAttachments(UUID speciesCaseId, UUID evidenceId) {
     throwable.postValue(null);
-    repository
+    speciesRepository
         .getAttachments(speciesCaseId, evidenceId)
         .subscribe(
             attachments::postValue,
@@ -167,7 +175,7 @@ public class EvidenceViewModel extends AndroidViewModel implements DefaultLifecy
 
   public void fetchAttachment(UUID speciesId, UUID evidenceId, UUID attachmentId) {
     throwable.setValue(null);
-    repository
+    speciesRepository
         .getAttachment(speciesId, evidenceId, attachmentId)
         .subscribe(
             attachment::postValue,
@@ -177,13 +185,29 @@ public class EvidenceViewModel extends AndroidViewModel implements DefaultLifecy
   }
 
   public void fetchAttachmentBitmap(UUID speciesId, UUID evidenceId, UUID attachmentId) {
-    repository
+    speciesRepository
         .getAttachmentContent(speciesId, evidenceId, attachmentId)
         .subscribe(
             (response) -> {
               try (InputStream inputStream = response.byteStream()) {
                 Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                 this.bitMap.postValue(bitmap);
+              }
+            },
+            this::postThrowable,
+            pending
+        );
+  }
+
+  public void fetchAttachmentFile(UUID speciesId, UUID evidenceId, UUID attachmentId) {
+    speciesRepository
+        .getAttachmentContent(speciesId, evidenceId, attachmentId)
+        .subscribe(
+            (response) -> {
+              try (InputStream inputStream = response.byteStream()) {
+//                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+//                this.bitMap.postValue(bitmap);
+
               }
             },
             this::postThrowable,

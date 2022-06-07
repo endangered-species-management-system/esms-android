@@ -22,6 +22,8 @@ android {
         buildConfigField 'String', 'BASE_URL', quoted(getProperty(propertyFile, 'base_url'))
         buildConfigField 'String', 'CLIENT_ID', quoted(getProperty(propertyFile, 'client_id'))
         buildConfigField 'String', 'CONTENT_FORMAT', quoted(getProperty(propertyFile, 'content_format'))
+        buildConfigField 'String', 'URI_FORMAT', quoted(getProperty(propertyFile, 'uri_format'))
+
     }
 
     buildTypes {
@@ -47,12 +49,12 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     // Basic Android support libraries
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
 
     // Material Design components
-    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'com.google.android.material:material:1.6.1'
 
     // Navigation libraries
     implementation 'androidx.fragment:fragment:1.4.1'

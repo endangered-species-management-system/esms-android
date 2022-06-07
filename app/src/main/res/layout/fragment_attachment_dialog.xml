@@ -63,7 +63,7 @@
         android:text="@string/mime_type"/>
 
       <TextView
-        android:id="@+id/image_url"
+        android:id="@+id/attachment_url"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/resource_path"/>
